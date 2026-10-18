@@ -78,7 +78,13 @@ class Settings(BaseSettings):
     lightweight_mode: bool = True
     max_parse_workers: int = 1
     max_download_mb: int = 200
-    download_timeout_seconds: float = 60.0
+    download_timeout_seconds: float = 120.0
+
+    # ---- PDF parsing performance ---------------------------------------
+    # Table detection is the slow part of pdfplumber on large reports. Turn it
+    # off for a fast text-only pass, or cap how many pages get the table pass.
+    pdf_extract_tables: bool = True
+    pdf_max_pages: int = 0  # 0 = all pages; >0 caps pages parsed (with a warning)
 
     # ---- Storage paths --------------------------------------------------
     data_dir: str = str(DATA_DIR)

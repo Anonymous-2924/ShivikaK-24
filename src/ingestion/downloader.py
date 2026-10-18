@@ -60,7 +60,19 @@ def download(url: str, dest_dir: str | Path, *, max_mb: int = 200, timeout: floa
 
     client = _http_client()
     written = 0
-    with client.stream("GET", url, timeout=timeout, follow_redirects=True) as resp:  # type: ignore
+    # Some corporate CDNs reject requests without browser-like headers (HTTP 406).
+    # Sending a normal Accept/User-Agent is standard client identification, not an
+    # access-control bypass.
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/124.0 Safari/537.36 FinSightAI/0.1"
+        ),
+        "Accept": "application/pdf,application/octet-stream,*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
+    with client.stream("GET", url, timeout=timeout, follow_redirects=True,
+                       headers=headers) as resp:  # type: ignore
         resp.raise_for_status()
         with open(dest, "wb") as fh:
             for chunk in resp.iter_bytes():

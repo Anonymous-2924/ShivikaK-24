@@ -28,7 +28,8 @@ class DocumentService:
     def add_file(self, src_path: str, *, company_name: str, financial_year: Optional[str] = None,
                  report_type: Optional[str] = None, basis: str = "unknown",
                  source_url: Optional[str] = None, exchange: Optional[str] = None,
-                 index_now: bool = True) -> AddDocumentOutcome:
+                 index_now: bool = True, extract_tables: Optional[bool] = None,
+                 max_pages: Optional[int] = None) -> AddDocumentOutcome:
         info = validate_file(src_path, max_mb=self.ctx.settings.max_download_mb)
         known = self.ctx.metadata_store.known_hashes()
         if is_duplicate(info.sha256, known):
@@ -57,10 +58,13 @@ class DocumentService:
 
         result = None
         if index_now:
+            tables = self.ctx.settings.pdf_extract_tables if extract_tables is None else extract_tables
+            pages = self.ctx.settings.pdf_max_pages if max_pages is None else max_pages
             result = ingest_document(
                 doc, self.ctx.index, parsed_dir=str(self.ctx.settings.paths()["parsed"]),
                 chunk_size=self.ctx.settings.chunk_size,
                 chunk_overlap=self.ctx.settings.chunk_overlap,
+                extract_tables=tables, max_pages=pages,
             )
         self.ctx.metadata_store.upsert_document(doc)
         return AddDocumentOutcome(document=doc, result=result,

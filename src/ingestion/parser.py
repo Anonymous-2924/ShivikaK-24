@@ -56,8 +56,14 @@ class ParsedDocument:
         return len(self.markdown)
 
 
-def parse_document(path: str | Path, *, prefer_docling: bool = False) -> ParsedDocument:
-    """Parse a document of any supported type into a :class:`ParsedDocument`."""
+def parse_document(path: str | Path, *, prefer_docling: bool = False,
+                   extract_tables: bool = True, max_pages: int = 0) -> ParsedDocument:
+    """Parse a document of any supported type into a :class:`ParsedDocument`.
+
+    ``extract_tables=False`` skips pdfplumber's expensive table detection (much
+    faster on large reports; narrative text is still extracted). ``max_pages>0``
+    caps how many pages are parsed, recording a warning that the rest were skipped.
+    """
     p = Path(path)
     ext = p.suffix.lower()
     if ext == ".pdf":
@@ -68,7 +74,7 @@ def parse_document(path: str | Path, *, prefer_docling: bool = False) -> ParsedD
                 return parse_pdf_with_docling(p)
             except Exception as exc:  # fall back, but say so
                 log.warning("Docling unavailable/failed (%s); using pdfplumber fallback.", exc)
-        return _parse_pdf(p)
+        return _parse_pdf(p, extract_tables=extract_tables, max_pages=max_pages)
     if ext in {".md", ".txt"}:
         return _parse_text(p)
     if ext == ".csv":
@@ -81,7 +87,7 @@ def parse_document(path: str | Path, *, prefer_docling: bool = False) -> ParsedD
 
 
 # ---- PDF (pdfplumber) ----------------------------------------------------
-def _parse_pdf(p: Path) -> ParsedDocument:
+def _parse_pdf(p: Path, *, extract_tables: bool = True, max_pages: int = 0) -> ParsedDocument:
     try:
         import pdfplumber
     except Exception as exc:  # pragma: no cover
@@ -94,7 +100,19 @@ def _parse_pdf(p: Path) -> ParsedDocument:
     try:
         with pdfplumber.open(str(p)) as pdf:
             version = getattr(pdfplumber, "__version__", "unknown")
-            for i, page in enumerate(pdf.pages, start=1):
+            total = len(pdf.pages)
+            limit = min(total, max_pages) if max_pages and max_pages > 0 else total
+            if limit < total:
+                warnings.append(
+                    f"Only the first {limit} of {total} pages were parsed (page cap). "
+                    "Increase pdf_max_pages to index the rest."
+                )
+            if not extract_tables:
+                warnings.append(
+                    "Fast mode: table detection was skipped for speed. Narrative text is "
+                    "indexed; re-ingest with tables enabled to capture financial tables."
+                )
+            for i, page in enumerate(pdf.pages[:limit], start=1):
                 text = page.extract_text() or ""
                 label = None
                 try:
@@ -102,10 +120,11 @@ def _parse_pdf(p: Path) -> ParsedDocument:
                 except Exception:
                     label = None
                 tables = []
-                try:
-                    tables = [t for t in (page.extract_tables() or []) if t]
-                except Exception as exc:
-                    warnings.append(f"Table extraction failed on page {i}: {exc}")
+                if extract_tables:
+                    try:
+                        tables = [t for t in (page.extract_tables() or []) if t]
+                    except Exception as exc:
+                        warnings.append(f"Table extraction failed on page {i}: {exc}")
                 pages.append(ParsedPage(i, text, label, tables))
                 if text.strip():
                     md_parts.append(f"\n\n<!-- page {i} -->\n{text}")
