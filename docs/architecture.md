@@ -27,7 +27,7 @@ retrieval/citations                                 orchestrator if no crewai)
 query_engine
         │
    Ingestion                         Storage
-   parser (pdfplumber/Docling)       Qdrant (vectors)
+   parser (PyMuPDF/pdfplumber/Docling) Qdrant (vectors)
    parse_validation                  SQLite metadata + chunks
    file_validation (hash/SSRF)       query cache
    table_extraction                  parsed artifacts (md + json)

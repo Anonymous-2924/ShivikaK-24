@@ -57,12 +57,19 @@ class ParsedDocument:
 
 
 def parse_document(path: str | Path, *, prefer_docling: bool = False,
-                   extract_tables: bool = True, max_pages: int = 0) -> ParsedDocument:
+                   extract_tables: bool = True, max_pages: int = 0,
+                   engine: str = "auto", progress=None) -> ParsedDocument:
     """Parse a document of any supported type into a :class:`ParsedDocument`.
 
-    ``extract_tables=False`` skips pdfplumber's expensive table detection (much
-    faster on large reports; narrative text is still extracted). ``max_pages>0``
-    caps how many pages are parsed, recording a warning that the rest were skipped.
+    PDFs use PyMuPDF by default (``engine="auto"``) — text extraction is
+    near-instant and tables are detected with ``find_tables``. pdfplumber is a
+    fallback engine (``engine="pdfplumber"``, or when PyMuPDF is unavailable).
+
+    ``extract_tables`` controls whether tables are detected (tables are the
+    point of a financial report, so this defaults to True; it exists mainly for
+    tests and a quick text-only preview). ``max_pages>0`` caps pages parsed.
+    ``progress(done, total)`` is called per page so the UI can show real
+    progress instead of an indefinite spinner.
     """
     p = Path(path)
     ext = p.suffix.lower()
@@ -73,8 +80,13 @@ def parse_document(path: str | Path, *, prefer_docling: bool = False,
 
                 return parse_pdf_with_docling(p)
             except Exception as exc:  # fall back, but say so
-                log.warning("Docling unavailable/failed (%s); using pdfplumber fallback.", exc)
-        return _parse_pdf(p, extract_tables=extract_tables, max_pages=max_pages)
+                log.warning("Docling unavailable/failed (%s); using default PDF engine.", exc)
+        use_pymupdf = engine in ("auto", "pymupdf") and _pymupdf_available()
+        if use_pymupdf:
+            return _parse_pdf_pymupdf(p, extract_tables=extract_tables, max_pages=max_pages,
+                                      progress=progress)
+        return _parse_pdf_pdfplumber(p, extract_tables=extract_tables, max_pages=max_pages,
+                                     progress=progress)
     if ext in {".md", ".txt"}:
         return _parse_text(p)
     if ext == ".csv":
@@ -86,8 +98,85 @@ def parse_document(path: str | Path, *, prefer_docling: bool = False,
     raise ParsingError(f"No parser for extension '{ext}'.")
 
 
-# ---- PDF (pdfplumber) ----------------------------------------------------
-def _parse_pdf(p: Path, *, extract_tables: bool = True, max_pages: int = 0) -> ParsedDocument:
+def _pymupdf_available() -> bool:
+    try:
+        import pymupdf  # noqa: F401
+
+        return True
+    except Exception:
+        try:
+            import fitz  # noqa: F401
+
+            return True
+        except Exception:
+            return False
+
+
+# ---- PDF (PyMuPDF — default, fast) --------------------------------------
+def _parse_pdf_pymupdf(p: Path, *, extract_tables: bool = True, max_pages: int = 0,
+                       progress=None) -> ParsedDocument:
+    try:
+        import pymupdf  # modern name
+    except Exception:  # pragma: no cover
+        import fitz as pymupdf  # legacy name
+
+    pages: list[ParsedPage] = []
+    sections: list[ParsedSection] = []
+    md_parts: list[str] = []
+    warnings: list[str] = []
+    try:
+        doc = pymupdf.open(str(p))
+        version = getattr(pymupdf, "__version__", "unknown")
+        total = doc.page_count
+        limit = min(total, max_pages) if max_pages and max_pages > 0 else total
+        if limit < total:
+            warnings.append(f"Only the first {limit} of {total} pages were parsed (page cap).")
+        for i in range(1, limit + 1):
+            page = doc.load_page(i - 1)
+            text = page.get_text("text") or ""
+            tables = []
+            if extract_tables:
+                try:
+                    tf = page.find_tables()
+                    for t in tf.tables:
+                        rows = t.extract()
+                        if rows:
+                            tables.append(rows)
+                except Exception as exc:
+                    warnings.append(f"Table detection failed on page {i}: {exc}")
+            pages.append(ParsedPage(i, text, None, tables))
+            if text.strip():
+                md_parts.append(f"\n\n<!-- page {i} -->\n{text}")
+                sections.append(ParsedSection(text=text, page_number=i))
+            for ti, tbl in enumerate(tables):
+                md_tbl = _table_to_markdown(tbl)
+                md_parts.append(f"\n\n<!-- page {i} table {ti+1} -->\n{md_tbl}")
+                sections.append(ParsedSection(text=md_tbl, title=f"Table (page {i})",
+                                              page_number=i, is_table=True))
+            if progress:
+                try:
+                    progress(i, limit)
+                except Exception:
+                    pass
+        doc.close()
+    except Exception as exc:
+        raise ParsingError(f"Failed to parse PDF {p.name}: {exc}") from exc
+
+    md = "".join(md_parts).strip()
+    if not md:
+        warnings.append(
+            "No extractable text found — the PDF may be scanned/image-only. "
+            "OCR (Docling/Tesseract) is required; text was NOT invented."
+        )
+    return ParsedDocument(
+        source_path=str(p), parser_name="pymupdf", parser_version=version,
+        markdown=md, pages=pages, sections=sections, warnings=warnings,
+    )
+
+
+# ---- PDF (pdfplumber — fallback) ----------------------------------------
+def _parse_pdf_pdfplumber(p: Path, *, extract_tables: bool = True, max_pages: int = 0,
+                          progress=None) -> ParsedDocument:
     try:
         import pdfplumber
     except Exception as exc:  # pragma: no cover
@@ -103,15 +192,7 @@ def _parse_pdf(p: Path, *, extract_tables: bool = True, max_pages: int = 0) -> P
             total = len(pdf.pages)
             limit = min(total, max_pages) if max_pages and max_pages > 0 else total
             if limit < total:
-                warnings.append(
-                    f"Only the first {limit} of {total} pages were parsed (page cap). "
-                    "Increase pdf_max_pages to index the rest."
-                )
-            if not extract_tables:
-                warnings.append(
-                    "Fast mode: table detection was skipped for speed. Narrative text is "
-                    "indexed; re-ingest with tables enabled to capture financial tables."
-                )
+                warnings.append(f"Only the first {limit} of {total} pages were parsed (page cap).")
             for i, page in enumerate(pdf.pages[:limit], start=1):
                 text = page.extract_text() or ""
                 label = None
@@ -136,6 +217,11 @@ def _parse_pdf(p: Path, *, extract_tables: bool = True, max_pages: int = 0) -> P
                         ParsedSection(text=md_tbl, title=f"Table (page {i})",
                                       page_number=i, page_label=label, is_table=True)
                     )
+                if progress:
+                    try:
+                        progress(i, limit)
+                    except Exception:
+                        pass
     except Exception as exc:
         raise ParsingError(f"Failed to parse PDF {p.name}: {exc}") from exc
 

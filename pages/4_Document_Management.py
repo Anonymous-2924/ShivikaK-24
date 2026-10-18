@@ -21,14 +21,11 @@ with st.form("upload"):
     fy = st.text_input("Financial year", placeholder="FY2023-24")
     basis = st.selectbox("Basis", ["unknown", "consolidated", "standalone"])
     report_type = st.text_input("Report type", "Annual Report")
-    fast_mode = st.checkbox(
-        "⚡ Fast mode (skip table detection) — recommended for large PDFs (30 MB+)",
-        value=False,
-        help="Table detection is the slow part of parsing a big annual report (can take "
-             "many minutes). Fast mode indexes all narrative text quickly; re-upload later "
-             "with this off to capture financial tables.")
-    cap = st.number_input("Page cap (0 = all pages)", 0, 2000, 0,
-                          help="Parse only the first N pages. Useful to test a huge report quickly.")
+    with st.expander("Advanced"):
+        cap = st.number_input(
+            "Page cap (0 = all pages)", 0, 5000, 0,
+            help="Parse only the first N pages — handy to preview a huge report quickly. "
+                 "Leave 0 to index the whole document (tables included).")
     go = st.form_submit_button("Upload & index")
 
 if go:
@@ -38,12 +35,18 @@ if go:
         tmp = Path(tempfile.gettempdir()) / up.name
         tmp.write_bytes(up.getbuffer())
         try:
-            msg = "Validating & indexing (fast mode — text only)…" if fast_mode else \
-                "Validating, parsing & indexing… large PDFs with tables can take several minutes."
-            with st.spinner(msg):
+            bar = st.progress(0.0, text="Parsing PDF (text + tables)…")
+
+            def _progress(done, total):
+                frac = done / total if total else 0.0
+                bar.progress(min(frac, 1.0), text=f"Parsing page {done}/{total} (text + tables)…")
+
+            try:
                 outcome = svc.add_file(str(tmp), company_name=company, financial_year=fy or None,
                                        report_type=report_type, basis=basis,
-                                       extract_tables=not fast_mode, max_pages=int(cap))
+                                       max_pages=int(cap), progress=_progress)
+            finally:
+                bar.empty()
             if outcome.duplicate:
                 st.warning(outcome.message)
             else:

@@ -12,7 +12,7 @@ FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "sample_report.pdf"
 @pytest.mark.skipif(not FIXTURE.exists(), reason="sample PDF fixture not present")
 def test_pdf_parse_extracts_text_and_pages():
     doc = parse_document(FIXTURE)
-    assert doc.parser_name == "pdfplumber"
+    assert doc.parser_name in ("pymupdf", "pdfplumber")  # PyMuPDF default, pdfplumber fallback
     assert doc.pages and doc.total_chars > 100
     assert "Revenue from operations" in doc.markdown
     quality = validate_parse(doc, source_size_bytes=FIXTURE.stat().st_size)
@@ -21,11 +21,22 @@ def test_pdf_parse_extracts_text_and_pages():
 
 
 @pytest.mark.skipif(not FIXTURE.exists(), reason="sample PDF fixture not present")
-def test_pdf_fast_mode_skips_tables_and_warns():
+def test_pdf_progress_callback_and_engines():
+    calls = []
+    doc = parse_document(FIXTURE, progress=lambda done, total: calls.append((done, total)))
+    assert calls and calls[-1][0] == calls[-1][1]  # reaches 100%
+    # pdfplumber fallback produces equivalent text
+    alt = parse_document(FIXTURE, engine="pdfplumber")
+    assert alt.parser_name == "pdfplumber"
+    assert "Revenue from operations" in alt.markdown
+
+
+@pytest.mark.skipif(not FIXTURE.exists(), reason="sample PDF fixture not present")
+def test_pdf_extract_tables_flag_controls_table_pass():
+    # extract_tables=False is a text-only preview path (tables kept by default).
     doc = parse_document(FIXTURE, extract_tables=False)
     assert "Revenue from operations" in doc.markdown  # text still extracted
     assert all(not p.tables for p in doc.pages)        # no tables parsed
-    assert any("Fast mode" in w for w in doc.warnings)
 
 
 @pytest.mark.skipif(not FIXTURE.exists(), reason="sample PDF fixture not present")

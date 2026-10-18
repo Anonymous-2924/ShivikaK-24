@@ -17,7 +17,7 @@ mode (documented); switch to server mode for concurrent access.
 ## ADR-003: Graceful degradation over hard dependencies
 **Decision.** Docling, sentence-transformers, CrewAI and the cloud LLM are
 optional at runtime. **Why.** The 16 GB / "no multi-GB weights" / offline-
-friendly constraints. **Consequence.** The app runs with a pdfplumber parser,
+friendly constraints. **Consequence.** The app runs with a PyMuPDF parser (pdfplumber fallback),
 a hashing embedder, a deterministic agent orchestrator and evidence-only
 answers when those extras or the LLM key are absent — and says so in the UI.
 

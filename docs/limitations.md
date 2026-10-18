@@ -10,7 +10,7 @@
 - End-to-end: parse → chunk → embed (hashing) → index (embedded Qdrant) →
   retrieve → cite, including **persistence across restart** and idempotent
   re-index (`tests/integration/`).
-- PDF parsing via pdfplumber on a real PDF fixture.
+- PDF parsing via PyMuPDF (default, fast) and pdfplumber (fallback) on a real PDF fixture, with per-page progress.
 - Ollama client error mapping (auth/rate-limit/unavailable) via mocks.
 - Streamlit app boots and serves all 7 pages (HTTP 200).
 
@@ -20,7 +20,7 @@
   Cloud auth/endpoint/model identifiers against current official docs** for
   your account. `scripts/smoke_test.py` exercises it when a key is present.
 - **Docling parsing** — optional; pulls PyTorch + models (large). Not
-  auto-installed on a 16 GB machine. The pdfplumber path is the working default.
+  auto-installed on a 16 GB machine. PyMuPDF (fast, CPU-only) is the working default parser; pdfplumber is the fallback.
 - **Local semantic embeddings / reranker** — need `sentence-transformers`
   (one-time ~80 MB download). Without it, the hashing fallback is used (weaker
   semantics; clearly labelled).

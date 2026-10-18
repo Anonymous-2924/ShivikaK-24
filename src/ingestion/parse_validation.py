@@ -33,7 +33,7 @@ def validate_parse(doc: ParsedDocument, *, source_size_bytes: int | None = None)
         )
 
     # Missing page mapping for a multi-page PDF.
-    if doc.parser_name == "pdfplumber" and doc.pages and all(not p.text.strip() for p in doc.pages):
+    if doc.parser_name in ("pdfplumber", "pymupdf") and doc.pages and all(not p.text.strip() for p in doc.pages):
         warnings.append("All pages empty — document likely needs OCR.")
 
     # Repeated header/footer detection (same short line on many pages).
