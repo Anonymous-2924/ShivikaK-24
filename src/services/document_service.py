@@ -65,6 +65,7 @@ class DocumentService:
                 chunk_size=self.ctx.settings.chunk_size,
                 chunk_overlap=self.ctx.settings.chunk_overlap,
                 extract_tables=tables, max_pages=pages, progress=progress,
+                table_min_numbers=self.ctx.settings.pdf_table_min_numbers,
             )
         self.ctx.metadata_store.upsert_document(doc)
         return AddDocumentOutcome(document=doc, result=result,

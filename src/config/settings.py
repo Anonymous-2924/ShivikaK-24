@@ -77,14 +77,20 @@ class Settings(BaseSettings):
     # ---- Resource limits (16 GB machine defaults) -----------------------
     lightweight_mode: bool = True
     max_parse_workers: int = 1
-    max_download_mb: int = 200
-    download_timeout_seconds: float = 120.0
+    max_download_mb: int = 300
+    download_timeout_seconds: float = 300.0
 
     # ---- PDF parsing performance ---------------------------------------
-    # Table detection is the slow part of pdfplumber on large reports. Turn it
-    # off for a fast text-only pass, or cap how many pages get the table pass.
+    # Table *detection* is the slow part on large reports (600-900 page annual
+    # reports). Text extraction always runs and already captures every number,
+    # so structured table detection is gated to number-dense pages (financial
+    # statements / notes); narrative pages skip it. This keeps all tabular data
+    # while making huge reports tractable.
     pdf_extract_tables: bool = True
     pdf_max_pages: int = 0  # 0 = all pages; >0 caps pages parsed (with a warning)
+    # A page gets the expensive table pass only if it has at least this many
+    # numeric tokens. Set to 0 to run table detection on every page.
+    pdf_table_min_numbers: int = 12
 
     # ---- Storage paths --------------------------------------------------
     data_dir: str = str(DATA_DIR)

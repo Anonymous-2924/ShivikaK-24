@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import csv
 import io
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -58,7 +59,8 @@ class ParsedDocument:
 
 def parse_document(path: str | Path, *, prefer_docling: bool = False,
                    extract_tables: bool = True, max_pages: int = 0,
-                   engine: str = "auto", progress=None) -> ParsedDocument:
+                   engine: str = "auto", progress=None,
+                   table_min_numbers: int = 12) -> ParsedDocument:
     """Parse a document of any supported type into a :class:`ParsedDocument`.
 
     PDFs use PyMuPDF by default (``engine="auto"``) — text extraction is
@@ -84,7 +86,7 @@ def parse_document(path: str | Path, *, prefer_docling: bool = False,
         use_pymupdf = engine in ("auto", "pymupdf") and _pymupdf_available()
         if use_pymupdf:
             return _parse_pdf_pymupdf(p, extract_tables=extract_tables, max_pages=max_pages,
-                                      progress=progress)
+                                      progress=progress, table_min_numbers=table_min_numbers)
         return _parse_pdf_pdfplumber(p, extract_tables=extract_tables, max_pages=max_pages,
                                      progress=progress)
     if ext in {".md", ".txt"}:
@@ -112,9 +114,19 @@ def _pymupdf_available() -> bool:
             return False
 
 
+_NUM_TOKEN_RE = re.compile(r"\d[\d,]*\.?\d*")
+
+
+def _looks_number_dense(text: str, min_numbers: int) -> bool:
+    """Cheap gate: does this page hold enough numbers to plausibly be a table?"""
+    if min_numbers <= 0:
+        return True
+    return len(_NUM_TOKEN_RE.findall(text)) >= min_numbers
+
+
 # ---- PDF (PyMuPDF — default, fast) --------------------------------------
 def _parse_pdf_pymupdf(p: Path, *, extract_tables: bool = True, max_pages: int = 0,
-                       progress=None) -> ParsedDocument:
+                       progress=None, table_min_numbers: int = 12) -> ParsedDocument:
     try:
         import pymupdf  # modern name
     except Exception:  # pragma: no cover
@@ -124,6 +136,7 @@ def _parse_pdf_pymupdf(p: Path, *, extract_tables: bool = True, max_pages: int =
     sections: list[ParsedSection] = []
     md_parts: list[str] = []
     warnings: list[str] = []
+    table_pages = 0
     try:
         doc = pymupdf.open(str(p))
         version = getattr(pymupdf, "__version__", "unknown")
@@ -135,13 +148,18 @@ def _parse_pdf_pymupdf(p: Path, *, extract_tables: bool = True, max_pages: int =
             page = doc.load_page(i - 1)
             text = page.get_text("text") or ""
             tables = []
-            if extract_tables:
+            # Text already contains every number; run the expensive structured
+            # table detection only on number-dense pages (financial statements
+            # and notes), so a 600-900 page report stays tractable.
+            if extract_tables and _looks_number_dense(text, table_min_numbers):
                 try:
                     tf = page.find_tables()
                     for t in tf.tables:
                         rows = t.extract()
                         if rows:
                             tables.append(rows)
+                    if tables:
+                        table_pages += 1
                 except Exception as exc:
                     warnings.append(f"Table detection failed on page {i}: {exc}")
             pages.append(ParsedPage(i, text, None, tables))
@@ -159,6 +177,12 @@ def _parse_pdf_pymupdf(p: Path, *, extract_tables: bool = True, max_pages: int =
                 except Exception:
                     pass
         doc.close()
+        if extract_tables and table_min_numbers > 0:
+            warnings.append(
+                f"Structured tables extracted from {table_pages} number-dense page(s); "
+                "narrative pages skipped the table pass for speed. All page text (including "
+                "every figure) is indexed regardless."
+            )
     except Exception as exc:
         raise ParsingError(f"Failed to parse PDF {p.name}: {exc}") from exc
 

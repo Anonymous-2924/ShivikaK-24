@@ -45,3 +45,14 @@ def test_pdf_max_pages_caps_and_warns():
     assert len(doc.pages) == 1
     # fixture is 1 page, so no cap warning; a multi-page doc would warn. Just assert no crash.
     assert doc.total_chars > 0
+
+
+@pytest.mark.skipif(not FIXTURE.exists(), reason="sample PDF fixture not present")
+def test_table_detection_gated_by_number_density():
+    # High threshold -> no page qualifies -> table pass skipped, but text kept.
+    gated = parse_document(FIXTURE, table_min_numbers=10_000)
+    assert all(not p.tables for p in gated.pages)
+    assert "Revenue from operations" in gated.markdown  # numbers still indexed via text
+    # Threshold 0 -> table detection runs on every page.
+    ungated = parse_document(FIXTURE, table_min_numbers=0)
+    assert "Revenue from operations" in ungated.markdown

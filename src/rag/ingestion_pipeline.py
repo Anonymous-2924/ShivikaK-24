@@ -35,12 +35,13 @@ def ingest_document(
     doc: DocumentMetadata, index: RagIndex, *, parsed_dir: str,
     chunk_size: int = 1000, chunk_overlap: int = 150, prefer_docling: bool = False,
     extract_tables: bool = True, max_pages: int = 0, progress=None,
+    table_min_numbers: int = 12,
 ) -> IngestionResult:
     """Parse and index a single document. Updates ``doc`` status in place."""
     try:
         parsed = parse_document(doc.local_path, prefer_docling=prefer_docling,
                                 extract_tables=extract_tables, max_pages=max_pages,
-                                progress=progress)
+                                progress=progress, table_min_numbers=table_min_numbers)
     except Exception as exc:
         doc.parse_status = ParseStatus.FAILED
         doc.warnings.append(f"Parse failed: {exc}")
