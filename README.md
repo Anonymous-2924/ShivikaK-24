@@ -3,11 +3,11 @@
 Answers: *"Event X occurred at entity/location Y — which SKUs are exposed,
 through what path, how much revenue is at risk, and with what confidence?"*
 
-**Status: Phase 3 complete** (scaffold + data generator + dual-track
-ingestion). LLM-driven extraction, entity resolution, graph build,
-retrieval, eval, and UI are not yet written. Later-phase `make` targets
-exit non-zero with a clear `[not yet implemented] ... lands in Phase <n>`
-message.
+**Status: Phase 4 complete** (scaffold + data generator + dual-track
+ingestion + LLM extraction + entity resolution + graph build). The
+hybrid retrieval router, evaluation harness, and UI are not yet written.
+Later-phase `make` targets exit non-zero with a clear
+`[not yet implemented] ... lands in Phase <n>` message.
 
 Phase 3 adds the ingest pipeline. Run with services up:
 
@@ -55,6 +55,111 @@ Qdrant disabled): 9.7s, zero failures. Breakdown: 76 PDFs → narrative at
 not installed in test env), 40 Excel sheets → numeric at 1.00, 24 DOCX →
 narrative at 0.95, 14 CSV → numeric at 1.00, 30 plaintext → narrative at
 1.00, 4 JSON + 1 XML → structured at 0.95 / 0.80.
+
+## Phase 4 — LLM extraction + ER + graph build
+
+Three subsystems that stand alone and plug together:
+
+**1. LLM extraction** (`src/extract/`)
+
+- Proposer: `gpt-oss:20b` on Ollama Cloud (free-tier). Verifier:
+  `nemotron-3-ultra` (free-tier, different architecture family — the
+  point of a verifier is to NOT share the proposer's blind spots).
+- Separate passes per chunk: entities, then relations. Not one combined
+  call. Constrained to JSON via `format='json'` + strict prompt + strict
+  validator. Any entity whose name doesn't appear verbatim in the chunk
+  is dropped (brief rule: never invent). Any relation referencing an
+  entity the entity pass didn't surface is dropped. Any out-of-vocab
+  type is dropped.
+- Verifier runs on **every** high-impact edge (`supplied_by`,
+  `manufactured_at`, `disrupted_by`) and on a sampled fraction
+  (default 10%) of other chunks. Its JSON verdict folds back:
+  `accept` keeps the edge with verifier confidence; `modify` changes
+  the type (still vocab-gated); `reject` drops it.
+- Resumable. State is `data/processed/extractions.jsonl`, one line
+  per completed `(source_file, chunk_index)`. On a session-cap error
+  from Ollama Cloud (the Free tier's 4-hour window), the extractor
+  checkpoints what's done and exits 0. Re-running continues from the
+  next chunk — no work lost, no sleep loop.
+- CLI: `python -m cli extract [--no-verify] [--sample-rate 0.1]`.
+
+**2. Entity resolution** (`src/resolve/`)
+
+- Three buckets (brief rule): auto-merge ≥ 0.92; review 0.78–0.92
+  (**never** auto-merged); auto-reject < 0.78.
+- Combined score blends **string similarity** (rapidfuzz, token-set
+  ratio on name-normalised strings — strips suffixes like Ltd/Pvt/Co.)
+  with **structural evidence**: shared tax_id (dominant signal),
+  address similarity, shared country, shared customer, shared route.
+  Different-type pairs are capped at 0.5 and never auto-merge.
+- Addresses missing on either side don't penalise — their weight is
+  redistributed across the signals that are present.
+- **Non-destructive mapping layer** in `data/processed/merges.sqlite`:
+  one row per merge, source → canonical. Resolve walks the mapping
+  transitively. Unmerge sets `reversed=1` on the row — source entities
+  are never mutated and the history is auditable.
+- Review queue: `python -m cli review-merges` surfaces each candidate
+  with its evidence; keys y/n/s/q.
+- Unmerge: `python -m cli unmerge <entity_id>`.
+- `config/aliases.yaml` is a hand-curated override hook (loader present;
+  population flows from the review queue outcomes you accept).
+- **Evaluated on a 200-pair labelled fixture** (`tests/fixtures/er_pairs.json`,
+  generated deterministically via `python -m tools.datagen.er_pairs`):
+  80 match / 80 no_match / 40 ambiguous. Current scorer:
+  **precision 1.000, recall 1.000, F1 1.000**; 40/40 ambiguous pairs
+  routed to auto-reject (none wrongly auto-merged). **Credibility note:**
+  the fixture tests the scorer against the exact mess the generator
+  injects (near-duplicates share tax_id); these numbers do NOT prove
+  robustness against adversarial pairs (e.g. same company with different
+  tax IDs, or legitimately different companies that coincidentally share
+  one). That's a Phase 6 concern on real data.
+
+**3. Graph build** (`src/graph/`)
+
+- Neo4j 5.26 LTS via driver 6.4. Node id uniqueness constraints are
+  created once (`writer.ensure_constraints`). Nodes and edges upsert
+  idempotently via MERGE.
+- **Deterministic schema validator** (`src/graph/schema.py`) with a
+  whitelist of valid (source_type, relation, target_type) triples.
+  Edges that violate the whitelist, or that lack any of the five
+  required fields (confidence, valid_from, valid_to, source_ref,
+  extraction_method), are rejected **before** reaching Neo4j — the
+  writer counts them in `edges_rejected_schema`.
+- Three build sources, in confidence order:
+  - **Structured ERP exports** (JSON/XML from `data/inbox/`):
+    `extraction_method=structured`, confidence 0.98.
+  - **Gold data cards** (`data/processed/numeric/*.md` linked to a
+    supplier): `extraction_method=manual`, confidence 1.0, as
+    `has_financials` edges to a `DataTable` node whose `parquet_path`
+    is the file Phase 5's quantitative router will DuckDB-query.
+  - **LLM-extracted relations** (`extractions.jsonl`):
+    `extraction_method=llm_extracted`, confidence from the verifier
+    (or proposer, if un-verified).
+- Every node id is resolved through the ER mapping layer before writing,
+  so merged entities land on the canonical id.
+- CLI: `python -m cli build-graph`.
+
+### Phase 4 honest limitations
+
+- **No live Ollama Cloud or Neo4j test from this environment.** The
+  cloud container I ran in has no running Neo4j and no `OLLAMA_CLOUD_API_KEY`.
+  Deterministic pieces are unit-tested; the LLM and Neo4j paths are
+  stub-tested (mock chat clients that return scripted JSON; a mock Neo4j
+  driver that logs Cypher). The real end-to-end runs are yours to do:
+  `export OLLAMA_CLOUD_API_KEY=... && make services && python -m cli extract && python -m cli build-graph`.
+- **The 1.0/1.0/1.0 ER numbers are honest but not comprehensive** — see
+  the credibility note above.
+- **CrewAI is NOT used in Phase 4.** The brief says ingestion crew
+  (parser → extractor → resolver → validator) should use CrewAI; my
+  reading is that this pipeline is deterministic enough that a plain
+  orchestrator earns the same correctness at a fraction of the moving
+  parts. CrewAI is reserved for the Phase 5 tier-2 inference crew where
+  the loop (researcher → corroborator → confidence-scorer) is genuinely
+  multi-agent.
+- **Vision extraction (PNG/JPG files) is still deferred.** Phase 3
+  routes them to track `image` and the ingest records them as
+  `[Phase 4]`; the Phase 4 LLM calls don't yet take images. If you want
+  the chart screenshots indexed, add a vision pass as a Phase 4.5.
 
 ---
 
@@ -188,7 +293,8 @@ their phases land.
 
 1. Scaffold + docker-compose + config + CLI skeleton + README.
 2. Standalone data generator → `generated_data/` (apparel/fast-fashion).
-3. **Dual-track ingestion + parsers + confidence routing.** ← we are here
+3. Dual-track ingestion + parsers + confidence routing.
+4. **LLM extraction + entity resolution + graph build.** ← we are here
 4. Extraction → entity resolution → graph build → Qdrant index
 5. Hybrid retrieval router + CrewAI crews
 6. **Evaluation harness + baseline comparison — must pass before UI**

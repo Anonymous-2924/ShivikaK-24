@@ -1,18 +1,30 @@
-"""Reverse a prior merge. Skeleton only in Phase 1.
+"""Reverse one entity's live merges.
 
-Phase 4 will fill this in: looks up the merge record in the mapping layer
-and removes it. Source entities are untouched because merges are
-non-destructive by design.
+Merges are non-destructive — this flips reversed=1 on every live row
+whose source is ``entity_id`` and leaves the history intact. The entity
+will next resolve back to itself unless a new merge supersedes.
 """
 from __future__ import annotations
 
 import sys
+from pathlib import Path
+
+from src.resolve.merges import MergeStore
+
+MERGES_SQLITE = Path("data/processed/merges.sqlite")
 
 
 def main(entity_id: str) -> None:
-    print(f"[not implemented in Phase 1] unmerge({entity_id!r}) lands in Phase 4.",
-          file=sys.stderr)
-    sys.exit(2)
+    if not entity_id:
+        print("usage: python -m cli unmerge <entity_id>", file=sys.stderr)
+        sys.exit(2)
+    store = MergeStore(MERGES_SQLITE)
+    n = store.unmerge(entity_id)
+    store.close()
+    if n == 0:
+        print(f"no live merges found for {entity_id!r}")
+    else:
+        print(f"reversed {n} merge(s) for {entity_id!r}")
 
 
 if __name__ == "__main__":
