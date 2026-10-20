@@ -3,11 +3,19 @@
 Answers: *"Event X occurred at entity/location Y — which SKUs are exposed,
 through what path, how much revenue is at risk, and with what confidence?"*
 
-**Status: Phase 1 scaffold.** No ingestion, extraction, graph build,
-retrieval, eval, or UI code has been written yet. Every `make` target
-either works end-to-end or exits non-zero with a clear
-`[not implemented in Phase <n>]` message. This is deliberate — no Make
-target silently succeeds while doing nothing.
+**Status: Phase 2 complete** (Phase 1 scaffold + standalone data
+generator). Ingestion, extraction, graph build, retrieval, eval, and UI
+code have not been written yet. Every `make` target for later phases
+exits non-zero with a clear `[not implemented in Phase <n>]` message —
+no Make target silently succeeds while doing nothing.
+
+Phase 2 adds the apparel / fast-fashion data generator under
+`tools/datagen/`. See [`tools/datagen/README.md`](tools/datagen/README.md)
+for what it emits and the mess it injects. Run
+`make generate-data` or `python -m tools.datagen.generate --suppliers 500
+--skus 2000 --seed 42` — produces ~180 files, ~11MB, in ~2 seconds. Then
+copy the files you want ingested from `generated_data/` into
+`data/inbox/`.
 
 ---
 
@@ -68,10 +76,10 @@ seeded this repo.
 | networkx | `3.7` | |
 | FastAPI | `0.151.0` | API (Phase 7) |
 | uvicorn | `0.54.0` | |
-| typer | `0.17.1` | CLI |
+| typer | `0.27.3` | CLI |
 | httpx | `0.28.1` | |
 | pydantic | `2.14.1` | |
-| ruff | `0.28.1` | dev |
+| ruff | `0.17.1` | dev |
 | pytest | `9.1.1` | dev |
 | faker | `40.43.0` | datagen extra |
 
@@ -139,8 +147,8 @@ their phases land.
 
 ## Build phases
 
-1. **Scaffold + docker-compose + config + CLI skeleton + README.** ← we are here
-2. Standalone data generator → `generated_data/`
+1. Scaffold + docker-compose + config + CLI skeleton + README.
+2. **Standalone data generator → `generated_data/` (apparel/fast-fashion).** ← we are here
 3. Dual-track ingestion + parsers + confidence routing
 4. Extraction → entity resolution → graph build → Qdrant index
 5. Hybrid retrieval router + CrewAI crews

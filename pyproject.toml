@@ -2,7 +2,7 @@
 name = "blast-radius-engine"
 version = "0.1.0"
 description = "Supply Chain Blast Radius Engine (GraphRAG) - Phase 1 scaffold"
-requires-python = ">=3.11,<3.13"
+requires-python = ">=3.11,<3.14"
 
 # All versions verified against PyPI on 2026-10-20.
 # Exact pins (==) because several of these packages are still 0.x and allow
@@ -31,7 +31,7 @@ dependencies = [
   # API + CLI (Phase 7)
   "fastapi==0.151.0",
   "uvicorn==0.54.0",
-  "typer==0.17.1",
+  "typer==0.27.3",
   "httpx==0.28.1",
   "pydantic==2.14.1",
   # Config
@@ -41,7 +41,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "pytest==9.1.1",
-  "ruff==0.28.1",
+  "ruff==0.17.1",
 ]
 datagen = [
   # tools/datagen is standalone; it may install its own extras separately.

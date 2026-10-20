@@ -7,6 +7,7 @@ we never want a Make target to appear to succeed when it did nothing.
 from __future__ import annotations
 
 import sys
+
 import typer
 
 app = typer.Typer(add_completion=False, help="Supply Chain Blast Radius Engine CLI")
