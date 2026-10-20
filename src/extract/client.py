@@ -55,11 +55,27 @@ class OllamaChat:
 
     def chat_json(self, *, system: str, user: str) -> LLMResponse:
         """Chat with ``format='json'``. Raises SessionCapReached on budget."""
+        return self._chat(system=system, user=user, images=None)
+
+    def chat_vision_json(self, *, system: str, user: str,
+                          image_bytes: bytes) -> LLMResponse:
+        """Chat with ``format='json'`` and one attached image.
+
+        Only call on a vision-capable model (e.g. gemma4:31b). ``image_bytes``
+        is the raw file content; the Ollama Python client accepts bytes
+        directly in ``messages[*].images`` and handles the encoding.
+        """
+        return self._chat(system=system, user=user, images=[image_bytes])
+
+    def _chat(self, *, system: str, user: str,
+              images: list[bytes] | None) -> LLMResponse:
+        user_msg: dict = {"role": "user", "content": user}
+        if images:
+            user_msg["images"] = images
         try:
             res = self.client.chat(
                 model=self.model,
-                messages=[{"role": "system", "content": system},
-                          {"role": "user", "content": user}],
+                messages=[{"role": "system", "content": system}, user_msg],
                 format="json",
                 options={"temperature": self.temperature},
             )
@@ -69,7 +85,6 @@ class OllamaChat:
                 raise SessionCapReached(msg) from exc
             raise ExtractionCallFailed(f"{type(exc).__name__}: {msg}") from exc
 
-        # Ollama returns {'message': {'content': '...'}, ...}
         text = (res.get("message") or {}).get("content") or ""
         parsed: dict | None = None
         try:

@@ -53,7 +53,7 @@
           "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
           "extraction_method": {
             "type": "string",
-            "enum": ["structured", "llm_extracted", "inferred", "manual"]
+            "enum": ["structured", "llm_extracted", "inferred", "manual", "vision"]
           },
           "valid_from": { "type": "string", "format": "date" },
           "valid_to":   { "type": ["string", "null"], "format": "date" },

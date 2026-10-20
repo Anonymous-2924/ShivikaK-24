@@ -52,6 +52,8 @@ def ingest(
                f"narrative-ok {stats.narrative_ok}  "
                f"numeric-ok {stats.numeric_ok}  "
                f"structured-ok {stats.structured_ok}  "
+               f"vision-ok {stats.vision_ok}  "
+               f"vision-skipped(no-key) {stats.vision_skipped_no_key}  "
                f"gold {stats.gold_loaded}  "
                f"skipped {stats.skipped}  "
                f"degraded-tables {stats.tables_degraded_to_narrative}  "

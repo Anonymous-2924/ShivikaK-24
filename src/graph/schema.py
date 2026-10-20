@@ -56,7 +56,7 @@ VALID_TRIPLES: frozenset[tuple[str, str, str]] = frozenset({
 REQUIRED_EDGE_FIELDS = {"confidence", "valid_from", "valid_to",
                         "source_ref", "extraction_method"}
 ALLOWED_EXTRACTION_METHODS = {"structured", "llm_extracted",
-                              "inferred", "manual"}
+                              "inferred", "manual", "vision"}
 
 
 class SchemaViolation(ValueError):

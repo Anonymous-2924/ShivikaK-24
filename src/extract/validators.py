@@ -134,6 +134,81 @@ def validate_relations(payload: Any, *, entity_names: set[str],
     return r
 
 
+def validate_vision(payload: Any, *,
+                    confidence_cap: float = 0.65) -> ValidationResult:
+    """Validate a vision-extraction payload.
+
+    Keeps a loose shape — vision reads of charts are inherently noisy, so
+    we normalise missing fields rather than reject the whole response.
+    The confidence is HARD-CAPPED at ``confidence_cap`` regardless of
+    what the model self-reports.
+    """
+    r = ValidationResult(ok=False)
+    if not isinstance(payload, dict):
+        r.errors.append("vision payload is not a JSON object")
+        return r
+    out: dict = {
+        "chart_type": _str(payload.get("chart_type"), default="other"),
+        "title": _str(payload.get("title"), default=""),
+        "x_axis_label": _str(payload.get("x_axis_label"), default=""),
+        "y_axis_label": _str(payload.get("y_axis_label"), default=""),
+        "x_tick_labels": _str_list(payload.get("x_tick_labels")),
+        "entities_mentioned": _str_list(payload.get("entities_mentioned")),
+        "description": _str(payload.get("description"), default=""),
+        "notes": _str(payload.get("notes"), default=""),
+    }
+    # data_points: keep only numeric-y entries
+    data_points: list[dict] = []
+    raw_dp = payload.get("data_points")
+    if isinstance(raw_dp, list):
+        for dp in raw_dp:
+            if not isinstance(dp, dict):
+                r.dropped += 1
+                continue
+            y = dp.get("y")
+            if not isinstance(y, (int, float)):
+                r.dropped += 1
+                continue
+            data_points.append({
+                "series": _str(dp.get("series"), default=""),
+                "x": _str(dp.get("x"), default=""),
+                "y": float(y),
+            })
+    out["data_points"] = data_points
+    # Confidence: coerce + cap.
+    try:
+        self_conf = float(payload.get("confidence", 0.5))
+    except (TypeError, ValueError):
+        self_conf = 0.5
+    self_conf = max(0.0, min(1.0, self_conf))
+    out["confidence"] = min(self_conf, confidence_cap)
+    out["self_reported_confidence"] = self_conf
+    # Stuff the whole normalised payload into r.entities[0] as a convenient
+    # single-item carrier for the pipeline (we aren't producing graph
+    # entities here).
+    r.entities = [out]
+    r.ok = True
+    return r
+
+
+def _str(v: Any, *, default: str = "") -> str:
+    if v is None:
+        return default
+    s = str(v).strip()
+    return s if s else default
+
+
+def _str_list(v: Any) -> list[str]:
+    if not isinstance(v, list):
+        return []
+    out: list[str] = []
+    for x in v:
+        s = _str(x)
+        if s:
+            out.append(s)
+    return out
+
+
 def apply_verifier(verifier_payload: Any,
                    candidates: list[dict]) -> list[dict]:
     """Fold the verifier's verdicts back onto the proposer's relations.

@@ -27,6 +27,18 @@ extraction:
   allowed_node_types:
     [SKU, Component, Supplier, Plant, Site, Geography, Route, Port, Event,
      Document, DataTable]
+  # Phase 4 enum, now including 'vision' for image-derived narrative content.
+  allowed_extraction_methods:
+    [structured, llm_extracted, inferred, manual, vision]
+
+vision:
+  # Chart / image screenshots routed through this model. Confidence is
+  # capped at 0.65 regardless of the model's self-report — vision reads
+  # of charts remain lossy enough that the retrieval router (Phase 5)
+  # should treat them as supporting evidence, not source of truth.
+  enabled: true
+  model_env: OLLAMA_VISION_MODEL
+  confidence_cap: 0.65
 
 verifier:
   # Cheap model proposes, stronger model verifies a sample + all high-impact edges.

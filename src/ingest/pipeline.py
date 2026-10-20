@@ -37,11 +37,18 @@ class IngestConfig:
     ollama_embed_host: str
     ollama_embed_model: str
     ollama_embed_dim: int
+    # Vision (Phase 4.5)
+    enable_vision: bool = True
+    ollama_cloud_host: str = "https://ollama.com"
+    ollama_cloud_api_key: str | None = None
+    ollama_vision_model: str = "gemma4:31b"
+    vision_confidence_cap: float = 0.65
 
     @classmethod
     def load(cls, settings_path: Path = Path("config/settings.yaml")) -> IngestConfig:
         s = yaml.safe_load(settings_path.read_text())
         p = s["paths"]
+        vision_cfg = s.get("vision", {}) or {}
         return cls(
             inbox=Path(p["inbox"]),
             gold=Path(p["gold"]),
@@ -58,6 +65,14 @@ class IngestConfig:
                                               "http://localhost:11434"),
             ollama_embed_model=os.environ.get("OLLAMA_EMBED_MODEL", "bge-m3"),
             ollama_embed_dim=int(os.environ.get("OLLAMA_EMBED_DIM", "1024")),
+            enable_vision=bool(vision_cfg.get("enabled", True))
+                          and os.environ.get("INGEST_ENABLE_VISION", "1") != "0",
+            ollama_cloud_host=os.environ.get("OLLAMA_CLOUD_HOST",
+                                              "https://ollama.com"),
+            ollama_cloud_api_key=os.environ.get("OLLAMA_CLOUD_API_KEY") or None,
+            ollama_vision_model=os.environ.get("OLLAMA_VISION_MODEL",
+                                                "gemma4:31b"),
+            vision_confidence_cap=float(vision_cfg.get("confidence_cap", 0.65)),
         )
 
 
@@ -71,6 +86,8 @@ class IngestStats:
     skipped: int = 0
     failures: int = 0
     tables_degraded_to_narrative: int = 0
+    vision_ok: int = 0
+    vision_skipped_no_key: int = 0
     qdrant_points: int = 0
     qdrant_skipped: bool = False
 
@@ -116,10 +133,8 @@ def run(cfg: IngestConfig, *, force: bool = False,
                 stats.skipped += 1
                 continue
             if track == Track.IMAGE:
-                with audit.record(file=str(path), sha256=sha,
-                                   track="image", extractor="router") as rec:
-                    rec.done(confidence=0.0, note="image track lands in Phase 4")
-                stats.skipped += 1
+                _handle_image(path, sha, cfg, audit, stats,
+                               pending_index, log_fn)
                 continue
             if track == Track.NARRATIVE:
                 _handle_narrative(path, sha, cfg, audit, stats,
@@ -306,6 +321,52 @@ def _handle_numeric(path: Path, sha: str, cfg: IngestConfig,
                 extraction_method="structured",
             ))
             stats.numeric_ok += 1
+
+
+def _handle_image(path: Path, sha: str, cfg: IngestConfig,
+                   audit: AuditLog, stats: IngestStats,
+                   pending_index: list, log_fn) -> None:
+    """Vision-extract one image → markdown chart card → narrative track."""
+    if not cfg.enable_vision:
+        with audit.record(file=str(path), sha256=sha,
+                          track="image", extractor="router") as rec:
+            rec.done(confidence=0.0, note="vision disabled")
+        stats.skipped += 1
+        return
+    if not cfg.ollama_cloud_api_key:
+        with audit.record(file=str(path), sha256=sha,
+                          track="image", extractor="router") as rec:
+            rec.done(confidence=0.0,
+                     note="OLLAMA_CLOUD_API_KEY unset — vision skipped")
+        stats.vision_skipped_no_key += 1
+        return
+
+    # Local import so this file remains importable in environments that
+    # haven't installed the LLM-side deps.
+    from src.extract.client import OllamaChat
+    from src.extract.vision import extract_image
+
+    vision_client = OllamaChat(
+        host=cfg.ollama_cloud_host, api_key=cfg.ollama_cloud_api_key,
+        model=cfg.ollama_vision_model,
+    )
+    with audit.record(file=str(path), sha256=sha, track="image",
+                      extractor=f"vision:{cfg.ollama_vision_model}") as rec:
+        result = extract_image(path, vision_client=vision_client,
+                                confidence_cap=cfg.vision_confidence_cap)
+        out_md = cfg.processed_narrative / f"{path.stem}.md"
+        out_md.parent.mkdir(parents=True, exist_ok=True)
+        out_md.write_text(result.markdown)
+        rec.done(confidence=result.confidence, rows_or_chars=len(result.markdown),
+                 note=f"vision; self-reported={result.self_reported_confidence:.2f}")
+    # Chunk + index the chart card like any narrative file, but tag the
+    # extraction_method so retrieval downstream can filter.
+    for c in chunk_text(result.markdown):
+        pending_index.append(_chunk_indexdoc(
+            source_file=path, chunk=c,
+            confidence=result.confidence, extraction_method="vision",
+        ))
+    stats.vision_ok += 1
 
 
 def _handle_structured(path: Path, sha: str, cfg: IngestConfig,

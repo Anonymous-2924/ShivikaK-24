@@ -99,6 +99,47 @@ def relation_user(text: str, entities: list[dict], *,
     )
 
 
+VISION_SYSTEM = (
+    "You read supply-chain charts and diagrams from screenshots. You "
+    "respond with STRICT JSON only. You never invent values the image "
+    "does not clearly show. You state a confidence between 0 and 1 that "
+    "reflects how reliably the chart can be read, not how good the "
+    "chart looks. Blurry labels, truncated axes, and missing legends "
+    "lower confidence sharply."
+)
+
+
+def vision_user(*, source_file: str) -> str:
+    return (
+        "Describe the chart or diagram in the attached image. Return JSON "
+        "of the form:\n"
+        "{\n"
+        '  "chart_type": "bar | line | scatter | pie | diagram | map | other",\n'
+        '  "title": "<title as shown, or empty string>",\n'
+        '  "x_axis_label": "<label text, or empty>",\n'
+        '  "y_axis_label": "<label text, or empty>",\n'
+        '  "x_tick_labels": ["<string>", ...],\n'
+        '  "data_points": [\n'
+        '    {"series": "<series name or empty>",\n'
+        '     "x": "<x label>", "y": <numeric>}\n'
+        "  ],\n"
+        '  "entities_mentioned": ["<company / port / country / SKU as it '
+        'appears in the chart>", ...],\n'
+        '  "description": "<2-5 sentence prose summary of what the chart '
+        'says. Do NOT speculate beyond the pixels.>",\n'
+        '  "confidence": <float 0..1 reflecting read reliability>,\n'
+        '  "notes": "<optional caveats: cropped axis, unlabelled bars, etc.>"\n'
+        "}\n\n"
+        "Rules:\n"
+        "- Omit data_points you cannot read; it is better to return few\n"
+        "  points than wrong ones.\n"
+        "- 'y' must be numeric; drop points where you'd have to guess.\n"
+        "- confidence <= 0.65 is normal for chart screenshots; the ingest\n"
+        "  caps it there regardless.\n\n"
+        f"SOURCE: {source_file}"
+    )
+
+
 VERIFIER_SYSTEM = (
     "You verify candidate supply-chain relations extracted by another "
     "model. You respond with STRICT JSON only. For each candidate you "
