@@ -54,7 +54,18 @@ class QueryConfig:
 
 def answer_question(question: str, *, as_of: str | None = None,
                      cfg: QueryConfig | None = None,
-                     log_fn=print) -> AnswerObject:
+                     log_fn=print, driver=None, embedder=None,
+                     index=None) -> AnswerObject:
+    """``driver``/``embedder``+``index`` let a caller that's asking many
+    questions in a row (the Phase 6 eval harness; Phase 7's API) pass in
+    connections it built once and will close itself, instead of this
+    function opening a fresh Neo4j/Qdrant connection per call. Opening
+    one per call is what the CLI still does by default (fine for a
+    single interactive question) — but hammering Neo4j with dozens of
+    fresh connections in a tight loop was observed to trip its
+    AuthenticationRateLimit protection even with correct credentials
+    (caught during Phase 6 eval runs), which looked identical to "no
+    entity found" until traced back to the connection churn itself."""
     cfg = cfg or QueryConfig.load()
     plan = classify_query(question, as_of=as_of)
     log_fn(f"[query] categories={sorted(plan.categories)} "
@@ -64,9 +75,13 @@ def answer_question(question: str, *, as_of: str | None = None,
     paths = []
     quant_results = []
 
+    owns_semantic = embedder is None or index is None
+    owns_driver = driver is None
+
     if SEMANTIC in plan.categories:
         try:
-            embedder, index = _init_semantic(cfg)
+            if owns_semantic:
+                embedder, index = _init_semantic(cfg)
             semantic_hits = semantic.semantic_search(
                 question, embedder=embedder, index=index,
                 top_k=cfg.top_k_semantic,
@@ -76,15 +91,17 @@ def answer_question(question: str, *, as_of: str | None = None,
                    f"{type(exc).__name__}: {exc}")
 
     entity_id = None
-    driver = None
+    neo4j_ok = False
     if STRUCTURAL in plan.categories or QUANTITATIVE in plan.categories:
         try:
-            driver = _init_neo4j(cfg)
+            if owns_driver:
+                driver = _init_neo4j(cfg)
             entity_id = _resolve_entity(driver, plan.entity_hints)
+            neo4j_ok = True
         except Exception as exc:   # noqa: BLE001
             log_fn(f"[query] Neo4j unavailable: {type(exc).__name__}: {exc}")
 
-    if STRUCTURAL in plan.categories and driver is not None:
+    if STRUCTURAL in plan.categories and neo4j_ok:
         if entity_id is None:
             log_fn("[query] structural: no entity hint resolved to a graph node")
         else:
@@ -93,7 +110,7 @@ def answer_question(question: str, *, as_of: str | None = None,
                 as_of=plan.as_of,
             )
 
-    if QUANTITATIVE in plan.categories and driver is not None and entity_id is not None:
+    if QUANTITATIVE in plan.categories and neo4j_ok and entity_id is not None:
         tables = quantitative.find_datatable_for_entity(driver, entity_id)
         if tables:
             try:
@@ -107,7 +124,7 @@ def answer_question(question: str, *, as_of: str | None = None,
                 log_fn(f"[query] quantitative dispatch unavailable: "
                        f"{type(exc).__name__}: {exc}")
 
-    if driver is not None:
+    if owns_driver and driver is not None:
         driver.close()
 
     return combine(

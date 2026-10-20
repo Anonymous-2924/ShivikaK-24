@@ -1,8 +1,10 @@
 """Build the graph from three sources, in this order of precedence:
 
 1. STRUCTURED ERP exports (JSON/XML suppliers_export, plants_export,
-   routes_export, components_export) — high confidence,
-   extraction_method='structured'.
+   routes_export, components_export, skus_export) — high confidence,
+   extraction_method='structured'. ``skus_export.json`` was never read
+   before Phase 6 — the exposure-tracing use case needs SKU nodes to
+   exist at all, which they didn't until this was added.
 2. GOLD data cards in processed/numeric/ — manual, confidence=1.0,
    gets has_financials edges from the supplier/plant to a DataTable node.
 3. LLM-EXTRACTED relations from extractions.jsonl — confidence from
@@ -151,6 +153,47 @@ def build_from_structured(
                     confidence=0.98, source_doc=cmp_path.name,
                     method="structured",
                 ))
+
+    # SKUs (added Phase 6 — skus_export.json was never read before this;
+    # the exposure-tracing use case needs SKU nodes to exist at all).
+    sku_path = structured_json_dir / "skus_export.json"
+    if sku_path.exists():
+        stats.sources_processed += 1
+        data = json.loads(sku_path.read_text())
+        for k in data.get("skus", []):
+            kid = resolver.resolve(k["sku_id"])
+            nodes.append(Node(type="SKU", id=kid, props={
+                "style_number": k.get("style_number"),
+                "garment_type": k.get("garment_type"),
+                "fit": k.get("fit"),
+                "color": k.get("color"),
+                "size": k.get("size"),
+                "season": k.get("season"),
+                "retail_price_usd": k.get("retail_price_usd"),
+                "cost_target_usd": k.get("cost_target_usd"),
+            }))
+            tier1 = resolver.resolve(k.get("tier1_supplier") or "")
+            if tier1:
+                edges.append(_edge(
+                    "SKU", kid, "Supplier", tier1, "supplied_by",
+                    confidence=0.98, source_doc=sku_path.name,
+                    method="structured",
+                ))
+            plant_id = resolver.resolve(k.get("plant") or "")
+            if plant_id:
+                edges.append(_edge(
+                    "SKU", kid, "Plant", plant_id, "manufactured_at",
+                    confidence=0.98, source_doc=sku_path.name,
+                    method="structured",
+                ))
+            for bom_line in k.get("bom", []):
+                comp_id = resolver.resolve(bom_line.get("component_id") or "")
+                if comp_id:
+                    edges.append(_edge(
+                        "SKU", kid, "Component", comp_id, "contains",
+                        confidence=0.98, source_doc=sku_path.name,
+                        method="structured",
+                    ))
 
     log_fn(f"[build] structured: {len(nodes)} nodes, {len(edges)} edges")
     stats.nodes_upserted += writer.upsert_nodes(_dedupe_nodes(nodes))

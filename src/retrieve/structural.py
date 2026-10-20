@@ -12,6 +12,7 @@ read path and should not create constraints as a side effect.
 """
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 
 DEFAULT_HOPS = 3
@@ -101,6 +102,21 @@ def exposure_paths(driver, entity_id: str, *, target_label: str = "SKU",
                 target_type=row["target_type"] or target_label,
                 hops=int(row["hops"]),
                 path_nodes=list(row["path_nodes"]),
-                path_rels=list(row["path_rels"]),
+                path_rels=[_decode_source_ref(r) for r in row["path_rels"]],
             ))
     return out
+
+
+def _decode_source_ref(rel: dict) -> dict:
+    """``source_ref`` is written to Neo4j as a JSON string (Cypher
+    properties can't hold a nested map — see
+    ``src.graph.writer._neo4j_safe_props``). Decode it back to a dict
+    here so callers (``src.retrieve.combine``) see the same shape the
+    extractor/builder produced."""
+    sr = rel.get("source_ref")
+    if isinstance(sr, str):
+        try:
+            rel = {**rel, "source_ref": json.loads(sr)}
+        except json.JSONDecodeError:
+            pass
+    return rel

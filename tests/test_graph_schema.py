@@ -21,6 +21,13 @@ def test_is_valid_triple_whitelist() -> None:
     assert is_valid_triple("Component", "supplied_by", "Supplier")
 
 
+def test_plant_supplied_by_supplier_is_valid() -> None:
+    # Added in Phase 6: build_from_structured emits this edge (a plant
+    # belongs to its parent supplier) for every plant in the ERP export;
+    # it was being silently schema-rejected before this triple existed.
+    assert is_valid_triple("Plant", "supplied_by", "Supplier")
+
+
 def test_is_valid_triple_rejects_brief_example() -> None:
     # The brief's own example of an invalid triple.
     assert not is_valid_triple("Geography", "supplied_by", "SKU")

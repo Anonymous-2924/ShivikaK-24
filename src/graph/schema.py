@@ -23,6 +23,7 @@ VALID_TRIPLES: frozenset[tuple[str, str, str]] = frozenset({
     ("Component", "supplied_by", "Supplier"),
     ("Supplier",  "supplied_by", "Supplier"),   # tier chain
     ("SKU",       "supplied_by", "Supplier"),
+    ("Plant",     "supplied_by", "Supplier"),   # plant belongs to its parent supplier
     # Manufacturing
     ("SKU",       "manufactured_at", "Plant"),
     ("Component", "manufactured_at", "Plant"),

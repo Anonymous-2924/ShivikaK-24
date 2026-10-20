@@ -5,10 +5,30 @@ Idempotent via MERGE on (type, id). Edges MERGE on
 """
 from __future__ import annotations
 
+import json
 from collections.abc import Iterable
 from dataclasses import dataclass
 
 from src.graph.schema import validate_edge
+
+_PRIMITIVE_TYPES = (str, int, float, bool, type(None))
+
+
+def _neo4j_safe_props(props: dict) -> dict:
+    """Neo4j property values must be a primitive or an array of
+    primitives — never a nested map (e.g. ``source_ref``) or a list
+    containing one. JSON-encode anything that isn't already safe, so the
+    original dict (what ``validate_edge``/``validate_node`` check) stays
+    untouched and only the write path is affected."""
+    safe: dict = {}
+    for k, v in props.items():
+        if isinstance(v, _PRIMITIVE_TYPES):
+            safe[k] = v
+        elif isinstance(v, list) and all(isinstance(x, _PRIMITIVE_TYPES) for x in v):
+            safe[k] = v
+        else:
+            safe[k] = json.dumps(v, sort_keys=True, default=str)
+    return safe
 
 
 @dataclass(frozen=True)
@@ -55,7 +75,7 @@ class Neo4jWriter:
                 session.run(
                     f"MERGE (n:{node.type} {{id: $id}}) "
                     f"SET n += $props",
-                    id=node.id, props=node.props,
+                    id=node.id, props=_neo4j_safe_props(node.props),
                 )
                 n += 1
         return n
@@ -82,7 +102,7 @@ class Neo4jWriter:
                     f"MERGE (a)-[r:{e.rel_type} {{source_doc: $doc_id}}]->(b) "
                     f"SET r += $props",
                     sid=e.source_id, tid=e.target_id, doc_id=doc_id,
-                    props=e.props,
+                    props=_neo4j_safe_props(e.props),
                 )
                 written += 1
         return written, rejected
