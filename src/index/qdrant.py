@@ -82,6 +82,23 @@ class QdrantIndex:
         return int(self.client.count(collection_name=self.collection,
                                       exact=True).count)
 
+    def search(self, vector: Sequence[float], *, top_k: int = 20,
+               kind: str | None = None) -> list[dict]:
+        """kNN search. Optionally filter payload ``kind`` ("chunk" |
+        "data_card"). Returns payload dicts with a ``score`` key added."""
+        from qdrant_client.models import FieldCondition, Filter, MatchValue
+
+        query_filter = None
+        if kind is not None:
+            query_filter = Filter(must=[
+                FieldCondition(key="kind", match=MatchValue(value=kind)),
+            ])
+        hits = self.client.query_points(
+            collection_name=self.collection, query=list(vector),
+            limit=top_k, query_filter=query_filter,
+        ).points
+        return [{**h.payload, "score": h.score} for h in hits]
+
 
 def _point_id(doc_id: str) -> str:
     """Deterministic UUID derived from doc_id — makes upsert idempotent."""

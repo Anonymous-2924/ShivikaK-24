@@ -1,0 +1,22 @@
+[
+  {
+    "id": "apple-tsmc-asml",
+    "focal_company": "Apple Inc.",
+    "known_tier1_supplier": "TSMC",
+    "known_tier2_supplier": "ASML",
+    "relationship": "ASML is the supplier of the EUV/DUV lithography systems TSMC uses to fabricate the custom silicon (A-series / M-series chips) TSMC makes for Apple.",
+    "confidence": "high",
+    "confidence_note": "Extensively and repeatedly reported in mainstream business/tech press over many years; ASML's position as the sole supplier of EUV lithography equipment is standard semiconductor-industry knowledge. Not independently re-verified against a primary filing in this session.",
+    "synthetic_passage": "Industry analysts noted that TSMC's continued leadership in advanced-node chip production depends heavily on its lithography equipment, nearly all of it supplied by ASML, whose EUV systems remain the only machines capable of the finest process geometries used for flagship smartphone processors."
+  },
+  {
+    "id": "toyota-denso-renesas",
+    "focal_company": "Toyota Motor Corporation",
+    "known_tier1_supplier": "Denso",
+    "known_tier2_supplier": "Renesas Electronics",
+    "relationship": "Renesas is a major supplier of automotive microcontrollers used broadly across the auto-parts supply chain, including by tier-1 suppliers such as Denso; this became widely visible after a 2021 fire at a Renesas fab (Naka, Japan) disrupted production at Toyota and other automakers.",
+    "confidence": "moderate",
+    "confidence_note": "The 2021 Renesas Naka fire and its broad impact on Japanese automakers, including Toyota, was widely reported at the time. The precise Denso<->Renesas commercial relationship specifically is recalled with less certainty than the Apple/TSMC/ASML entry above and was not independently re-verified against a primary source in this session — treat this entry as the weaker of the two.",
+    "synthetic_passage": "The fire at a semiconductor plant in Japan renewed concern across the automotive parts industry: microcontrollers from that supplier are built into components used by major tier-1 parts makers such as Denso, which in turn equips vehicle production lines at automakers including Toyota."
+  }
+]

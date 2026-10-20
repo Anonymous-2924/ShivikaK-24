@@ -3,11 +3,11 @@
 Answers: *"Event X occurred at entity/location Y — which SKUs are exposed,
 through what path, how much revenue is at risk, and with what confidence?"*
 
-**Status: Phase 4 complete** (scaffold + data generator + dual-track
-ingestion + LLM extraction + entity resolution + graph build). The
-hybrid retrieval router, evaluation harness, and UI are not yet written.
-Later-phase `make` targets exit non-zero with a clear
-`[not yet implemented] ... lands in Phase <n>` message.
+**Status: Phase 5 complete** (scaffold + data generator + dual-track
+ingestion + LLM extraction + entity resolution + graph build + hybrid
+retrieval router + tier-2 inference crew). The evaluation harness and
+UI are not yet written. Later-phase `make` targets exit non-zero with a
+clear `[not yet implemented] ... lands in Phase <n>` message.
 
 Phase 3 adds the ingest pipeline. Run with services up:
 
@@ -163,6 +163,108 @@ Three subsystems that stand alone and plug together:
 
 ---
 
+## Phase 5 — Hybrid retrieval router + tier-2 inference crew
+
+**1. Retrieval router** (`src/retrieve/`)
+
+- `router.py`: deterministic classifier + decomposer, **not an agent**
+  (brief rule — faster, cheaper, debuggable). Regex/keyword heuristics
+  classify a question into semantic / structural / quantitative
+  (usually more than one — an exposure-tracing question like "if plant X
+  goes down, which SKUs are exposed and what revenue is at risk" pulls
+  in all three). Also extracts entity-name hints (a capitalised-phrase
+  heuristic, not NER — honestly a first pass) and an `--as-of` date,
+  either passed explicitly or parsed from the question text.
+- `semantic.py`: embeds the question (reuses Phase 3's `Embedder`) and
+  kNN-searches Qdrant (reuses `QdrantIndex`, which gained a `search()`
+  method this phase — Phase 3 only needed `upsert`/`count`).
+- `structural.py`: parameterised Cypher traversal. First-class case:
+  "given a disruption, which SKUs are reachable and through what
+  paths" — `exposure_paths()`. Returns plain dict/list records, never
+  raw neo4j `Path` objects, so it's testable with a fake driver (same
+  pattern as `tests/test_graph_writer_stub.py`) without a real server.
+  `--as-of` filters traversed edges by `valid_from`/`valid_to`.
+- `quantitative.py`: Neo4j `has_financials` edge -> `DataTable` ->
+  DuckDB on the Parquet. The brief is explicit: **no LLM-written SQL in
+  Phase 5.** The generated corpus has no fixed financial schema (every
+  sheet infers its own columns), so the fixed catalog (`revenue`,
+  `buffer_days`, `lead_time`) *discovers* a matching column by name
+  pattern against the Parquet's real schema rather than guessing a
+  column name — safe, and honest about not knowing the exact schema in
+  advance.
+- `combine.py`: recombines dispatcher outputs into one answer.
+  Confidence is the **minimum** across every source actually used (the
+  weakest link sets it, not an average), and every claim carries a
+  `source_ref`.
+- `service.py` / `cli query "<question>"` / `make query QUESTION="..."`:
+  wires it all together. Any unreachable backend (Qdrant, Neo4j) is
+  skipped with a logged note rather than failing the whole query — same
+  philosophy as the ingest pipeline.
+
+**2. Tier-2 inference crew** (`src/agents/`) — the one place CrewAI is
+actually used (brief rule: don't make everything an agent just because
+the framework is available; ingestion and the router above are both
+deterministic for that reason)
+
+- `ollama_llm.py`: a `crewai.llms.base_llm.BaseLLM` subclass wrapping
+  the Phase 4 `OllamaChat` client, instead of CrewAI's native
+  `litellm`-backed `LLM` class. I could not verify litellm's exact
+  provider-string/base_url convention for *Ollama Cloud* specifically
+  (vs. local Ollama) without guessing — and this project already got
+  burned once by an unverified version number. Reusing the
+  already-tested client (session-cap detection included) avoids a
+  second unverified integration path. `OllamaChat` also gained a
+  `chat_text()` method (freeform, no forced `format='json'`) alongside
+  the existing `chat_json()`, for the crew's normal reasoning text.
+- `tier2.py`: researcher -> corroborator -> confidence-scorer.
+  **Critical brief rule, structurally enforced, not just by
+  convention**: corroboration confidence is computed by
+  `score_corroboration()` — plain Python, from evidence *structure*
+  (count of independent sources, a source-type reliability weight,
+  recency decay) — **never from a model's self-reported confidence**.
+  The researcher agent only extracts candidate names + evidence from
+  text; the "confidence-scorer" agent only writes the narrative
+  explaining a score it's handed, it doesn't invent its own number.
+  Hypotheses are written as `extraction_method="inferred"` edges with
+  an extra `is_hypothesis=true` prop (no schema change needed — the
+  validator only checks required fields are present) so Phase 8's UI
+  can render them dashed/dim.
+- `tests/tier2_validation/`: a **two-company** (not five — see caveat
+  below) validation harness against public facts about Apple/TSMC/ASML
+  (high confidence — this is well-established, widely-reported
+  semiconductor-industry knowledge) and Toyota/Denso/Renesas (moderate
+  confidence — the 2021 Renesas fire's broad impact on Japanese
+  automakers is well reported; the specific Denso<->Renesas link is
+  recalled with less certainty). Neither fact was independently
+  re-verified against a primary source in this session. **Explicitly
+  indicative, not rigorous** (N=2, synthetic one-sentence "evidence,"
+  no statistical meaning) — it is a smoke test of the crew mechanism,
+  not a benchmark. Costs real Ollama Cloud credits in real mode; never
+  auto-run — `python -m tests.tier2_validation.run_validation --stub`
+  exercises the harness mechanics for free with a scripted LLM.
+
+### Phase 5 fixes to existing Phase 4 code
+
+- **`build_from_extractions` name resolution was silently broken.**
+  `cli/__main__.py`'s `build-graph` command passed it a hardcoded `{}`
+  for `name_to_id`, so every LLM-extracted relation was counted as
+  `edges_skipped_unresolved` — none ever reached Neo4j. Added
+  `load_name_to_id_map()` in `src/graph/builder.py`, which builds a
+  best-effort name -> id map from the structured ERP exports (supplier
+  name, plant name, component description, SKU style number, route id),
+  and wired it into the CLI. This is a name-matching heuristic, not a
+  new ER pass — a name the LLM saw in prose that the ERP never recorded
+  still won't resolve, same as before.
+- **`pydantic==2.14.1` (the Phase 1 pin) is incompatible with
+  `crewai==1.15.28`** (requires `pydantic<2.13,>=2.11.9`) — this had
+  never been caught because nothing before Phase 5 imported crewai.
+  Re-pinned to `pydantic==2.12.5` (latest patch under crewai's ceiling;
+  re-verified the whole dependency set resolves together on PyPI).
+  `fastapi==0.151.0` only needs `pydantic>=2.9.0`, so this doesn't touch
+  that pin. See the version table below.
+
+---
+
 ## Architecture at a glance
 
 **Dual-track ingestion.** Narrative text (contracts, news, audit PDFs,
@@ -206,7 +308,7 @@ seeded this repo.
 | Neo4j (driver) | `6.4.1` | 6.x driver intentionally decoupled from 5.x server; API shifted from 5.x driver line |
 | Qdrant (server) | `v1.19.2` | must match client major |
 | qdrant-client | `1.19.1` | lockstep with server |
-| CrewAI | `1.15.28` | 1.x line; verify import surface at setup (see "To verify" below) |
+| CrewAI | `1.15.28` | 1.x line; import surface (`from crewai import Agent, Task, Crew, Process`) verified against the actual wheel in Phase 5 — works. |
 | Ollama Python | `0.6.3` | |
 | DuckDB | `1.5.6` | stable 1.x line |
 | pandas | `3.0.6` | **3.x: CoW default, 2.x APIs removed** |
@@ -222,7 +324,7 @@ seeded this repo.
 | uvicorn | `0.54.0` | |
 | typer | `0.27.3` | CLI |
 | httpx | `0.28.1` | |
-| pydantic | `2.14.1` | |
+| pydantic | `2.12.5` | **changed in Phase 5** — `2.14.1` (the Phase 1 pin) is incompatible with `crewai==1.15.28`, which requires `pydantic<2.13,>=2.11.9`. `2.12.5` is the latest patch under that ceiling; re-verified against the full dependency set on PyPI, resolves cleanly. `fastapi==0.151.0` only needs `>=2.9.0`, so this doesn't touch that pin. |
 | ruff | `0.17.1` | dev |
 | pytest | `9.1.1` | dev |
 | faker | `40.43.0` | datagen extra |
@@ -235,9 +337,6 @@ seeded this repo.
 2. **`bge-m3` embedding dimension.** The `.env.example` assumes 1024.
    Confirm with `ollama show bge-m3` before Phase 4 creates the Qdrant
    collection — the dim is baked in and changing it later means a reindex.
-3. **CrewAI 1.15 import surface.** After `pip install`, check that
-   `from crewai import Agent, Task, Crew, Process` still works. The 0.x →
-   1.x jump may have moved things.
 
 Honest about what I don't know rather than inventing values.
 
@@ -294,9 +393,8 @@ their phases land.
 1. Scaffold + docker-compose + config + CLI skeleton + README.
 2. Standalone data generator → `generated_data/` (apparel/fast-fashion).
 3. Dual-track ingestion + parsers + confidence routing.
-4. **LLM extraction + entity resolution + graph build.** ← we are here
-4. Extraction → entity resolution → graph build → Qdrant index
-5. Hybrid retrieval router + CrewAI crews
+4. Extraction → entity resolution → graph build → Qdrant index.
+5. **Hybrid retrieval router + CrewAI tier-2 crew.** ← we are here
 6. **Evaluation harness + baseline comparison — must pass before UI**
 7. API layer (FastAPI)
 8. 3D UI (React Three Fiber)

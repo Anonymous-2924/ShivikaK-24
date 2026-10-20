@@ -164,6 +164,7 @@ def build_graph(
         build_from_data_cards,
         build_from_extractions,
         build_from_structured,
+        load_name_to_id_map,
     )
     from src.graph.writer import Neo4jWriter
     from src.resolve.merges import MergeStore
@@ -186,9 +187,7 @@ def build_graph(
         numeric_dir=Path(numeric_dir),
         log_fn=lambda m: typer.echo(m),
     )
-    # name_to_id is Phase 5 bootstrap — defer; extractions-only run reads
-    # the structured suppliers export and maps canonical names → ids.
-    name_to_id: dict[str, str] = {}
+    name_to_id = load_name_to_id_map(Path(structured_dir))
     s3 = build_from_extractions(
         writer=writer, resolver=store,
         extractions_path=Path(extractions),
@@ -209,9 +208,35 @@ def build_graph(
 
 
 @app.command()
-def query(question: str) -> None:
-    """Ask the hybrid retrieval router a question. [Phase 5]"""
-    _not_impl(5, "query")
+def query(
+    question: str,
+    as_of: str | None = typer.Option(
+        None, "--as-of",
+        help="ISO date (YYYY-MM-DD). Filters structural traversal to "
+             "edges valid on this date."),
+) -> None:
+    """Ask the hybrid retrieval router a question.
+
+    Classifies the question into semantic / structural / quantitative
+    (usually all three that apply), dispatches to Qdrant / Neo4j /
+    DuckDB, and recombines into one answer with a confidence and a
+    source_ref per claim. Any backend that's unreachable is skipped with
+    a logged note rather than failing the whole query.
+    """
+    from src.retrieve.service import answer_question
+
+    result = answer_question(question, as_of=as_of,
+                              log_fn=lambda m: typer.echo(m))
+    typer.echo("")
+    typer.echo(f"Question: {result.question}")
+    typer.echo(f"Categories: {', '.join(result.categories)}")
+    if result.as_of:
+        typer.echo(f"As of: {result.as_of}")
+    typer.echo(f"Answer: {result.direct_answer}")
+    typer.echo(f"Confidence: {result.confidence:.2f}")
+    typer.echo(f"Sources ({len(result.source_refs)}):")
+    for sr in result.source_refs[:20]:
+        typer.echo(f"  - [{sr.kind}] {sr.doc_id}  {sr.detail}")
 
 
 @app.command("review-merges")

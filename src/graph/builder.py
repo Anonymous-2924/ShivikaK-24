@@ -160,6 +160,66 @@ def build_from_structured(
     return stats
 
 
+def load_name_to_id_map(structured_json_dir: Path) -> dict[str, str]:
+    """Build a best-effort entity-NAME -> structured-id map from the ERP
+    exports, so LLM-extracted relations (which reference entities by the
+    name string that appeared in the narrative) can be resolved onto the
+    same node ids the structured track uses.
+
+    This is a name-matching heuristic, not an ER pass: it maps each
+    export's human-readable field (supplier/plant name, component
+    description, route id) to its id, case-sensitively and verbatim. A
+    name that doesn't appear in any export (e.g. an alias the LLM saw in
+    prose but the ERP never recorded) will not resolve — those edges are
+    counted as ``edges_skipped_unresolved`` by the caller, same as today.
+    """
+    mapping: dict[str, str] = {}
+
+    sup_path = structured_json_dir / "suppliers_export.json"
+    if sup_path.exists():
+        data = json.loads(sup_path.read_text())
+        for s in data.get("suppliers", []):
+            if s.get("name") and s.get("id"):
+                mapping[s["name"]] = s["id"]
+
+    sku_path = structured_json_dir / "skus_export.json"
+    if sku_path.exists():
+        data = json.loads(sku_path.read_text())
+        for k in data.get("skus", []):
+            if k.get("style_number") and k.get("sku_id"):
+                mapping[k["style_number"]] = k["sku_id"]
+            if k.get("sku_id"):
+                mapping[k["sku_id"]] = k["sku_id"]
+
+    plt_path = structured_json_dir / "plants_export.xml"
+    if plt_path.exists():
+        from xml.etree.ElementTree import parse as _xml_parse
+        root = _xml_parse(plt_path).getroot()
+        for p in root.findall("Plant"):
+            name = p.findtext("Name")
+            pid = p.attrib.get("id")
+            if name and pid:
+                mapping[name] = pid
+
+    rt_path = structured_json_dir / "routes_export.json"
+    if rt_path.exists():
+        data = json.loads(rt_path.read_text())
+        for r in data.get("routes", []):
+            if r.get("route_id"):
+                mapping[r["route_id"]] = r["route_id"]
+
+    cmp_path = structured_json_dir / "components_export.json"
+    if cmp_path.exists():
+        data = json.loads(cmp_path.read_text())
+        for c in data.get("components", []):
+            if c.get("description") and c.get("id"):
+                mapping[c["description"]] = c["id"]
+            if c.get("id"):
+                mapping[c["id"]] = c["id"]
+
+    return mapping
+
+
 def build_from_extractions(
     *, writer: Neo4jWriter, resolver: MergeStore,
     extractions_path: Path, name_to_id: dict[str, str],

@@ -8,7 +8,7 @@ PYTHON := $(VENV)/bin/python
 
 .PHONY: help setup services services-down services-logs \
         generate-data ingest extract resolve review-merges unmerge \
-        build-graph eval dev test lint clean
+        build-graph query eval dev test lint clean
 
 help:
 	@echo "Targets:"
@@ -22,6 +22,8 @@ help:
 	@echo "  review-merges   Interactive ER review queue                 [Phase 4]"
 	@echo "  unmerge         Reverse a merge: make unmerge ENTITY=<id>   [Phase 4]"
 	@echo "  build-graph     Build Neo4j graph from all sources          [Phase 4]"
+	@echo "  query           Ask the hybrid retrieval router a question  [Phase 5]"
+	@echo "                  usage: make query QUESTION=\"...\" [AS_OF=YYYY-MM-DD]"
 	@echo "  eval            Run eval harness vs vector-RAG baseline     [Phase 6]"
 	@echo "  dev             Launch API + UI dev server                  [Phase 7-8]"
 	@echo "  test            Run pytest"
@@ -74,6 +76,12 @@ unmerge:
 
 build-graph:
 	$(PYTHON) -m cli build-graph
+
+query:
+	@if [ -z "$(QUESTION)" ]; then \
+		echo "usage: make query QUESTION=\"...\" [AS_OF=YYYY-MM-DD]"; exit 2; \
+	fi
+	$(PYTHON) -m cli query "$(QUESTION)" $(if $(AS_OF),--as-of $(AS_OF),)
 
 eval:
 	$(PYTHON) -m eval.run

@@ -33,7 +33,7 @@ dependencies = [
   "uvicorn==0.54.0",
   "typer==0.27.3",
   "httpx==0.28.1",
-  "pydantic==2.14.1",
+  "pydantic==2.12.5",  # ceiling set by crewai==1.15.28 (requires <2.13); see README
   # Config
   "pyyaml==6.0.3",
 ]
