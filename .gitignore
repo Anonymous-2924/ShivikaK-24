@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Secrets & env
+.env
+*.key
+
+# Data & artifacts (keep structure via .gitkeep, ignore contents)
+data/raw/*
+data/parsed/*
+data/qdrant/*
+data/cache/*
+data/metadata/*.db
+data/evaluations/eval_*.json
+data/exports/*
+!**/.gitkeep
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

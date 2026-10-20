@@ -1,0 +1,6 @@
+[
+  {"question": "Why did operating margin decline in FY2023-24?", "relevant_document_ids": ["REPLACE_WITH_DOC_ID"], "companies": ["Example Ltd"]},
+  {"question": "What were the contingent liabilities disclosed?", "relevant_document_ids": ["REPLACE_WITH_DOC_ID"], "companies": ["Example Ltd"]},
+  {"question": "What is the revenue from operations for FY2023-24?", "relevant_document_ids": ["REPLACE_WITH_DOC_ID"], "companies": ["Example Ltd"]},
+  {"question": "Unrelated question about marine biology taxonomy", "expect_abstention": false, "relevant_document_ids": ["none"]}
+]

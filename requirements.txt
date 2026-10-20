@@ -1,0 +1,31 @@
+# ---- Core (installed & verified in this build; Python 3.11+ recommended) ----
+pydantic>=2.11,<3
+pydantic-settings>=2.5
+python-dotenv>=1.0
+pandas>=2.2
+numpy>=1.26
+pymupdf>=1.24           # fast, CPU-only PDF text+table extraction (default engine)
+pdfplumber>=0.11        # fallback PDF engine
+openpyxl>=3.1
+markitdown>=0.1              # DOCX -> markdown fallback
+streamlit>=1.40,<2
+plotly>=5.24
+qdrant-client>=1.12         # embedded on-disk or server mode
+rank-bm25>=0.2.2            # real BM25 for hybrid retrieval
+tenacity>=9.0               # retries with backoff + jitter
+httpx>=0.27                # HTTP client (Ollama Cloud, downloads)
+
+# ---- Optional / feature-gated (NOT auto-installed on a 16 GB machine) ----
+# Install these to enable the corresponding features; the app degrades
+# gracefully without them (see docs/limitations.md):
+#
+#   sentence-transformers>=3.0   # local semantic embeddings + reranker
+#   docling>=2.0                 # primary high-fidelity parser (pulls PyTorch)
+#   crewai>=0.70                 # multi-agent orchestration via cloud LLM
+#   llama-index>=0.11            # LlamaIndex orchestration wrappers
+#   llama-index-vector-stores-qdrant
+#   llama-index-embeddings-huggingface
+
+# ---- Dev/test ----
+pytest>=8.0
+fpdf2>=2.7                  # test-only: generates the sample PDF fixture
