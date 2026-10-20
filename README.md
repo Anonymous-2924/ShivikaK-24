@@ -3,19 +3,58 @@
 Answers: *"Event X occurred at entity/location Y — which SKUs are exposed,
 through what path, how much revenue is at risk, and with what confidence?"*
 
-**Status: Phase 2 complete** (Phase 1 scaffold + standalone data
-generator). Ingestion, extraction, graph build, retrieval, eval, and UI
-code have not been written yet. Every `make` target for later phases
-exits non-zero with a clear `[not implemented in Phase <n>]` message —
-no Make target silently succeeds while doing nothing.
+**Status: Phase 3 complete** (scaffold + data generator + dual-track
+ingestion). LLM-driven extraction, entity resolution, graph build,
+retrieval, eval, and UI are not yet written. Later-phase `make` targets
+exit non-zero with a clear `[not yet implemented] ... lands in Phase <n>`
+message.
 
-Phase 2 adds the apparel / fast-fashion data generator under
-`tools/datagen/`. See [`tools/datagen/README.md`](tools/datagen/README.md)
-for what it emits and the mess it injects. Run
-`make generate-data` or `python -m tools.datagen.generate --suppliers 500
---skus 2000 --seed 42` — produces ~180 files, ~11MB, in ~2 seconds. Then
-copy the files you want ingested from `generated_data/` into
-`data/inbox/`.
+Phase 3 adds the ingest pipeline. Run with services up:
+
+```bash
+make services                    # Qdrant + Neo4j via docker compose
+ollama pull bge-m3               # local embeddings
+# ... copy files from generated_data/ into data/inbox/
+make ingest                      # or: python -m cli ingest
+```
+
+Pipeline (see `src/ingest/pipeline.py`):
+
+- **File router by extension** (`src/ingest/router.py`) splits PDFs,
+  DOCX, MD, TXT → narrative; XLSX, CSV, TSV → numeric; JSON, XML →
+  structured; PNG/JPG → image track (deferred to Phase 4 vision pass).
+- **Narrative track** writes markdown to `data/processed/narrative/`,
+  chunks it (~1200 chars with 150 overlap, sentence-boundary trimmed),
+  embeds each chunk via local Ollama (bge-m3), and upserts into Qdrant.
+- **Numeric track** writes typed Parquet to `data/processed/numeric/`
+  using pyarrow directly (bypasses pandas 3.0 API surface uncertainty).
+  Each Parquet gets a sibling Markdown data card — schema, dtypes,
+  provenance, sample rows — which is what Qdrant actually indexes.
+  Phase 5 agents will search cards, then DuckDB-query the Parquet.
+- **PDF table confidence check** (`src/ingest/tables.py`): primary
+  extractor pdfplumber + independent secondary camelot. Overlap of
+  normalised cell sets (Jaccard) becomes the confidence score. Below
+  `table_confidence_floor` (default 0.75 from `config/settings.yaml`),
+  the table **degrades to a narrative pipe-table block** instead of
+  pretending to be structured data. If camelot can't be imported
+  (missing ghostscript/opencv), pdfplumber runs solo with confidence
+  capped at 0.80 and the audit log records `camelot unavailable`.
+- **Gold tables** (`src/ingest/gold.py`): verified by sha256 at load
+  time, copied into the processed tree at confidence 1.0 and
+  `extraction_method=manual`. Checksum mismatch is a hard error.
+- **Audit log** (SQLite at `data/processed/audit.sqlite`): one row per
+  extraction attempt — file, sha, track, extractor, confidence, ok,
+  note, rows/chars. Reruns consult it to skip files already processed
+  for the same content hash. `--force` re-processes everything.
+- **Resumable**: `python -m cli ingest` safely re-runs; use `--no-qdrant`
+  to process to disk when the index service isn't up.
+
+Measured on the Phase 2 corpus (173 files staged into `data/inbox/`,
+Qdrant disabled): 9.7s, zero failures. Breakdown: 76 PDFs → narrative at
+0.90, 80 PDF tables → numeric at 0.80 (pdfplumber-only ceiling, camelot
+not installed in test env), 40 Excel sheets → numeric at 1.00, 24 DOCX →
+narrative at 0.95, 14 CSV → numeric at 1.00, 30 plaintext → narrative at
+1.00, 4 JSON + 1 XML → structured at 0.95 / 0.80.
 
 ---
 
@@ -148,8 +187,8 @@ their phases land.
 ## Build phases
 
 1. Scaffold + docker-compose + config + CLI skeleton + README.
-2. **Standalone data generator → `generated_data/` (apparel/fast-fashion).** ← we are here
-3. Dual-track ingestion + parsers + confidence routing
+2. Standalone data generator → `generated_data/` (apparel/fast-fashion).
+3. **Dual-track ingestion + parsers + confidence routing.** ← we are here
 4. Extraction → entity resolution → graph build → Qdrant index
 5. Hybrid retrieval router + CrewAI crews
 6. **Evaluation harness + baseline comparison — must pass before UI**
