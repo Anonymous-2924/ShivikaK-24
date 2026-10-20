@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Env
+.env
+.env.local
+
+# Build / cache
+dist/
+build/
+*.log
+
+# Data: generator output + processed artifacts are reproducible, not tracked
+generated_data/
+data/processed/
+data/graph/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# UI (Phase 8)
+ui/node_modules/
+ui/dist/
+ui/.next/
+
+# Neo4j / Qdrant local volumes
+.volumes/

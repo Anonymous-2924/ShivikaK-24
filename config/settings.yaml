@@ -1,0 +1,54 @@
+# Runtime settings. .env wins over this file for secrets; this file is for
+# tunables that belong in version control. Loaded by src/ (not by tools/datagen).
+
+paths:
+  inbox: data/inbox
+  gold: data/gold
+  processed_narrative: data/processed/narrative
+  processed_numeric: data/processed/numeric
+  graph_build: data/graph
+
+ingest:
+  # Minimum confidence for a parsed numeric table to enter the numeric track.
+  # Anything below falls back to narrative-track text. Non-negotiable.
+  table_confidence_floor: 0.75
+  # Two extractors per PDF table; disagreement subtracts from confidence.
+  table_extractors: [pdfplumber, camelot]
+
+extraction:
+  # Entity and relation extraction run as SEPARATE LLM calls, not one combined.
+  separate_entity_relation_passes: true
+  # Self-consistency: run each extraction twice, keep intersection. Doubles cost.
+  self_consistency: false
+  # Fixed relation vocabulary. Reject any free-form relation from the LLM.
+  allowed_relations:
+    [contains, supplied_by, manufactured_at, located_in, ships_via,
+     disrupted_by, substitutes_for, evidenced_by, has_financials]
+  allowed_node_types:
+    [SKU, Component, Supplier, Plant, Site, Geography, Route, Port, Event,
+     Document, DataTable]
+
+verifier:
+  # Cheap model proposes, stronger model verifies a sample + all high-impact edges.
+  sample_rate: 0.10
+  high_impact_edge_types: [supplied_by, manufactured_at, disrupted_by]
+
+resolver:
+  # Three-bucket entity resolution. Review bucket NEVER auto-merges.
+  auto_merge_threshold: 0.92
+  review_threshold: 0.78
+  # Structural signals used alongside string similarity.
+  structural_signals: [shared_address, shared_tax_id, shared_customer, shared_route]
+
+graph:
+  # Every edge carries these; schema validator rejects edges missing any.
+  required_edge_fields: [confidence, valid_from, valid_to, source_ref, extraction_method]
+
+retrieval:
+  # Deterministic router, NOT an agent. See src/retrieve/.
+  default_top_k_semantic: 20
+  default_hops_structural: 3
+
+eval:
+  baseline: vector_rag_only
+  metrics: [retrieval_precision, path_correctness, hallucination_rate, latency_ms, cost_usd]

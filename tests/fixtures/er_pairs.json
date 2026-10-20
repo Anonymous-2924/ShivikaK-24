@@ -1,0 +1,4 @@
+{
+  "_comment": "Phase 4 fills this with ~200 labeled entity pairs. Each entry: {left: {...entity}, right: {...entity}, label: 'match'|'no_match'|'ambiguous'}. Loader + precision/recall/F1 harness lands in tests/test_entity_resolution.py in Phase 4.",
+  "pairs": []
+}
