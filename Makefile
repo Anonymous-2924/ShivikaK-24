@@ -1,13 +1,14 @@
-# Phase 1 Makefile. Every target either works or prints a clear
-# "not implemented in Phase 1" message. No silent no-ops.
+# All targets run from the project root. If `make <target>` says `python:
+# command not found` or similar, `make setup` first to create .venv.
 
-PY := python
+PY := python3
 VENV := .venv
 PIP := $(VENV)/bin/pip
 PYTHON := $(VENV)/bin/python
 
 .PHONY: help setup services services-down services-logs \
-        generate-data ingest build-graph eval dev test lint clean
+        generate-data ingest extract resolve review-merges unmerge \
+        build-graph eval dev test lint clean
 
 help:
 	@echo "Targets:"
@@ -15,11 +16,14 @@ help:
 	@echo "  services        Start Qdrant + Neo4j via docker compose"
 	@echo "  services-down   Stop services (volumes preserved)"
 	@echo "  services-logs   Tail service logs"
-	@echo "  generate-data   Run standalone generator -> generated_data/   [Phase 2]"
-	@echo "  ingest          Ingest files from data/inbox/                 [Phase 3]"
-	@echo "  build-graph     Build Neo4j graph + Qdrant index              [Phase 4]"
-	@echo "  eval            Run eval harness vs vector-RAG baseline       [Phase 6]"
-	@echo "  dev             Launch API + UI dev server                    [Phase 7-8]"
+	@echo "  generate-data   Run standalone generator -> generated_data/"
+	@echo "  ingest          Ingest files from data/inbox/              [Phase 3]"
+	@echo "  extract         LLM entity + relation extraction            [Phase 4]"
+	@echo "  review-merges   Interactive ER review queue                 [Phase 4]"
+	@echo "  unmerge         Reverse a merge: make unmerge ENTITY=<id>   [Phase 4]"
+	@echo "  build-graph     Build Neo4j graph from all sources          [Phase 4]"
+	@echo "  eval            Run eval harness vs vector-RAG baseline     [Phase 6]"
+	@echo "  dev             Launch API + UI dev server                  [Phase 7-8]"
 	@echo "  test            Run pytest"
 	@echo "  lint            Run ruff"
 	@echo "  clean           Remove venv, caches, generated artifacts"
@@ -34,7 +38,7 @@ setup: $(VENV)/bin/activate
 	@echo "Setup complete. Next:"
 	@echo "  1. cp .env.example .env  && edit it"
 	@echo "  2. make services"
-	@echo "  3. source $(VENV)/bin/activate"
+	@echo "  3. source $(VENV)/bin/activate   (optional — Make targets use .venv directly)"
 
 services:
 	docker compose up -d
@@ -53,6 +57,21 @@ generate-data:
 ingest:
 	$(PYTHON) -m cli ingest
 
+extract:
+	$(PYTHON) -m cli extract
+
+resolve:
+	$(PYTHON) -m cli resolve
+
+review-merges:
+	$(PYTHON) -m cli review-merges
+
+unmerge:
+	@if [ -z "$(ENTITY)" ]; then \
+		echo "usage: make unmerge ENTITY=<entity_id>"; exit 2; \
+	fi
+	$(PYTHON) -m cli unmerge $(ENTITY)
+
 build-graph:
 	$(PYTHON) -m cli build-graph
 
@@ -60,7 +79,7 @@ eval:
 	$(PYTHON) -m eval.run
 
 dev:
-	@echo "Phase 7-8 target. Not implemented in Phase 1."
+	@echo "Phase 7-8 target. Not yet implemented."
 	@exit 1
 
 test:
