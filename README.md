@@ -3,11 +3,12 @@
 Answers: *"Event X occurred at entity/location Y — which SKUs are exposed,
 through what path, how much revenue is at risk, and with what confidence?"*
 
-**Status: Phase 5 complete** (scaffold + data generator + dual-track
+**Status: Phase 6 complete** (scaffold + data generator + dual-track
 ingestion + LLM extraction + entity resolution + graph build + hybrid
-retrieval router + tier-2 inference crew). The evaluation harness and
-UI are not yet written. Later-phase `make` targets exit non-zero with a
-clear `[not yet implemented] ... lands in Phase <n>` message.
+retrieval router + tier-2 inference crew + evaluation harness vs. a
+vector-RAG baseline). The UI is not yet written. Later-phase `make`
+targets exit non-zero with a clear `[not yet implemented] ... lands in
+Phase <n>` message.
 
 Phase 3 adds the ingest pipeline. Run with services up:
 
@@ -394,8 +395,8 @@ their phases land.
 2. Standalone data generator → `generated_data/` (apparel/fast-fashion).
 3. Dual-track ingestion + parsers + confidence routing.
 4. Extraction → entity resolution → graph build → Qdrant index.
-5. **Hybrid retrieval router + CrewAI tier-2 crew.** ← we are here
-6. **Evaluation harness + baseline comparison — must pass before UI**
+5. Hybrid retrieval router + CrewAI tier-2 crew.
+6. **Evaluation harness + baseline comparison.** ← we are here
 7. API layer (FastAPI)
 8. 3D UI (React Three Fiber)
 
@@ -416,10 +417,62 @@ Each phase ends with a confirmation checkpoint before the next starts.
 
 ## Reported measurements
 
-**Empty by design in Phase 1.** Phase 6 fills in: retrieval precision,
-path correctness, hallucination rate, latency, cost per query, and ER
-precision/recall/F1 on a labelled 200-pair set. Failures reported alongside
-successes — measured risk is credibility.
+Real numbers from a clean local run (45 questions, `eval/questions.jsonl`;
+full detail in `eval/results_detail.jsonl`; regenerate with `make eval`).
+GraphRAG is `src/retrieve/service.py`; baseline is the plain vector-RAG
+pipeline in `eval/baseline_vector_rag.py` (embed → top-k Qdrant →
+concatenate → one LLM call, no graph, no DuckDB).
+
+| | GraphRAG | Baseline |
+|---|---|---|
+| Mean retrieval precision (overall) | 0.249 | 0.050 |
+| Mean path correctness (23 scored) | 0.381 | 0.087 |
+| Mean hallucination rate (10 scored) | 0.000 | n/a (0 scored) |
+| p50 latency | 163.6 ms | 4301.5 ms |
+| p95 latency | 1670.0 ms | 11754.6 ms |
+| Cost / query | $0.0000 | $0.0000 |
+| Errors | 0/45 | 0/45 |
+
+**By category** — this is where the real signal is; the overall row
+above flattens categories that behave very differently:
+
+| Category | GraphRAG precision | Baseline precision | Why |
+|---|---|---|---|
+| exposure_tracing | **0.833** | 0.000 | GraphRAG wins decisively: this needs structured relational traversal (which SKUs contain component X, which plant manufactures SKU Y), and narrative-chunk retrieval has no access to that data *in principle* — not a tuning gap, a category mismatch. Path correctness (0.653 vs 0.167) tells the same story. |
+| monitoring | 0.000 | **0.177** | Baseline wins outright on recall-worthy content — but GraphRAG's 0.000 here is partly a measurement artifact, not a retrieval failure: see the doc_id-format bug below. Once that's fixed the honest number will be higher than 0, though likely still behind baseline, since this category is squarely semantic-chunk territory. |
+| risk_quantification | 0.111 | 0.000 | Both weak, for different reasons. GraphRAG's quantitative dispatcher only reaches numeric data via a `has_financials` edge, and none exist in this build (ingest only sets `linked_entities` for gold tables, and this corpus has none) — real retail prices and buffer-days sit in ingested Parquet files the graph can't point to. The baseline has no structured-numeric path at all, ever. |
+| tier2_inference | 0.000 | 0.027 | GraphRAG has zero `inferred` edges — the tier-2 crew (`src/agents/tier2.py`) was never run against this corpus (it costs real Ollama Cloud credits). Baseline does a *little* better because the one real textual hint in this corpus (an audit noting "subcontractor list missing one tier-2 fabric mill" for SUP-T1-0022) is narrative text its retrieval can actually surface. |
+
+**Honest limitations this run surfaced, not papered over:**
+- **A real bug in the eval harness, not the system under test.**
+  `eval/metrics.py:retrieval_precision` compares returned doc ids against
+  `expected.source_doc_ids` verbatim. GraphRAG's semantic hits carry
+  Qdrant's chunk-level doc id (`audit_SUP-T1-0008.pdf::chunk::0`, from
+  `src/index/qdrant.py`'s `IndexDoc.doc_id`), while the baseline's and
+  `questions.jsonl`'s expected ids are bare filenames
+  (`audit_SUP-T1-0008.pdf`). Verified directly against
+  `eval/results_detail.jsonl`: for `mon-01`, GraphRAG's and the baseline's
+  *first three retrieved ids name the exact same three files* — only the
+  `::chunk::N` suffix differs. That suffix mismatch alone drops GraphRAG's
+  precision to 0.000 on every monitoring/tier2 question, understating how
+  good its semantic retrieval actually is. Not fixed in this run (found
+  while writing up these results, after the run finished) — fix is
+  stripping the `::chunk::N` suffix before comparison in
+  `retrieval_precision`, or storing a parallel `source_file` field
+  everywhere (already present on `SemanticHit`, not yet threaded into
+  `combine.py`'s `SourceRef.doc_id`).
+- The `has_financials` linkage gap (above) means risk-quantification
+  numbers that exist in real ingested data (SKU retail prices, buffer
+  days) are unreachable from the graph. Neither system answers these
+  questions well as a result.
+- The tier-2 crew's real-world recall is untested here — it was never run
+  against paid Ollama Cloud in this corpus; `tests/tier2_validation/` is a
+  separate, explicitly indicative 2-company smoke test, not a measurement
+  of this corpus's tier-2 inference quality.
+- Entity resolution (Phase 4) precision/recall/F1 (1.000/1.000/1.000 on
+  the 200-pair fixture) is unchanged from Phase 4 and still carries that
+  phase's credibility caveat: the fixture tests the scorer against the
+  generator's own mess, not adversarial pairs.
 
 ---
 
