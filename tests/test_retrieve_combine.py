@@ -70,3 +70,18 @@ def test_direct_answer_summarises_paths_and_quant():
 def test_as_of_is_threaded_through():
     answer = combine(question="q", categories={"semantic"}, as_of="2026-02-01")
     assert answer.as_of == "2026-02-01"
+
+
+def test_narrative_source_ref_doc_id_is_bare_filename_not_chunk_key():
+    # Regression: doc_id must match the bare-filename convention used by
+    # graph_edge/data_table SourceRefs, not Qdrant's chunk-level key
+    # ("file.pdf::chunk::3"). A mismatch here silently zeroes retrieval
+    # precision for any eval question expecting a semantic-only source.
+    hits = [
+        SemanticHit(doc_id="audit_SUP-T1-0008.pdf::chunk::0", kind="chunk",
+                    text="t", source_file="audit_SUP-T1-0008.pdf",
+                    score=0.9, confidence=0.9, extraction_method="structured"),
+    ]
+    answer = combine(question="q", categories={"semantic"}, semantic_hits=hits)
+    assert answer.source_refs[0].doc_id == "audit_SUP-T1-0008.pdf"
+    assert answer.source_refs[0].detail["chunk_id"] == "audit_SUP-T1-0008.pdf::chunk::0"

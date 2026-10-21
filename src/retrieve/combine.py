@@ -48,9 +48,17 @@ def combine(*, question: str, categories: set[str],
 
     for h in semantic_hits:
         confidences.append(h.confidence)
+        # doc_id is the source document's own filename, same convention as
+        # the graph_edge/data_table branches below (both use bare
+        # filenames/paths) — NOT Qdrant's chunk-level key
+        # ("file.pdf::chunk::3"). Keep that key in detail for precise
+        # evidence lookup; using it as doc_id made every semantic
+        # source_ref fail to match a bare-filename expected id (caught by
+        # Phase 6 eval: monitoring/tier2_inference questions scored 0.000
+        # retrieval_precision for this reason, not a real retrieval miss).
         source_refs.append(SourceRef(
-            doc_id=h.doc_id, kind="narrative",
-            detail={"source_file": h.source_file, "score": h.score,
+            doc_id=h.source_file, kind="narrative",
+            detail={"chunk_id": h.doc_id, "score": h.score,
                     "extraction_method": h.extraction_method},
         ))
 
