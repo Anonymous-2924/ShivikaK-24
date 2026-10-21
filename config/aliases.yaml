@@ -1,0 +1,23 @@
+# Hand-maintained canonical alias list. OVERRIDES the ER algorithm for the
+# entities we care most about. Lives in version control for auditability.
+#
+# Format:
+#   <canonical_id>:
+#     canonical_name: "Acme Corporation"
+#     type: Supplier            # must be one of extraction.allowed_node_types
+#     aliases:
+#       - "ACME Corp"
+#       - "Acme Co."
+#       - "ACME, Inc."
+#     notes: "optional free text — why these are the same"
+#
+# Empty on delivery. Populated during Phase 4 based on review-queue outcomes.
+
+# example (commented out):
+# supplier:acme:
+#   canonical_name: "Acme Corporation"
+#   type: Supplier
+#   aliases:
+#     - "ACME Corp"
+#     - "Acme Co."
+#   notes: "Confirmed via shared tax ID US-12-3456789 across 3 contracts."

@@ -1,0 +1,3805 @@
+{
+  "_comment": "ER evaluation fixture. Labels: match | no_match | ambiguous. 'match' pairs share a tax_id. 'no_match' pairs are random cross-country. 'ambiguous' pairs share a country and have partial name overlap.",
+  "pairs": [
+    {
+      "left": {
+        "id": "SUP-T1-0086",
+        "name": "Monsoon Export House",
+        "type": "Supplier",
+        "tax_id": "ES-74-158104",
+        "country_code": "ES",
+        "address": "Plot 301, Block 7, Valencia Street, Spain"
+      },
+      "right": {
+        "id": "SUP-T1-0084",
+        "name": "Amber Mills",
+        "type": "Supplier",
+        "tax_id": "TR-54-844007",
+        "country_code": "TR",
+        "address": "Plot 228, Zone 11, Istanbul (Ambarli) Road, Turkey"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0043",
+        "name": "Pacific Trading",
+        "type": "Supplier",
+        "tax_id": "ET-38-982277",
+        "country_code": "ET",
+        "address": "Plot 8, Phase 2, Djibouti Export Processing Zone, Ethiopia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0076",
+        "name": "Monsoon Holdings",
+        "type": "Supplier",
+        "tax_id": "LK-42-326130",
+        "country_code": "LK",
+        "address": "Plot 316, Sector 1, Sri Lanka City Road, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0039",
+        "name": "Delta Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "ID-49-723948",
+        "country_code": "ID",
+        "address": "Plot 37, Block 13, Indonesia City Road, Indonesia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0059",
+        "name": "Jasmine Export House",
+        "type": "Supplier",
+        "tax_id": "HN-39-533914",
+        "country_code": "HN",
+        "address": "Plot 444, Phase 8, Puerto Cortes Street, Honduras"
+      },
+      "right": {
+        "id": "SUP-T1-0059-ALT",
+        "name": "Jasmine House",
+        "type": "Supplier",
+        "tax_id": "HN-39-533914",
+        "country_code": "HN",
+        "address": "Plot 445, Phase 8, Puerto Cortes Street, Honduras"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0111",
+        "name": "Riverstone Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-41-829417",
+        "country_code": "LK",
+        "address": "Plot 61, Phase 15, Colombo Lane, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0017",
+        "name": "Ivory Loom Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-16-196781",
+        "country_code": "LK",
+        "address": "Plot 325, Phase 5, Colombo Avenue, Sri Lanka"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0091",
+        "name": "Reed & Heald Textiles",
+        "type": "Supplier",
+        "tax_id": "IT-56-900961",
+        "country_code": "IT",
+        "address": "Plot 221, Zone 12, La Spezia Street, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0046",
+        "name": "Ivory Loom Manufacturing",
+        "type": "Supplier",
+        "tax_id": "ES-28-529893",
+        "country_code": "ES",
+        "address": "Plot 52, Phase 1, Spain City Export Processing Zone, Spain"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0108",
+        "name": "Lotus Valley Knitwear",
+        "type": "Supplier",
+        "tax_id": "TR-48-250219",
+        "country_code": "TR",
+        "address": "Plot 295, Zone 4, Turkey City Avenue, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0108-ALT",
+        "name": "LOTUS VALLEY KNITWEAR",
+        "type": "Supplier",
+        "tax_id": "TR-48-250219",
+        "country_code": "TR",
+        "address": "Plot 294, Zone 4, Turkey City Avenue, Turkey"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0110",
+        "name": "Puregrain Apparel",
+        "type": "Supplier",
+        "tax_id": "KH-34-154040",
+        "country_code": "KH",
+        "address": "Plot 434, Sector 9, Cambodia City Avenue, Cambodia"
+      },
+      "right": {
+        "id": "SUP-T1-0110-ALT",
+        "name": "PUREGRAIN APPAREL",
+        "type": "Supplier",
+        "tax_id": "KH-34-154040",
+        "country_code": "KH",
+        "address": "Plot 433, Sector 9, Cambodia City Avenue, Cambodia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0038",
+        "name": "Harbor Mills",
+        "type": "Supplier",
+        "tax_id": "PK-10-528361",
+        "country_code": "PK",
+        "address": "Plot 89, Sector 3, Pakistan City Export Processing Zone, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0038-ALT",
+        "name": "HARBOR MILLS",
+        "type": "Supplier",
+        "tax_id": "PK-10-528361",
+        "country_code": "PK",
+        "address": "Plot 90, Sector 3, Pakistan City Export Processing Zone, Pakistan"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0012",
+        "name": "Sapphire Knitwear",
+        "type": "Supplier",
+        "tax_id": "PT-93-666847",
+        "country_code": "PT",
+        "address": "Plot 227, Sector 1, Lisbon Export Processing Zone, Portugal"
+      },
+      "right": {
+        "id": "SUP-T1-0093",
+        "name": "Bobbin International",
+        "type": "Supplier",
+        "tax_id": "PE-60-746447",
+        "country_code": "PE",
+        "address": "Plot 168, Zone 3, Callao Export Processing Zone, Peru"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0027",
+        "name": "Lowland Holdings",
+        "type": "Supplier",
+        "tax_id": "BD-63-664365",
+        "country_code": "BD",
+        "address": "Plot 181, Phase 14, Bangladesh City Avenue, Bangladesh"
+      },
+      "right": {
+        "id": "SUP-T1-0083",
+        "name": "Warp & Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 161, Zone 4, Yangon Lane, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0093",
+        "name": "Bobbin International",
+        "type": "Supplier",
+        "tax_id": "PE-60-746447",
+        "country_code": "PE",
+        "address": "Plot 168, Zone 3, Callao Export Processing Zone, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0093-ALT",
+        "name": "BOBBIN INTERNATIONAL",
+        "type": "Supplier",
+        "tax_id": "PE-60-746447",
+        "country_code": "PE",
+        "address": "Plot 170, Zone 3, Callao Export Processing Zone, Peru"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0046",
+        "name": "Ivory Loom Manufacturing",
+        "type": "Supplier",
+        "tax_id": "ES-28-529893",
+        "country_code": "ES",
+        "address": "Plot 52, Phase 1, Spain City Export Processing Zone, Spain"
+      },
+      "right": {
+        "id": "SUP-T1-0046-ALT",
+        "name": "IVORY LOOM MANUFACTURING",
+        "type": "Supplier",
+        "tax_id": "ES-28-529893",
+        "country_code": "ES",
+        "address": "Plot 51, Phase 1, Spain City Export Processing Zone, Spain"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0003",
+        "name": "Sapphire Export House",
+        "type": "Supplier",
+        "tax_id": "VN-90-748564",
+        "country_code": "VN",
+        "address": "Plot 194, Zone 14, Vietnam City Road, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0003-ALT",
+        "name": "SAPPHIRE EXPORT HOUSE",
+        "type": "Supplier",
+        "tax_id": "VN-90-748564",
+        "country_code": "VN",
+        "address": "Plot 196, Zone 14, Vietnam City Road, Vietnam"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0098",
+        "name": "Cascade International",
+        "type": "Supplier",
+        "tax_id": "ID-62-446337",
+        "country_code": "ID",
+        "address": "Plot 327, Sector 2, Tanjung Priok Street, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0098-ALT",
+        "name": "CASCADE INTERNATIONAL",
+        "type": "Supplier",
+        "tax_id": "ID-62-446337",
+        "country_code": "ID",
+        "address": "Plot 329, Sector 2, Tanjung Priok Street, Indonesia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0058",
+        "name": "Coral Limited",
+        "type": "Supplier",
+        "tax_id": "VN-20-437758",
+        "country_code": "VN",
+        "address": "Plot 56, Phase 2, Hai Phong Industrial Area, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0058-ALT",
+        "name": "CORAL LIMITED",
+        "type": "Supplier",
+        "tax_id": "VN-20-437758",
+        "country_code": "VN",
+        "address": "Plot 54, Phase 2, Hai Phong Industrial Area, Vietnam"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0106",
+        "name": "Reed & Heald Co.",
+        "type": "Supplier",
+        "tax_id": "CN-10-892911",
+        "country_code": "CN",
+        "address": "Plot 66, Block 14, Shanghai Lane, China"
+      },
+      "right": {
+        "id": "SUP-T1-0070",
+        "name": "Lotus Group",
+        "type": "Supplier",
+        "tax_id": "VN-41-841995",
+        "country_code": "VN",
+        "address": "Plot 44, Block 1, Hai Phong Export Processing Zone, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0047",
+        "name": "Finewoven Apparel",
+        "type": "Supplier",
+        "tax_id": "EG-21-555052",
+        "country_code": "EG",
+        "address": "Plot 324, Zone 4, Alexandria Lane, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0064",
+        "name": "Warp & Weft Trading",
+        "type": "Supplier",
+        "tax_id": "MM-36-416061",
+        "country_code": "MM",
+        "address": "Plot 113, Sector 1, Myanmar City Industrial Area, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0033",
+        "name": "Meridian Holdings",
+        "type": "Supplier",
+        "tax_id": "MX-43-456871",
+        "country_code": "MX",
+        "address": "Plot 94, Block 6, Veracruz Industrial Area, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0080",
+        "name": "Cedar Trading",
+        "type": "Supplier",
+        "tax_id": "VN-25-938171",
+        "country_code": "VN",
+        "address": "Plot 442, Zone 5, Vietnam City Road, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0103",
+        "name": "Reed & Heald Fabrics",
+        "type": "Supplier",
+        "tax_id": "EG-67-653829",
+        "country_code": "EG",
+        "address": "Plot 349, Sector 9, Damietta Export Processing Zone, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0103-ALT",
+        "name": "Reed and Heald Fabrics",
+        "type": "Supplier",
+        "tax_id": "EG-67-653829",
+        "country_code": "EG",
+        "address": "Plot 351, Sector 9, Damietta Export Processing Zone, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0093",
+        "name": "Bobbin International",
+        "type": "Supplier",
+        "tax_id": "PE-60-746447",
+        "country_code": "PE",
+        "address": "Plot 168, Zone 3, Callao Export Processing Zone, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0100",
+        "name": "Monsoon International",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 140, Sector 6, Peru City Street, Peru"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0109",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "MX-78-596520",
+        "country_code": "MX",
+        "address": "Plot 77, Phase 3, Mexico City Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0016",
+        "name": "Northstar Apparel",
+        "type": "Supplier",
+        "tax_id": "PK-79-837715",
+        "country_code": "PK",
+        "address": "Plot 190, Block 8, Karachi Avenue, Pakistan"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0038",
+        "name": "Harbor Mills",
+        "type": "Supplier",
+        "tax_id": "PK-10-528361",
+        "country_code": "PK",
+        "address": "Plot 89, Sector 3, Pakistan City Export Processing Zone, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0075",
+        "name": "Shuttle Industries",
+        "type": "Supplier",
+        "tax_id": "PK-54-127965",
+        "country_code": "PK",
+        "address": "Plot 47, Phase 15, Port Qasim Street, Pakistan"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0003",
+        "name": "Sapphire Export House",
+        "type": "Supplier",
+        "tax_id": "VN-90-748564",
+        "country_code": "VN",
+        "address": "Plot 194, Zone 14, Vietnam City Road, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0002",
+        "name": "Blue Ridge Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-64-456778",
+        "country_code": "EG",
+        "address": "Plot 143, Block 12, Damietta Road, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0087",
+        "name": "Monsoon Trading",
+        "type": "Supplier",
+        "tax_id": "EG-84-261684",
+        "country_code": "EG",
+        "address": "Plot 274, Block 10, Damietta Road, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0087-ALT",
+        "name": "MONSOON TRADING",
+        "type": "Supplier",
+        "tax_id": "EG-84-261684",
+        "country_code": "EG",
+        "address": "Plot 272, Block 10, Damietta Road, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0106",
+        "name": "Reed & Heald Co.",
+        "type": "Supplier",
+        "tax_id": "CN-10-892911",
+        "country_code": "CN",
+        "address": "Plot 66, Block 14, Shanghai Lane, China"
+      },
+      "right": {
+        "id": "SUP-T1-0080",
+        "name": "Cedar Trading",
+        "type": "Supplier",
+        "tax_id": "VN-25-938171",
+        "country_code": "VN",
+        "address": "Plot 442, Zone 5, Vietnam City Road, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0048",
+        "name": "Warp & Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 350, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0048-ALT",
+        "name": "Warp and Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 349, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0029",
+        "name": "Reed & Heald Garments",
+        "type": "Supplier",
+        "tax_id": "IT-93-142213",
+        "country_code": "IT",
+        "address": "Plot 115, Sector 13, Genoa Lane, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0029-ALT",
+        "name": "REED & HEALD GARMENTS",
+        "type": "Supplier",
+        "tax_id": "IT-93-142213",
+        "country_code": "IT",
+        "address": "Plot 117, Sector 13, Genoa Lane, Italy"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0016",
+        "name": "Northstar Apparel",
+        "type": "Supplier",
+        "tax_id": "PK-79-837715",
+        "country_code": "PK",
+        "address": "Plot 190, Block 8, Karachi Avenue, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0016-ALT",
+        "name": "NORTHSTAR APPAREL",
+        "type": "Supplier",
+        "tax_id": "PK-79-837715",
+        "country_code": "PK",
+        "address": "Plot 188, Block 8, Karachi Avenue, Pakistan"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0064",
+        "name": "Warp & Weft Trading",
+        "type": "Supplier",
+        "tax_id": "MM-36-416061",
+        "country_code": "MM",
+        "address": "Plot 113, Sector 1, Myanmar City Industrial Area, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0064-ALT",
+        "name": "Warp and Weft Trading",
+        "type": "Supplier",
+        "tax_id": "MM-36-416061",
+        "country_code": "MM",
+        "address": "Plot 115, Sector 1, Myanmar City Industrial Area, Myanmar"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0094",
+        "name": "Oakmoor Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "BD-16-711868",
+        "country_code": "BD",
+        "address": "Plot 401, Block 12, Bangladesh City Export Processing Zone, Bangladesh"
+      },
+      "right": {
+        "id": "SUP-T1-0094-ALT",
+        "name": "Oakmoor Finishing",
+        "type": "Supplier",
+        "tax_id": "BD-16-711868",
+        "country_code": "BD",
+        "address": "Plot 402, Block 12, Bangladesh City Export Processing Zone, Bangladesh"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0116",
+        "name": "Cuttle Knitwear",
+        "type": "Supplier",
+        "tax_id": "MX-93-896483",
+        "country_code": "MX",
+        "address": "Plot 116, Sector 11, Veracruz Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0116-ALT",
+        "name": "CUTTLE KNITWEAR",
+        "type": "Supplier",
+        "tax_id": "MX-93-896483",
+        "country_code": "MX",
+        "address": "Plot 117, Sector 11, Veracruz Avenue, Mexico"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0073",
+        "name": "Shuttle Export House",
+        "type": "Supplier",
+        "tax_id": "LK-89-237414",
+        "country_code": "LK",
+        "address": "Plot 270, Zone 15, Colombo Road, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0108",
+        "name": "Lotus Valley Knitwear",
+        "type": "Supplier",
+        "tax_id": "TR-48-250219",
+        "country_code": "TR",
+        "address": "Plot 295, Zone 4, Turkey City Avenue, Turkey"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0035",
+        "name": "Reed & Heald Mills",
+        "type": "Supplier",
+        "tax_id": "MA-85-897135",
+        "country_code": "MA",
+        "address": "Plot 111, Phase 5, Casablanca Lane, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0035-ALT",
+        "name": "Reed and Heald Mills",
+        "type": "Supplier",
+        "tax_id": "MA-85-897135",
+        "country_code": "MA",
+        "address": "Plot 113, Phase 5, Casablanca Lane, Morocco"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0118",
+        "name": "Pacific Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-27-928897",
+        "country_code": "IN",
+        "address": "Plot 428, Zone 7, Nhava Sheva Industrial Area, India"
+      },
+      "right": {
+        "id": "SUP-T1-0118-ALT",
+        "name": "PACIFIC KNITWEAR",
+        "type": "Supplier",
+        "tax_id": "IN-27-928897",
+        "country_code": "IN",
+        "address": "Plot 427, Zone 7, Nhava Sheva Industrial Area, India"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0008",
+        "name": "Horizon Group",
+        "type": "Supplier",
+        "tax_id": "EG-49-351083",
+        "country_code": "EG",
+        "address": "Plot 10, Zone 15, Egypt City Road, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0008-ALT",
+        "name": "HORIZON GROUP",
+        "type": "Supplier",
+        "tax_id": "EG-49-351083",
+        "country_code": "EG",
+        "address": "Plot 8, Zone 15, Egypt City Road, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0113",
+        "name": "Spindle Export House",
+        "type": "Supplier",
+        "tax_id": "MM-72-858705",
+        "country_code": "MM",
+        "address": "Plot 351, Zone 13, Yangon Avenue, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0113-ALT",
+        "name": "Spindle House",
+        "type": "Supplier",
+        "tax_id": "MM-72-858705",
+        "country_code": "MM",
+        "address": "Plot 353, Zone 13, Yangon Avenue, Myanmar"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0100",
+        "name": "Monsoon International",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 140, Sector 6, Peru City Street, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0093",
+        "name": "Bobbin International",
+        "type": "Supplier",
+        "tax_id": "PE-60-746447",
+        "country_code": "PE",
+        "address": "Plot 168, Zone 3, Callao Export Processing Zone, Peru"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0026",
+        "name": "Iron Mill Group",
+        "type": "Supplier",
+        "tax_id": "LK-39-501641",
+        "country_code": "LK",
+        "address": "Plot 277, Block 3, Colombo Road, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0026-ALT",
+        "name": "Iron Group",
+        "type": "Supplier",
+        "tax_id": "LK-39-501641",
+        "country_code": "LK",
+        "address": "Plot 276, Block 3, Colombo Road, Sri Lanka"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0081",
+        "name": "Bobbin Mills",
+        "type": "Supplier",
+        "tax_id": "IN-51-793024",
+        "country_code": "IN",
+        "address": "Plot 151, Sector 2, Nhava Sheva Avenue, India"
+      },
+      "right": {
+        "id": "SUP-T1-0081-ALT",
+        "name": "BOBBIN MILLS",
+        "type": "Supplier",
+        "tax_id": "IN-51-793024",
+        "country_code": "IN",
+        "address": "Plot 153, Sector 2, Nhava Sheva Avenue, India"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0066",
+        "name": "Crispfibre Limited",
+        "type": "Supplier",
+        "tax_id": "MX-31-940247",
+        "country_code": "MX",
+        "address": "Plot 59, Sector 6, Mexico City Industrial Area, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0066-ALT",
+        "name": "CRISPFIBRE LIMITED",
+        "type": "Supplier",
+        "tax_id": "MX-31-940247",
+        "country_code": "MX",
+        "address": "Plot 58, Sector 6, Mexico City Industrial Area, Mexico"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0011",
+        "name": "Lotus Limited",
+        "type": "Supplier",
+        "tax_id": "KH-16-806073",
+        "country_code": "KH",
+        "address": "Plot 217, Phase 14, Sihanoukville Industrial Area, Cambodia"
+      },
+      "right": {
+        "id": "SUP-T1-0011-ALT",
+        "name": "LOTUS LIMITED",
+        "type": "Supplier",
+        "tax_id": "KH-16-806073",
+        "country_code": "KH",
+        "address": "Plot 215, Phase 14, Sihanoukville Industrial Area, Cambodia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0037",
+        "name": "Delta Industries",
+        "type": "Supplier",
+        "tax_id": "MM-81-901577",
+        "country_code": "MM",
+        "address": "Plot 156, Block 2, Yangon Road, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0037-ALT",
+        "name": "DELTA INDUSTRIES",
+        "type": "Supplier",
+        "tax_id": "MM-81-901577",
+        "country_code": "MM",
+        "address": "Plot 154, Block 2, Yangon Road, Myanmar"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0048",
+        "name": "Warp & Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 350, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0108",
+        "name": "Lotus Valley Knitwear",
+        "type": "Supplier",
+        "tax_id": "TR-48-250219",
+        "country_code": "TR",
+        "address": "Plot 295, Zone 4, Turkey City Avenue, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0025",
+        "name": "Jasmine Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-66-742412",
+        "country_code": "EG",
+        "address": "Plot 411, Zone 13, Alexandria Industrial Area, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0102",
+        "name": "Bluefin Mills",
+        "type": "Supplier",
+        "tax_id": "CN-25-769737",
+        "country_code": "CN",
+        "address": "Plot 352, Zone 12, Ningbo Export Processing Zone, China"
+      },
+      "right": {
+        "id": "SUP-T1-0102-ALT",
+        "name": "BLUEFIN MILLS",
+        "type": "Supplier",
+        "tax_id": "CN-25-769737",
+        "country_code": "CN",
+        "address": "Plot 354, Zone 12, Ningbo Export Processing Zone, China"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0005",
+        "name": "Vanguard Group",
+        "type": "Supplier",
+        "tax_id": "VN-82-852787",
+        "country_code": "VN",
+        "address": "Plot 138, Block 15, Ho Chi Minh (Cat Lai) Road, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0005-ALT",
+        "name": "VANGUARD GROUP",
+        "type": "Supplier",
+        "tax_id": "VN-82-852787",
+        "country_code": "VN",
+        "address": "Plot 140, Block 15, Ho Chi Minh (Cat Lai) Road, Vietnam"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0100",
+        "name": "Monsoon International",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 140, Sector 6, Peru City Street, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0093",
+        "name": "Bobbin International",
+        "type": "Supplier",
+        "tax_id": "PE-60-746447",
+        "country_code": "PE",
+        "address": "Plot 168, Zone 3, Callao Export Processing Zone, Peru"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0082",
+        "name": "Crispfibre Co.",
+        "type": "Supplier",
+        "tax_id": "VN-28-989894",
+        "country_code": "VN",
+        "address": "Plot 263, Block 1, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0091",
+        "name": "Reed & Heald Textiles",
+        "type": "Supplier",
+        "tax_id": "IT-56-900961",
+        "country_code": "IT",
+        "address": "Plot 221, Zone 12, La Spezia Street, Italy"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0084",
+        "name": "Amber Mills",
+        "type": "Supplier",
+        "tax_id": "TR-54-844007",
+        "country_code": "TR",
+        "address": "Plot 228, Zone 11, Istanbul (Ambarli) Road, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0084-ALT",
+        "name": "AMBER MILLS",
+        "type": "Supplier",
+        "tax_id": "TR-54-844007",
+        "country_code": "TR",
+        "address": "Plot 230, Zone 11, Istanbul (Ambarli) Road, Turkey"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0041",
+        "name": "Lotus Mills",
+        "type": "Supplier",
+        "tax_id": "MA-94-519904",
+        "country_code": "MA",
+        "address": "Plot 211, Phase 5, Morocco City Lane, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0006",
+        "name": "Lustre Co.",
+        "type": "Supplier",
+        "tax_id": "MM-16-214975",
+        "country_code": "MM",
+        "address": "Plot 113, Phase 2, Myanmar City Street, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0006",
+        "name": "Lustre Co.",
+        "type": "Supplier",
+        "tax_id": "MM-16-214975",
+        "country_code": "MM",
+        "address": "Plot 113, Phase 2, Myanmar City Street, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0006-ALT",
+        "name": "LUSTRE CO.",
+        "type": "Supplier",
+        "tax_id": "MM-16-214975",
+        "country_code": "MM",
+        "address": "Plot 115, Phase 2, Myanmar City Street, Myanmar"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0072",
+        "name": "Ivory Loom Industries",
+        "type": "Supplier",
+        "tax_id": "MX-95-543973",
+        "country_code": "MX",
+        "address": "Plot 360, Sector 11, Mexico City Lane, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0057",
+        "name": "Silverline Garments",
+        "type": "Supplier",
+        "tax_id": "BD-18-599380",
+        "country_code": "BD",
+        "address": "Plot 380, Sector 12, Chittagong Industrial Area, Bangladesh"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0014",
+        "name": "Cascade International",
+        "type": "Supplier",
+        "tax_id": "ES-18-808011",
+        "country_code": "ES",
+        "address": "Plot 436, Sector 10, Barcelona Street, Spain"
+      },
+      "right": {
+        "id": "SUP-T1-0014-ALT",
+        "name": "CASCADE INTERNATIONAL",
+        "type": "Supplier",
+        "tax_id": "ES-18-808011",
+        "country_code": "ES",
+        "address": "Plot 434, Sector 10, Barcelona Street, Spain"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0018",
+        "name": "Jasmine Apparel",
+        "type": "Supplier",
+        "tax_id": "EG-57-710805",
+        "country_code": "EG",
+        "address": "Plot 77, Sector 14, Alexandria Export Processing Zone, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0009",
+        "name": "Silverline International",
+        "type": "Supplier",
+        "tax_id": "EG-49-518373",
+        "country_code": "EG",
+        "address": "Plot 217, Block 12, Alexandria Street, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0091",
+        "name": "Reed & Heald Textiles",
+        "type": "Supplier",
+        "tax_id": "IT-56-900961",
+        "country_code": "IT",
+        "address": "Plot 221, Zone 12, La Spezia Street, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0029",
+        "name": "Reed & Heald Garments",
+        "type": "Supplier",
+        "tax_id": "IT-93-142213",
+        "country_code": "IT",
+        "address": "Plot 115, Sector 13, Genoa Lane, Italy"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0101",
+        "name": "Coral Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-41-107161",
+        "country_code": "MA",
+        "address": "Plot 72, Zone 15, Casablanca Industrial Area, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0022",
+        "name": "Red Thread Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-62-442027",
+        "country_code": "MA",
+        "address": "Plot 154, Zone 11, Morocco City Export Processing Zone, Morocco"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0065",
+        "name": "Blue Ridge International",
+        "type": "Supplier",
+        "tax_id": "EG-60-878086",
+        "country_code": "EG",
+        "address": "Plot 427, Zone 2, Egypt City Lane, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0120",
+        "name": "Lotus Apparel",
+        "type": "Supplier",
+        "tax_id": "MA-44-207197",
+        "country_code": "MA",
+        "address": "Plot 158, Zone 13, Tanger Med Industrial Area, Morocco"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0045",
+        "name": "Amber Export House",
+        "type": "Supplier",
+        "tax_id": "IT-51-297816",
+        "country_code": "IT",
+        "address": "Plot 177, Phase 8, Genoa Avenue, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0045-ALT",
+        "name": "AMBER EXPORT HOUSE",
+        "type": "Supplier",
+        "tax_id": "IT-51-297816",
+        "country_code": "IT",
+        "address": "Plot 178, Phase 8, Genoa Avenue, Italy"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0055",
+        "name": "Northstar Garments",
+        "type": "Supplier",
+        "tax_id": "EG-68-196126",
+        "country_code": "EG",
+        "address": "Plot 142, Sector 14, Egypt City Street, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0095",
+        "name": "Riverstone Limited",
+        "type": "Supplier",
+        "tax_id": "TR-17-840058",
+        "country_code": "TR",
+        "address": "Plot 397, Phase 14, Mersin Export Processing Zone, Turkey"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0056",
+        "name": "Delta Textiles",
+        "type": "Supplier",
+        "tax_id": "ID-42-937302",
+        "country_code": "ID",
+        "address": "Plot 440, Block 9, Semarang Street, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0039",
+        "name": "Delta Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "ID-49-723948",
+        "country_code": "ID",
+        "address": "Plot 37, Block 13, Indonesia City Road, Indonesia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0099",
+        "name": "Puregrain Knitwear",
+        "type": "Supplier",
+        "tax_id": "VN-32-538184",
+        "country_code": "VN",
+        "address": "Plot 379, Sector 15, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0033",
+        "name": "Meridian Holdings",
+        "type": "Supplier",
+        "tax_id": "MX-43-456871",
+        "country_code": "MX",
+        "address": "Plot 94, Block 6, Veracruz Industrial Area, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0015",
+        "name": "Silverline Fabrics",
+        "type": "Supplier",
+        "tax_id": "MM-60-237235",
+        "country_code": "MM",
+        "address": "Plot 367, Block 5, Myanmar City Avenue, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0022",
+        "name": "Red Thread Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-62-442027",
+        "country_code": "MA",
+        "address": "Plot 154, Zone 11, Morocco City Export Processing Zone, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0022-ALT",
+        "name": "Red Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-62-442027",
+        "country_code": "MA",
+        "address": "Plot 152, Zone 11, Morocco City Export Processing Zone, Morocco"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0103",
+        "name": "Reed & Heald Fabrics",
+        "type": "Supplier",
+        "tax_id": "EG-67-653829",
+        "country_code": "EG",
+        "address": "Plot 349, Sector 9, Damietta Export Processing Zone, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0025",
+        "name": "Jasmine Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-66-742412",
+        "country_code": "EG",
+        "address": "Plot 411, Zone 13, Alexandria Industrial Area, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0002",
+        "name": "Blue Ridge Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-64-456778",
+        "country_code": "EG",
+        "address": "Plot 143, Block 12, Damietta Road, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0060",
+        "name": "Harbor Apparel",
+        "type": "Supplier",
+        "tax_id": "IT-26-683397",
+        "country_code": "IT",
+        "address": "Plot 222, Zone 13, Genoa Road, Italy"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0024",
+        "name": "Finewoven Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-99-502630",
+        "country_code": "ID",
+        "address": "Plot 213, Block 12, Semarang Lane, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0067",
+        "name": "Pacific Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-54-468154",
+        "country_code": "ID",
+        "address": "Plot 325, Block 15, Semarang Road, Indonesia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0020",
+        "name": "Oakmoor Knitwear",
+        "type": "Supplier",
+        "tax_id": "MX-39-333752",
+        "country_code": "MX",
+        "address": "Plot 419, Zone 5, Manzanillo Industrial Area, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0020-ALT",
+        "name": "OAKMOOR KNITWEAR",
+        "type": "Supplier",
+        "tax_id": "MX-39-333752",
+        "country_code": "MX",
+        "address": "Plot 421, Zone 5, Manzanillo Industrial Area, Mexico"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0041",
+        "name": "Lotus Mills",
+        "type": "Supplier",
+        "tax_id": "MA-94-519904",
+        "country_code": "MA",
+        "address": "Plot 211, Phase 5, Morocco City Lane, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0041-ALT",
+        "name": "LOTUS MILLS",
+        "type": "Supplier",
+        "tax_id": "MA-94-519904",
+        "country_code": "MA",
+        "address": "Plot 213, Phase 5, Morocco City Lane, Morocco"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0035",
+        "name": "Reed & Heald Mills",
+        "type": "Supplier",
+        "tax_id": "MA-85-897135",
+        "country_code": "MA",
+        "address": "Plot 111, Phase 5, Casablanca Lane, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0021",
+        "name": "Jasmine Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "MA-86-555673",
+        "country_code": "MA",
+        "address": "Plot 298, Sector 2, Casablanca Avenue, Morocco"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0036",
+        "name": "Lotus Valley Industries",
+        "type": "Supplier",
+        "tax_id": "VN-11-701949",
+        "country_code": "VN",
+        "address": "Plot 445, Sector 14, Vietnam City Industrial Area, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0036-ALT",
+        "name": "Lotus Industries",
+        "type": "Supplier",
+        "tax_id": "VN-11-701949",
+        "country_code": "VN",
+        "address": "Plot 446, Sector 14, Vietnam City Industrial Area, Vietnam"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0070",
+        "name": "Lotus Group",
+        "type": "Supplier",
+        "tax_id": "VN-41-841995",
+        "country_code": "VN",
+        "address": "Plot 44, Block 1, Hai Phong Export Processing Zone, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0026",
+        "name": "Iron Mill Group",
+        "type": "Supplier",
+        "tax_id": "LK-39-501641",
+        "country_code": "LK",
+        "address": "Plot 277, Block 3, Colombo Road, Sri Lanka"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0074",
+        "name": "Oakmoor Fabrics",
+        "type": "Supplier",
+        "tax_id": "ID-46-915922",
+        "country_code": "ID",
+        "address": "Plot 348, Phase 8, Semarang Export Processing Zone, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0070",
+        "name": "Lotus Group",
+        "type": "Supplier",
+        "tax_id": "VN-41-841995",
+        "country_code": "VN",
+        "address": "Plot 44, Block 1, Hai Phong Export Processing Zone, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0007",
+        "name": "Reed & Heald Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "CN-30-575763",
+        "country_code": "CN",
+        "address": "Plot 175, Zone 7, China City Road, China"
+      },
+      "right": {
+        "id": "SUP-T1-0007-ALT",
+        "name": "Reed Finishing",
+        "type": "Supplier",
+        "tax_id": "CN-30-575763",
+        "country_code": "CN",
+        "address": "Plot 173, Zone 7, China City Road, China"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0099",
+        "name": "Puregrain Knitwear",
+        "type": "Supplier",
+        "tax_id": "VN-32-538184",
+        "country_code": "VN",
+        "address": "Plot 379, Sector 15, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0099-ALT",
+        "name": "PUREGRAIN KNITWEAR",
+        "type": "Supplier",
+        "tax_id": "VN-32-538184",
+        "country_code": "VN",
+        "address": "Plot 377, Sector 15, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0017",
+        "name": "Ivory Loom Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-16-196781",
+        "country_code": "LK",
+        "address": "Plot 325, Phase 5, Colombo Avenue, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0071",
+        "name": "Ivory Loom Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-94-731977",
+        "country_code": "MA",
+        "address": "Plot 348, Zone 5, Casablanca Industrial Area, Morocco"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0032",
+        "name": "Delta Limited",
+        "type": "Supplier",
+        "tax_id": "TN-78-912270",
+        "country_code": "TN",
+        "address": "Plot 376, Zone 10, Tunisia City Export Processing Zone, Tunisia"
+      },
+      "right": {
+        "id": "SUP-T1-0003",
+        "name": "Sapphire Export House",
+        "type": "Supplier",
+        "tax_id": "VN-90-748564",
+        "country_code": "VN",
+        "address": "Plot 194, Zone 14, Vietnam City Road, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0075",
+        "name": "Shuttle Industries",
+        "type": "Supplier",
+        "tax_id": "PK-54-127965",
+        "country_code": "PK",
+        "address": "Plot 47, Phase 15, Port Qasim Street, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0063",
+        "name": "Cascade Industries",
+        "type": "Supplier",
+        "tax_id": "MM-20-385320",
+        "country_code": "MM",
+        "address": "Plot 387, Sector 11, Yangon Export Processing Zone, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0048",
+        "name": "Warp & Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 350, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0095",
+        "name": "Riverstone Limited",
+        "type": "Supplier",
+        "tax_id": "TR-17-840058",
+        "country_code": "TR",
+        "address": "Plot 397, Phase 14, Mersin Export Processing Zone, Turkey"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0067",
+        "name": "Pacific Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-54-468154",
+        "country_code": "ID",
+        "address": "Plot 325, Block 15, Semarang Road, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0024",
+        "name": "Finewoven Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-99-502630",
+        "country_code": "ID",
+        "address": "Plot 213, Block 12, Semarang Lane, Indonesia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0109",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "MX-78-596520",
+        "country_code": "MX",
+        "address": "Plot 77, Phase 3, Mexico City Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0066",
+        "name": "Crispfibre Limited",
+        "type": "Supplier",
+        "tax_id": "MX-31-940247",
+        "country_code": "MX",
+        "address": "Plot 59, Sector 6, Mexico City Industrial Area, Mexico"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0024",
+        "name": "Finewoven Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-99-502630",
+        "country_code": "ID",
+        "address": "Plot 213, Block 12, Semarang Lane, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0013",
+        "name": "Lowland Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "MX-34-411120",
+        "country_code": "MX",
+        "address": "Plot 147, Phase 3, Manzanillo Industrial Area, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0091",
+        "name": "Reed & Heald Textiles",
+        "type": "Supplier",
+        "tax_id": "IT-56-900961",
+        "country_code": "IT",
+        "address": "Plot 221, Zone 12, La Spezia Street, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0048",
+        "name": "Warp & Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 350, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0100",
+        "name": "Monsoon International",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 140, Sector 6, Peru City Street, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0100-ALT",
+        "name": "MONSOON INTERNATIONAL",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 141, Sector 6, Peru City Street, Peru"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0101",
+        "name": "Coral Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-41-107161",
+        "country_code": "MA",
+        "address": "Plot 72, Zone 15, Casablanca Industrial Area, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0102",
+        "name": "Bluefin Mills",
+        "type": "Supplier",
+        "tax_id": "CN-25-769737",
+        "country_code": "CN",
+        "address": "Plot 352, Zone 12, Ningbo Export Processing Zone, China"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0052",
+        "name": "Highland Apparel",
+        "type": "Supplier",
+        "tax_id": "MX-57-805511",
+        "country_code": "MX",
+        "address": "Plot 8, Sector 8, Mexico City Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0016",
+        "name": "Northstar Apparel",
+        "type": "Supplier",
+        "tax_id": "PK-79-837715",
+        "country_code": "PK",
+        "address": "Plot 190, Block 8, Karachi Avenue, Pakistan"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0040",
+        "name": "Meridian Apparel",
+        "type": "Supplier",
+        "tax_id": "ET-96-961322",
+        "country_code": "ET",
+        "address": "Plot 346, Sector 13, Ethiopia City Export Processing Zone, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0040-ALT",
+        "name": "MERIDIAN APPAREL",
+        "type": "Supplier",
+        "tax_id": "ET-96-961322",
+        "country_code": "ET",
+        "address": "Plot 345, Sector 13, Ethiopia City Export Processing Zone, Ethiopia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0028-ALT",
+        "name": "CORAL TEXTILES",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 328, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0068",
+        "name": "Crispfibre Holdings",
+        "type": "Supplier",
+        "tax_id": "IN-82-774225",
+        "country_code": "IN",
+        "address": "Plot 387, Phase 11, Mundra Export Processing Zone, India"
+      },
+      "right": {
+        "id": "SUP-T1-0031",
+        "name": "Crispfibre Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-82-920652",
+        "country_code": "IN",
+        "address": "Plot 357, Sector 13, India City Avenue, India"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0048",
+        "name": "Warp & Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 350, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0095",
+        "name": "Riverstone Limited",
+        "type": "Supplier",
+        "tax_id": "TR-17-840058",
+        "country_code": "TR",
+        "address": "Plot 397, Phase 14, Mersin Export Processing Zone, Turkey"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0088",
+        "name": "Finewoven Textiles",
+        "type": "Supplier",
+        "tax_id": "KH-48-606404",
+        "country_code": "KH",
+        "address": "Plot 322, Zone 11, Cambodia City Export Processing Zone, Cambodia"
+      },
+      "right": {
+        "id": "SUP-T1-0088-ALT",
+        "name": "FINEWOVEN TEXTILES",
+        "type": "Supplier",
+        "tax_id": "KH-48-606404",
+        "country_code": "KH",
+        "address": "Plot 324, Zone 11, Cambodia City Export Processing Zone, Cambodia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0097",
+        "name": "Coral Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-20-463188",
+        "country_code": "MM",
+        "address": "Plot 149, Zone 12, Myanmar City Road, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0059",
+        "name": "Jasmine Export House",
+        "type": "Supplier",
+        "tax_id": "HN-39-533914",
+        "country_code": "HN",
+        "address": "Plot 444, Phase 8, Puerto Cortes Street, Honduras"
+      },
+      "right": {
+        "id": "SUP-T1-0004",
+        "name": "Sapphire Enterprises",
+        "type": "Supplier",
+        "tax_id": "MX-44-835911",
+        "country_code": "MX",
+        "address": "Plot 190, Block 11, Veracruz Avenue, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0097",
+        "name": "Coral Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-20-463188",
+        "country_code": "MM",
+        "address": "Plot 149, Zone 12, Myanmar City Road, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0097-ALT",
+        "name": "CORAL ENTERPRISES",
+        "type": "Supplier",
+        "tax_id": "MM-20-463188",
+        "country_code": "MM",
+        "address": "Plot 147, Zone 12, Myanmar City Road, Myanmar"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0120",
+        "name": "Lotus Apparel",
+        "type": "Supplier",
+        "tax_id": "MA-44-207197",
+        "country_code": "MA",
+        "address": "Plot 158, Zone 13, Tanger Med Industrial Area, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0120-ALT",
+        "name": "LOTUS APPAREL",
+        "type": "Supplier",
+        "tax_id": "MA-44-207197",
+        "country_code": "MA",
+        "address": "Plot 156, Zone 13, Tanger Med Industrial Area, Morocco"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0001",
+        "name": "Iron Mill Knitwear",
+        "type": "Supplier",
+        "tax_id": "CN-79-191161",
+        "country_code": "CN",
+        "address": "Plot 72, Sector 11, Shanghai Lane, China"
+      },
+      "right": {
+        "id": "SUP-T1-0001-ALT",
+        "name": "IRON MILL KNITWEAR",
+        "type": "Supplier",
+        "tax_id": "CN-79-191161",
+        "country_code": "CN",
+        "address": "Plot 73, Sector 11, Shanghai Lane, China"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0112",
+        "name": "Lotus Holdings",
+        "type": "Supplier",
+        "tax_id": "IT-15-689849",
+        "country_code": "IT",
+        "address": "Plot 105, Zone 7, La Spezia Avenue, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0017",
+        "name": "Ivory Loom Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-16-196781",
+        "country_code": "LK",
+        "address": "Plot 325, Phase 5, Colombo Avenue, Sri Lanka"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0097",
+        "name": "Coral Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-20-463188",
+        "country_code": "MM",
+        "address": "Plot 149, Zone 12, Myanmar City Road, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0083",
+        "name": "Warp & Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 161, Zone 4, Yangon Lane, Myanmar"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0068",
+        "name": "Crispfibre Holdings",
+        "type": "Supplier",
+        "tax_id": "IN-82-774225",
+        "country_code": "IN",
+        "address": "Plot 387, Phase 11, Mundra Export Processing Zone, India"
+      },
+      "right": {
+        "id": "SUP-T1-0068-ALT",
+        "name": "CRISPFIBRE HOLDINGS",
+        "type": "Supplier",
+        "tax_id": "IN-82-774225",
+        "country_code": "IN",
+        "address": "Plot 386, Phase 11, Mundra Export Processing Zone, India"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0029",
+        "name": "Reed & Heald Garments",
+        "type": "Supplier",
+        "tax_id": "IT-93-142213",
+        "country_code": "IT",
+        "address": "Plot 115, Sector 13, Genoa Lane, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0091",
+        "name": "Reed & Heald Textiles",
+        "type": "Supplier",
+        "tax_id": "IT-56-900961",
+        "country_code": "IT",
+        "address": "Plot 221, Zone 12, La Spezia Street, Italy"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0104",
+        "name": "Riverstone Holdings",
+        "type": "Supplier",
+        "tax_id": "PE-26-638179",
+        "country_code": "PE",
+        "address": "Plot 262, Sector 8, Callao Industrial Area, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0077",
+        "name": "Jasmine Holdings",
+        "type": "Supplier",
+        "tax_id": "PE-28-405420",
+        "country_code": "PE",
+        "address": "Plot 275, Block 12, Callao Road, Peru"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0103",
+        "name": "Reed & Heald Fabrics",
+        "type": "Supplier",
+        "tax_id": "EG-67-653829",
+        "country_code": "EG",
+        "address": "Plot 349, Sector 9, Damietta Export Processing Zone, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0033",
+        "name": "Meridian Holdings",
+        "type": "Supplier",
+        "tax_id": "MX-43-456871",
+        "country_code": "MX",
+        "address": "Plot 94, Block 6, Veracruz Industrial Area, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0115",
+        "name": "Granite Textiles",
+        "type": "Supplier",
+        "tax_id": "EG-46-117975",
+        "country_code": "EG",
+        "address": "Plot 272, Zone 9, Egypt City Lane, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0011",
+        "name": "Lotus Limited",
+        "type": "Supplier",
+        "tax_id": "KH-16-806073",
+        "country_code": "KH",
+        "address": "Plot 217, Phase 14, Sihanoukville Industrial Area, Cambodia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0012",
+        "name": "Sapphire Knitwear",
+        "type": "Supplier",
+        "tax_id": "PT-93-666847",
+        "country_code": "PT",
+        "address": "Plot 227, Sector 1, Lisbon Export Processing Zone, Portugal"
+      },
+      "right": {
+        "id": "SUP-T1-0012-ALT",
+        "name": "SAPPHIRE KNITWEAR",
+        "type": "Supplier",
+        "tax_id": "PT-93-666847",
+        "country_code": "PT",
+        "address": "Plot 225, Sector 1, Lisbon Export Processing Zone, Portugal"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0057",
+        "name": "Silverline Garments",
+        "type": "Supplier",
+        "tax_id": "BD-18-599380",
+        "country_code": "BD",
+        "address": "Plot 380, Sector 12, Chittagong Industrial Area, Bangladesh"
+      },
+      "right": {
+        "id": "SUP-T1-0083",
+        "name": "Warp & Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 161, Zone 4, Yangon Lane, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0022",
+        "name": "Red Thread Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-62-442027",
+        "country_code": "MA",
+        "address": "Plot 154, Zone 11, Morocco City Export Processing Zone, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0071",
+        "name": "Ivory Loom Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-94-731977",
+        "country_code": "MA",
+        "address": "Plot 348, Zone 5, Casablanca Industrial Area, Morocco"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0061",
+        "name": "Lotus International",
+        "type": "Supplier",
+        "tax_id": "LK-23-467121",
+        "country_code": "LK",
+        "address": "Plot 80, Phase 4, Sri Lanka City Lane, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0061-ALT",
+        "name": "LOTUS INTERNATIONAL",
+        "type": "Supplier",
+        "tax_id": "LK-23-467121",
+        "country_code": "LK",
+        "address": "Plot 81, Phase 4, Sri Lanka City Lane, Sri Lanka"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0109",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "MX-78-596520",
+        "country_code": "MX",
+        "address": "Plot 77, Phase 3, Mexico City Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0116",
+        "name": "Cuttle Knitwear",
+        "type": "Supplier",
+        "tax_id": "MX-93-896483",
+        "country_code": "MX",
+        "address": "Plot 116, Sector 11, Veracruz Avenue, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0019",
+        "name": "Needlepoint Limited",
+        "type": "Supplier",
+        "tax_id": "CN-30-938742",
+        "country_code": "CN",
+        "address": "Plot 384, Block 14, Ningbo Street, China"
+      },
+      "right": {
+        "id": "SUP-T1-0019-ALT",
+        "name": "NEEDLEPOINT LIMITED",
+        "type": "Supplier",
+        "tax_id": "CN-30-938742",
+        "country_code": "CN",
+        "address": "Plot 383, Block 14, Ningbo Street, China"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0068",
+        "name": "Crispfibre Holdings",
+        "type": "Supplier",
+        "tax_id": "IN-82-774225",
+        "country_code": "IN",
+        "address": "Plot 387, Phase 11, Mundra Export Processing Zone, India"
+      },
+      "right": {
+        "id": "SUP-T1-0031",
+        "name": "Crispfibre Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-82-920652",
+        "country_code": "IN",
+        "address": "Plot 357, Sector 13, India City Avenue, India"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0099",
+        "name": "Puregrain Knitwear",
+        "type": "Supplier",
+        "tax_id": "VN-32-538184",
+        "country_code": "VN",
+        "address": "Plot 379, Sector 15, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0045",
+        "name": "Amber Export House",
+        "type": "Supplier",
+        "tax_id": "IT-51-297816",
+        "country_code": "IT",
+        "address": "Plot 177, Phase 8, Genoa Avenue, Italy"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0113",
+        "name": "Spindle Export House",
+        "type": "Supplier",
+        "tax_id": "MM-72-858705",
+        "country_code": "MM",
+        "address": "Plot 351, Zone 13, Yangon Avenue, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0082",
+        "name": "Crispfibre Co.",
+        "type": "Supplier",
+        "tax_id": "VN-28-989894",
+        "country_code": "VN",
+        "address": "Plot 263, Block 1, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0070",
+        "name": "Lotus Group",
+        "type": "Supplier",
+        "tax_id": "VN-41-841995",
+        "country_code": "VN",
+        "address": "Plot 44, Block 1, Hai Phong Export Processing Zone, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0066",
+        "name": "Crispfibre Limited",
+        "type": "Supplier",
+        "tax_id": "MX-31-940247",
+        "country_code": "MX",
+        "address": "Plot 59, Sector 6, Mexico City Industrial Area, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0044",
+        "name": "Oakmoor Knitwear",
+        "type": "Supplier",
+        "tax_id": "HN-86-632929",
+        "country_code": "HN",
+        "address": "Plot 283, Phase 4, Honduras City Street, Honduras"
+      },
+      "right": {
+        "id": "SUP-T1-0086",
+        "name": "Monsoon Export House",
+        "type": "Supplier",
+        "tax_id": "ES-74-158104",
+        "country_code": "ES",
+        "address": "Plot 301, Block 7, Valencia Street, Spain"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0018",
+        "name": "Jasmine Apparel",
+        "type": "Supplier",
+        "tax_id": "EG-57-710805",
+        "country_code": "EG",
+        "address": "Plot 77, Sector 14, Alexandria Export Processing Zone, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0052",
+        "name": "Highland Apparel",
+        "type": "Supplier",
+        "tax_id": "MX-57-805511",
+        "country_code": "MX",
+        "address": "Plot 8, Sector 8, Mexico City Avenue, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0096",
+        "name": "Puregrain Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "EG-81-412999",
+        "country_code": "EG",
+        "address": "Plot 248, Block 5, Damietta Street, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0100",
+        "name": "Monsoon International",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 140, Sector 6, Peru City Street, Peru"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0016",
+        "name": "Northstar Apparel",
+        "type": "Supplier",
+        "tax_id": "PK-79-837715",
+        "country_code": "PK",
+        "address": "Plot 190, Block 8, Karachi Avenue, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0095",
+        "name": "Riverstone Limited",
+        "type": "Supplier",
+        "tax_id": "TR-17-840058",
+        "country_code": "TR",
+        "address": "Plot 397, Phase 14, Mersin Export Processing Zone, Turkey"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0075",
+        "name": "Shuttle Industries",
+        "type": "Supplier",
+        "tax_id": "PK-54-127965",
+        "country_code": "PK",
+        "address": "Plot 47, Phase 15, Port Qasim Street, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0075-ALT",
+        "name": "SHUTTLE INDUSTRIES",
+        "type": "Supplier",
+        "tax_id": "PK-54-127965",
+        "country_code": "PK",
+        "address": "Plot 46, Phase 15, Port Qasim Street, Pakistan"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0013",
+        "name": "Lowland Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "MX-34-411120",
+        "country_code": "MX",
+        "address": "Plot 147, Phase 3, Manzanillo Industrial Area, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0064",
+        "name": "Warp & Weft Trading",
+        "type": "Supplier",
+        "tax_id": "MM-36-416061",
+        "country_code": "MM",
+        "address": "Plot 113, Sector 1, Myanmar City Industrial Area, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0030",
+        "name": "Riverstone Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "CN-87-884256",
+        "country_code": "CN",
+        "address": "Plot 132, Block 10, China City Avenue, China"
+      },
+      "right": {
+        "id": "SUP-T1-0032",
+        "name": "Delta Limited",
+        "type": "Supplier",
+        "tax_id": "TN-78-912270",
+        "country_code": "TN",
+        "address": "Plot 376, Zone 10, Tunisia City Export Processing Zone, Tunisia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0032",
+        "name": "Delta Limited",
+        "type": "Supplier",
+        "tax_id": "TN-78-912270",
+        "country_code": "TN",
+        "address": "Plot 376, Zone 10, Tunisia City Export Processing Zone, Tunisia"
+      },
+      "right": {
+        "id": "SUP-T1-0094",
+        "name": "Oakmoor Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "BD-16-711868",
+        "country_code": "BD",
+        "address": "Plot 401, Block 12, Bangladesh City Export Processing Zone, Bangladesh"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0002",
+        "name": "Blue Ridge Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-64-456778",
+        "country_code": "EG",
+        "address": "Plot 143, Block 12, Damietta Road, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0002-ALT",
+        "name": "Blue Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-64-456778",
+        "country_code": "EG",
+        "address": "Plot 145, Block 12, Damietta Road, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0039",
+        "name": "Delta Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "ID-49-723948",
+        "country_code": "ID",
+        "address": "Plot 37, Block 13, Indonesia City Road, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0109",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "MX-78-596520",
+        "country_code": "MX",
+        "address": "Plot 77, Phase 3, Mexico City Avenue, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0055",
+        "name": "Northstar Garments",
+        "type": "Supplier",
+        "tax_id": "EG-68-196126",
+        "country_code": "EG",
+        "address": "Plot 142, Sector 14, Egypt City Street, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0055-ALT",
+        "name": "NORTHSTAR GARMENTS",
+        "type": "Supplier",
+        "tax_id": "EG-68-196126",
+        "country_code": "EG",
+        "address": "Plot 140, Sector 14, Egypt City Street, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0047",
+        "name": "Finewoven Apparel",
+        "type": "Supplier",
+        "tax_id": "EG-21-555052",
+        "country_code": "EG",
+        "address": "Plot 324, Zone 4, Alexandria Lane, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0047-ALT",
+        "name": "FINEWOVEN APPAREL",
+        "type": "Supplier",
+        "tax_id": "EG-21-555052",
+        "country_code": "EG",
+        "address": "Plot 326, Zone 4, Alexandria Lane, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0013",
+        "name": "Lowland Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "MX-34-411120",
+        "country_code": "MX",
+        "address": "Plot 147, Phase 3, Manzanillo Industrial Area, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0003",
+        "name": "Sapphire Export House",
+        "type": "Supplier",
+        "tax_id": "VN-90-748564",
+        "country_code": "VN",
+        "address": "Plot 194, Zone 14, Vietnam City Road, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0097",
+        "name": "Coral Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-20-463188",
+        "country_code": "MM",
+        "address": "Plot 149, Zone 12, Myanmar City Road, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0083",
+        "name": "Warp & Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 161, Zone 4, Yangon Lane, Myanmar"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0011",
+        "name": "Lotus Limited",
+        "type": "Supplier",
+        "tax_id": "KH-16-806073",
+        "country_code": "KH",
+        "address": "Plot 217, Phase 14, Sihanoukville Industrial Area, Cambodia"
+      },
+      "right": {
+        "id": "SUP-T1-0100",
+        "name": "Monsoon International",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 140, Sector 6, Peru City Street, Peru"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0046",
+        "name": "Ivory Loom Manufacturing",
+        "type": "Supplier",
+        "tax_id": "ES-28-529893",
+        "country_code": "ES",
+        "address": "Plot 52, Phase 1, Spain City Export Processing Zone, Spain"
+      },
+      "right": {
+        "id": "SUP-T1-0042",
+        "name": "Granite Garments",
+        "type": "Supplier",
+        "tax_id": "EG-66-896907",
+        "country_code": "EG",
+        "address": "Plot 266, Phase 11, Damietta Avenue, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0084",
+        "name": "Amber Mills",
+        "type": "Supplier",
+        "tax_id": "TR-54-844007",
+        "country_code": "TR",
+        "address": "Plot 228, Zone 11, Istanbul (Ambarli) Road, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0024",
+        "name": "Finewoven Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-99-502630",
+        "country_code": "ID",
+        "address": "Plot 213, Block 12, Semarang Lane, Indonesia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0111",
+        "name": "Riverstone Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-41-829417",
+        "country_code": "LK",
+        "address": "Plot 61, Phase 15, Colombo Lane, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0017",
+        "name": "Ivory Loom Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-16-196781",
+        "country_code": "LK",
+        "address": "Plot 325, Phase 5, Colombo Avenue, Sri Lanka"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0069",
+        "name": "Bluefin Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "TN-46-180458",
+        "country_code": "TN",
+        "address": "Plot 20, Zone 14, Rades Road, Tunisia"
+      },
+      "right": {
+        "id": "SUP-T1-0069-ALT",
+        "name": "BLUEFIN PVT LTD",
+        "type": "Supplier",
+        "tax_id": "TN-46-180458",
+        "country_code": "TN",
+        "address": "Plot 21, Zone 14, Rades Road, Tunisia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0107",
+        "name": "Jasmine Garments",
+        "type": "Supplier",
+        "tax_id": "PK-36-170559",
+        "country_code": "PK",
+        "address": "Plot 215, Sector 4, Karachi Export Processing Zone, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0004",
+        "name": "Sapphire Enterprises",
+        "type": "Supplier",
+        "tax_id": "MX-44-835911",
+        "country_code": "MX",
+        "address": "Plot 190, Block 11, Veracruz Avenue, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0030",
+        "name": "Riverstone Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "CN-87-884256",
+        "country_code": "CN",
+        "address": "Plot 132, Block 10, China City Avenue, China"
+      },
+      "right": {
+        "id": "SUP-T1-0030-ALT",
+        "name": "RIVERSTONE PVT LTD",
+        "type": "Supplier",
+        "tax_id": "CN-87-884256",
+        "country_code": "CN",
+        "address": "Plot 130, Block 10, China City Avenue, China"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0024",
+        "name": "Finewoven Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-99-502630",
+        "country_code": "ID",
+        "address": "Plot 213, Block 12, Semarang Lane, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0024-ALT",
+        "name": "FINEWOVEN APPAREL",
+        "type": "Supplier",
+        "tax_id": "ID-99-502630",
+        "country_code": "ID",
+        "address": "Plot 211, Block 12, Semarang Lane, Indonesia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0091",
+        "name": "Reed & Heald Textiles",
+        "type": "Supplier",
+        "tax_id": "IT-56-900961",
+        "country_code": "IT",
+        "address": "Plot 221, Zone 12, La Spezia Street, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0091-ALT",
+        "name": "REED & HEALD TEXTILES",
+        "type": "Supplier",
+        "tax_id": "IT-56-900961",
+        "country_code": "IT",
+        "address": "Plot 222, Zone 12, La Spezia Street, Italy"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0099",
+        "name": "Puregrain Knitwear",
+        "type": "Supplier",
+        "tax_id": "VN-32-538184",
+        "country_code": "VN",
+        "address": "Plot 379, Sector 15, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0042",
+        "name": "Granite Garments",
+        "type": "Supplier",
+        "tax_id": "EG-66-896907",
+        "country_code": "EG",
+        "address": "Plot 266, Phase 11, Damietta Avenue, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0109",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "MX-78-596520",
+        "country_code": "MX",
+        "address": "Plot 77, Phase 3, Mexico City Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0056",
+        "name": "Delta Textiles",
+        "type": "Supplier",
+        "tax_id": "ID-42-937302",
+        "country_code": "ID",
+        "address": "Plot 440, Block 9, Semarang Street, Indonesia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0007",
+        "name": "Reed & Heald Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "CN-30-575763",
+        "country_code": "CN",
+        "address": "Plot 175, Zone 7, China City Road, China"
+      },
+      "right": {
+        "id": "SUP-T1-0106",
+        "name": "Reed & Heald Co.",
+        "type": "Supplier",
+        "tax_id": "CN-10-892911",
+        "country_code": "CN",
+        "address": "Plot 66, Block 14, Shanghai Lane, China"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0076",
+        "name": "Monsoon Holdings",
+        "type": "Supplier",
+        "tax_id": "LK-42-326130",
+        "country_code": "LK",
+        "address": "Plot 316, Sector 1, Sri Lanka City Road, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0115",
+        "name": "Granite Textiles",
+        "type": "Supplier",
+        "tax_id": "EG-46-117975",
+        "country_code": "EG",
+        "address": "Plot 272, Zone 9, Egypt City Lane, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0120",
+        "name": "Lotus Apparel",
+        "type": "Supplier",
+        "tax_id": "MA-44-207197",
+        "country_code": "MA",
+        "address": "Plot 158, Zone 13, Tanger Med Industrial Area, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0055",
+        "name": "Northstar Garments",
+        "type": "Supplier",
+        "tax_id": "EG-68-196126",
+        "country_code": "EG",
+        "address": "Plot 142, Sector 14, Egypt City Street, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0070",
+        "name": "Lotus Group",
+        "type": "Supplier",
+        "tax_id": "VN-41-841995",
+        "country_code": "VN",
+        "address": "Plot 44, Block 1, Hai Phong Export Processing Zone, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0113",
+        "name": "Spindle Export House",
+        "type": "Supplier",
+        "tax_id": "MM-72-858705",
+        "country_code": "MM",
+        "address": "Plot 351, Zone 13, Yangon Avenue, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0095",
+        "name": "Riverstone Limited",
+        "type": "Supplier",
+        "tax_id": "TR-17-840058",
+        "country_code": "TR",
+        "address": "Plot 397, Phase 14, Mersin Export Processing Zone, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0048",
+        "name": "Warp & Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 350, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0083",
+        "name": "Warp & Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 161, Zone 4, Yangon Lane, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0083-ALT",
+        "name": "Warp and Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 162, Zone 4, Yangon Lane, Myanmar"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0025",
+        "name": "Jasmine Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-66-742412",
+        "country_code": "EG",
+        "address": "Plot 411, Zone 13, Alexandria Industrial Area, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0003",
+        "name": "Sapphire Export House",
+        "type": "Supplier",
+        "tax_id": "VN-90-748564",
+        "country_code": "VN",
+        "address": "Plot 194, Zone 14, Vietnam City Road, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0118",
+        "name": "Pacific Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-27-928897",
+        "country_code": "IN",
+        "address": "Plot 428, Zone 7, Nhava Sheva Industrial Area, India"
+      },
+      "right": {
+        "id": "SUP-T1-0099",
+        "name": "Puregrain Knitwear",
+        "type": "Supplier",
+        "tax_id": "VN-32-538184",
+        "country_code": "VN",
+        "address": "Plot 379, Sector 15, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0004",
+        "name": "Sapphire Enterprises",
+        "type": "Supplier",
+        "tax_id": "MX-44-835911",
+        "country_code": "MX",
+        "address": "Plot 190, Block 11, Veracruz Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0004-ALT",
+        "name": "SAPPHIRE ENTERPRISES",
+        "type": "Supplier",
+        "tax_id": "MX-44-835911",
+        "country_code": "MX",
+        "address": "Plot 189, Block 11, Veracruz Avenue, Mexico"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0116",
+        "name": "Cuttle Knitwear",
+        "type": "Supplier",
+        "tax_id": "MX-93-896483",
+        "country_code": "MX",
+        "address": "Plot 116, Sector 11, Veracruz Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0020",
+        "name": "Oakmoor Knitwear",
+        "type": "Supplier",
+        "tax_id": "MX-39-333752",
+        "country_code": "MX",
+        "address": "Plot 419, Zone 5, Manzanillo Industrial Area, Mexico"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0042",
+        "name": "Granite Garments",
+        "type": "Supplier",
+        "tax_id": "EG-66-896907",
+        "country_code": "EG",
+        "address": "Plot 266, Phase 11, Damietta Avenue, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0115",
+        "name": "Granite Textiles",
+        "type": "Supplier",
+        "tax_id": "EG-46-117975",
+        "country_code": "EG",
+        "address": "Plot 272, Zone 9, Egypt City Lane, Egypt"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0084",
+        "name": "Amber Mills",
+        "type": "Supplier",
+        "tax_id": "TR-54-844007",
+        "country_code": "TR",
+        "address": "Plot 228, Zone 11, Istanbul (Ambarli) Road, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0022",
+        "name": "Red Thread Manufacturing",
+        "type": "Supplier",
+        "tax_id": "MA-62-442027",
+        "country_code": "MA",
+        "address": "Plot 154, Zone 11, Morocco City Export Processing Zone, Morocco"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0018",
+        "name": "Jasmine Apparel",
+        "type": "Supplier",
+        "tax_id": "EG-57-710805",
+        "country_code": "EG",
+        "address": "Plot 77, Sector 14, Alexandria Export Processing Zone, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0018-ALT",
+        "name": "JASMINE APPAREL",
+        "type": "Supplier",
+        "tax_id": "EG-57-710805",
+        "country_code": "EG",
+        "address": "Plot 78, Sector 14, Alexandria Export Processing Zone, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0090",
+        "name": "Red Thread Fabrics",
+        "type": "Supplier",
+        "tax_id": "MA-49-621530",
+        "country_code": "MA",
+        "address": "Plot 256, Phase 8, Morocco City Export Processing Zone, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0090-ALT",
+        "name": "Red Fabrics",
+        "type": "Supplier",
+        "tax_id": "MA-49-621530",
+        "country_code": "MA",
+        "address": "Plot 254, Phase 8, Morocco City Export Processing Zone, Morocco"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0112",
+        "name": "Lotus Holdings",
+        "type": "Supplier",
+        "tax_id": "IT-15-689849",
+        "country_code": "IT",
+        "address": "Plot 105, Zone 7, La Spezia Avenue, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0112-ALT",
+        "name": "LOTUS HOLDINGS",
+        "type": "Supplier",
+        "tax_id": "IT-15-689849",
+        "country_code": "IT",
+        "address": "Plot 106, Zone 7, La Spezia Avenue, Italy"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0063",
+        "name": "Cascade Industries",
+        "type": "Supplier",
+        "tax_id": "MM-20-385320",
+        "country_code": "MM",
+        "address": "Plot 387, Sector 11, Yangon Export Processing Zone, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0037",
+        "name": "Delta Industries",
+        "type": "Supplier",
+        "tax_id": "MM-81-901577",
+        "country_code": "MM",
+        "address": "Plot 156, Block 2, Yangon Road, Myanmar"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0095",
+        "name": "Riverstone Limited",
+        "type": "Supplier",
+        "tax_id": "TR-17-840058",
+        "country_code": "TR",
+        "address": "Plot 397, Phase 14, Mersin Export Processing Zone, Turkey"
+      },
+      "right": {
+        "id": "SUP-T1-0095-ALT",
+        "name": "RIVERSTONE LIMITED",
+        "type": "Supplier",
+        "tax_id": "TR-17-840058",
+        "country_code": "TR",
+        "address": "Plot 396, Phase 14, Mersin Export Processing Zone, Turkey"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0029",
+        "name": "Reed & Heald Garments",
+        "type": "Supplier",
+        "tax_id": "IT-93-142213",
+        "country_code": "IT",
+        "address": "Plot 115, Sector 13, Genoa Lane, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0042",
+        "name": "Granite Garments",
+        "type": "Supplier",
+        "tax_id": "EG-66-896907",
+        "country_code": "EG",
+        "address": "Plot 266, Phase 11, Damietta Avenue, Egypt"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0118",
+        "name": "Pacific Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-27-928897",
+        "country_code": "IN",
+        "address": "Plot 428, Zone 7, Nhava Sheva Industrial Area, India"
+      },
+      "right": {
+        "id": "SUP-T1-0052",
+        "name": "Highland Apparel",
+        "type": "Supplier",
+        "tax_id": "MX-57-805511",
+        "country_code": "MX",
+        "address": "Plot 8, Sector 8, Mexico City Avenue, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0025",
+        "name": "Jasmine Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-66-742412",
+        "country_code": "EG",
+        "address": "Plot 411, Zone 13, Alexandria Industrial Area, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0025-ALT",
+        "name": "Jasmine Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-66-742412",
+        "country_code": "EG",
+        "address": "Plot 412, Zone 13, Alexandria Industrial Area, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0114",
+        "name": "Cascade Textiles",
+        "type": "Supplier",
+        "tax_id": "IN-29-109585",
+        "country_code": "IN",
+        "address": "Plot 71, Block 2, India City Lane, India"
+      },
+      "right": {
+        "id": "SUP-T1-0114-ALT",
+        "name": "CASCADE TEXTILES",
+        "type": "Supplier",
+        "tax_id": "IN-29-109585",
+        "country_code": "IN",
+        "address": "Plot 73, Block 2, India City Lane, India"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0011",
+        "name": "Lotus Limited",
+        "type": "Supplier",
+        "tax_id": "KH-16-806073",
+        "country_code": "KH",
+        "address": "Plot 217, Phase 14, Sihanoukville Industrial Area, Cambodia"
+      },
+      "right": {
+        "id": "SUP-T1-0013",
+        "name": "Lowland Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "MX-34-411120",
+        "country_code": "MX",
+        "address": "Plot 147, Phase 3, Manzanillo Industrial Area, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0007",
+        "name": "Reed & Heald Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "CN-30-575763",
+        "country_code": "CN",
+        "address": "Plot 175, Zone 7, China City Road, China"
+      },
+      "right": {
+        "id": "SUP-T1-0106",
+        "name": "Reed & Heald Co.",
+        "type": "Supplier",
+        "tax_id": "CN-10-892911",
+        "country_code": "CN",
+        "address": "Plot 66, Block 14, Shanghai Lane, China"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0082",
+        "name": "Crispfibre Co.",
+        "type": "Supplier",
+        "tax_id": "VN-28-989894",
+        "country_code": "VN",
+        "address": "Plot 263, Block 1, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0082-ALT",
+        "name": "CRISPFIBRE CO.",
+        "type": "Supplier",
+        "tax_id": "VN-28-989894",
+        "country_code": "VN",
+        "address": "Plot 262, Block 1, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0079",
+        "name": "Orient Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "MA-27-166165",
+        "country_code": "MA",
+        "address": "Plot 246, Block 13, Morocco City Lane, Morocco"
+      },
+      "right": {
+        "id": "SUP-T1-0079-ALT",
+        "name": "Orient Ltd",
+        "type": "Supplier",
+        "tax_id": "MA-27-166165",
+        "country_code": "MA",
+        "address": "Plot 244, Block 13, Morocco City Lane, Morocco"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0039",
+        "name": "Delta Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "ID-49-723948",
+        "country_code": "ID",
+        "address": "Plot 37, Block 13, Indonesia City Road, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0039-ALT",
+        "name": "DELTA DYEING & FINISHING",
+        "type": "Supplier",
+        "tax_id": "ID-49-723948",
+        "country_code": "ID",
+        "address": "Plot 36, Block 13, Indonesia City Road, Indonesia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0063",
+        "name": "Cascade Industries",
+        "type": "Supplier",
+        "tax_id": "MM-20-385320",
+        "country_code": "MM",
+        "address": "Plot 387, Sector 11, Yangon Export Processing Zone, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0102",
+        "name": "Bluefin Mills",
+        "type": "Supplier",
+        "tax_id": "CN-25-769737",
+        "country_code": "CN",
+        "address": "Plot 352, Zone 12, Ningbo Export Processing Zone, China"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0060",
+        "name": "Harbor Apparel",
+        "type": "Supplier",
+        "tax_id": "IT-26-683397",
+        "country_code": "IT",
+        "address": "Plot 222, Zone 13, Genoa Road, Italy"
+      },
+      "right": {
+        "id": "SUP-T1-0070",
+        "name": "Lotus Group",
+        "type": "Supplier",
+        "tax_id": "VN-41-841995",
+        "country_code": "VN",
+        "address": "Plot 44, Block 1, Hai Phong Export Processing Zone, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0083",
+        "name": "Warp & Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 161, Zone 4, Yangon Lane, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0064",
+        "name": "Warp & Weft Trading",
+        "type": "Supplier",
+        "tax_id": "MM-36-416061",
+        "country_code": "MM",
+        "address": "Plot 113, Sector 1, Myanmar City Industrial Area, Myanmar"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0067",
+        "name": "Pacific Apparel",
+        "type": "Supplier",
+        "tax_id": "ID-54-468154",
+        "country_code": "ID",
+        "address": "Plot 325, Block 15, Semarang Road, Indonesia"
+      },
+      "right": {
+        "id": "SUP-T1-0067-ALT",
+        "name": "PACIFIC APPAREL",
+        "type": "Supplier",
+        "tax_id": "ID-54-468154",
+        "country_code": "ID",
+        "address": "Plot 327, Block 15, Semarang Road, Indonesia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0115",
+        "name": "Granite Textiles",
+        "type": "Supplier",
+        "tax_id": "EG-46-117975",
+        "country_code": "EG",
+        "address": "Plot 272, Zone 9, Egypt City Lane, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0115-ALT",
+        "name": "GRANITE TEXTILES",
+        "type": "Supplier",
+        "tax_id": "EG-46-117975",
+        "country_code": "EG",
+        "address": "Plot 273, Zone 9, Egypt City Lane, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0118",
+        "name": "Pacific Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-27-928897",
+        "country_code": "IN",
+        "address": "Plot 428, Zone 7, Nhava Sheva Industrial Area, India"
+      },
+      "right": {
+        "id": "SUP-T1-0020",
+        "name": "Oakmoor Knitwear",
+        "type": "Supplier",
+        "tax_id": "MX-39-333752",
+        "country_code": "MX",
+        "address": "Plot 419, Zone 5, Manzanillo Industrial Area, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0070",
+        "name": "Lotus Group",
+        "type": "Supplier",
+        "tax_id": "VN-41-841995",
+        "country_code": "VN",
+        "address": "Plot 44, Block 1, Hai Phong Export Processing Zone, Vietnam"
+      },
+      "right": {
+        "id": "SUP-T1-0036",
+        "name": "Lotus Valley Industries",
+        "type": "Supplier",
+        "tax_id": "VN-11-701949",
+        "country_code": "VN",
+        "address": "Plot 445, Sector 14, Vietnam City Industrial Area, Vietnam"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0092",
+        "name": "Finewoven Manufacturing",
+        "type": "Supplier",
+        "tax_id": "PK-53-684929",
+        "country_code": "PK",
+        "address": "Plot 50, Zone 13, Pakistan City Industrial Area, Pakistan"
+      },
+      "right": {
+        "id": "SUP-T1-0048",
+        "name": "Warp & Weft Limited",
+        "type": "Supplier",
+        "tax_id": "TR-20-739098",
+        "country_code": "TR",
+        "address": "Plot 350, Block 3, Istanbul (Ambarli) Street, Turkey"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0049",
+        "name": "Lustre Trading",
+        "type": "Supplier",
+        "tax_id": "PE-48-308894",
+        "country_code": "PE",
+        "address": "Plot 218, Zone 8, Peru City Lane, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0049-ALT",
+        "name": "LUSTRE TRADING",
+        "type": "Supplier",
+        "tax_id": "PE-48-308894",
+        "country_code": "PE",
+        "address": "Plot 219, Zone 8, Peru City Lane, Peru"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0078",
+        "name": "Lowland Holdings",
+        "type": "Supplier",
+        "tax_id": "EG-12-474440",
+        "country_code": "EG",
+        "address": "Plot 326, Zone 5, Alexandria Industrial Area, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0078-ALT",
+        "name": "LOWLAND HOLDINGS",
+        "type": "Supplier",
+        "tax_id": "EG-12-474440",
+        "country_code": "EG",
+        "address": "Plot 325, Zone 5, Alexandria Industrial Area, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0015",
+        "name": "Silverline Fabrics",
+        "type": "Supplier",
+        "tax_id": "MM-60-237235",
+        "country_code": "MM",
+        "address": "Plot 367, Block 5, Myanmar City Avenue, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0080",
+        "name": "Cedar Trading",
+        "type": "Supplier",
+        "tax_id": "VN-25-938171",
+        "country_code": "VN",
+        "address": "Plot 442, Zone 5, Vietnam City Road, Vietnam"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0051",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "IN-74-385765",
+        "country_code": "IN",
+        "address": "Plot 103, Zone 9, Nhava Sheva Street, India"
+      },
+      "right": {
+        "id": "SUP-T1-0051-ALT",
+        "name": "Red Limited",
+        "type": "Supplier",
+        "tax_id": "IN-74-385765",
+        "country_code": "IN",
+        "address": "Plot 105, Zone 9, Nhava Sheva Street, India"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0111",
+        "name": "Riverstone Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-41-829417",
+        "country_code": "LK",
+        "address": "Plot 61, Phase 15, Colombo Lane, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0111-ALT",
+        "name": "RIVERSTONE FABRICS",
+        "type": "Supplier",
+        "tax_id": "LK-41-829417",
+        "country_code": "LK",
+        "address": "Plot 59, Phase 15, Colombo Lane, Sri Lanka"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0066",
+        "name": "Crispfibre Limited",
+        "type": "Supplier",
+        "tax_id": "MX-31-940247",
+        "country_code": "MX",
+        "address": "Plot 59, Sector 6, Mexico City Industrial Area, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0109",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "MX-78-596520",
+        "country_code": "MX",
+        "address": "Plot 77, Phase 3, Mexico City Avenue, Mexico"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0033",
+        "name": "Meridian Holdings",
+        "type": "Supplier",
+        "tax_id": "MX-43-456871",
+        "country_code": "MX",
+        "address": "Plot 94, Block 6, Veracruz Industrial Area, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0033-ALT",
+        "name": "MERIDIAN HOLDINGS",
+        "type": "Supplier",
+        "tax_id": "MX-43-456871",
+        "country_code": "MX",
+        "address": "Plot 93, Block 6, Veracruz Industrial Area, Mexico"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0106",
+        "name": "Reed & Heald Co.",
+        "type": "Supplier",
+        "tax_id": "CN-10-892911",
+        "country_code": "CN",
+        "address": "Plot 66, Block 14, Shanghai Lane, China"
+      },
+      "right": {
+        "id": "SUP-T1-0007",
+        "name": "Reed & Heald Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "CN-30-575763",
+        "country_code": "CN",
+        "address": "Plot 175, Zone 7, China City Road, China"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0025",
+        "name": "Jasmine Pvt Ltd",
+        "type": "Supplier",
+        "tax_id": "EG-66-742412",
+        "country_code": "EG",
+        "address": "Plot 411, Zone 13, Alexandria Industrial Area, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0116",
+        "name": "Cuttle Knitwear",
+        "type": "Supplier",
+        "tax_id": "MX-93-896483",
+        "country_code": "MX",
+        "address": "Plot 116, Sector 11, Veracruz Avenue, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0017",
+        "name": "Ivory Loom Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-16-196781",
+        "country_code": "LK",
+        "address": "Plot 325, Phase 5, Colombo Avenue, Sri Lanka"
+      },
+      "right": {
+        "id": "SUP-T1-0017-ALT",
+        "name": "Ivory Fabrics",
+        "type": "Supplier",
+        "tax_id": "LK-16-196781",
+        "country_code": "LK",
+        "address": "Plot 324, Phase 5, Colombo Avenue, Sri Lanka"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0096",
+        "name": "Puregrain Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "EG-81-412999",
+        "country_code": "EG",
+        "address": "Plot 248, Block 5, Damietta Street, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0013",
+        "name": "Lowland Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "MX-34-411120",
+        "country_code": "MX",
+        "address": "Plot 147, Phase 3, Manzanillo Industrial Area, Mexico"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0042",
+        "name": "Granite Garments",
+        "type": "Supplier",
+        "tax_id": "EG-66-896907",
+        "country_code": "EG",
+        "address": "Plot 266, Phase 11, Damietta Avenue, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0055",
+        "name": "Northstar Garments",
+        "type": "Supplier",
+        "tax_id": "EG-68-196126",
+        "country_code": "EG",
+        "address": "Plot 142, Sector 14, Egypt City Street, Egypt"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0119",
+        "name": "Red Thread Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-55-679902",
+        "country_code": "ET",
+        "address": "Plot 140, Phase 4, Ethiopia City Industrial Area, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0028",
+        "name": "Coral Textiles",
+        "type": "Supplier",
+        "tax_id": "ET-69-290556",
+        "country_code": "ET",
+        "address": "Plot 330, Block 14, Djibouti Industrial Area, Ethiopia"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0096",
+        "name": "Puregrain Dyeing & Finishing",
+        "type": "Supplier",
+        "tax_id": "EG-81-412999",
+        "country_code": "EG",
+        "address": "Plot 248, Block 5, Damietta Street, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0015",
+        "name": "Silverline Fabrics",
+        "type": "Supplier",
+        "tax_id": "MM-60-237235",
+        "country_code": "MM",
+        "address": "Plot 367, Block 5, Myanmar City Avenue, Myanmar"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0065",
+        "name": "Blue Ridge International",
+        "type": "Supplier",
+        "tax_id": "EG-60-878086",
+        "country_code": "EG",
+        "address": "Plot 427, Zone 2, Egypt City Lane, Egypt"
+      },
+      "right": {
+        "id": "SUP-T1-0065-ALT",
+        "name": "BLUE RIDGE INTERNATIONAL",
+        "type": "Supplier",
+        "tax_id": "EG-60-878086",
+        "country_code": "EG",
+        "address": "Plot 425, Zone 2, Egypt City Lane, Egypt"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0043",
+        "name": "Pacific Trading",
+        "type": "Supplier",
+        "tax_id": "ET-38-982277",
+        "country_code": "ET",
+        "address": "Plot 8, Phase 2, Djibouti Export Processing Zone, Ethiopia"
+      },
+      "right": {
+        "id": "SUP-T1-0043-ALT",
+        "name": "PACIFIC TRADING",
+        "type": "Supplier",
+        "tax_id": "ET-38-982277",
+        "country_code": "ET",
+        "address": "Plot 9, Phase 2, Djibouti Export Processing Zone, Ethiopia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0109",
+        "name": "Red Thread Limited",
+        "type": "Supplier",
+        "tax_id": "MX-78-596520",
+        "country_code": "MX",
+        "address": "Plot 77, Phase 3, Mexico City Avenue, Mexico"
+      },
+      "right": {
+        "id": "SUP-T1-0088",
+        "name": "Finewoven Textiles",
+        "type": "Supplier",
+        "tax_id": "KH-48-606404",
+        "country_code": "KH",
+        "address": "Plot 322, Zone 11, Cambodia City Export Processing Zone, Cambodia"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0031",
+        "name": "Crispfibre Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-82-920652",
+        "country_code": "IN",
+        "address": "Plot 357, Sector 13, India City Avenue, India"
+      },
+      "right": {
+        "id": "SUP-T1-0100",
+        "name": "Monsoon International",
+        "type": "Supplier",
+        "tax_id": "PE-30-866634",
+        "country_code": "PE",
+        "address": "Plot 140, Sector 6, Peru City Street, Peru"
+      },
+      "label": "no_match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0054",
+        "name": "Lustre Industries",
+        "type": "Supplier",
+        "tax_id": "TN-62-393328",
+        "country_code": "TN",
+        "address": "Plot 336, Phase 10, Tunisia City Road, Tunisia"
+      },
+      "right": {
+        "id": "SUP-T1-0054-ALT",
+        "name": "LUSTRE INDUSTRIES",
+        "type": "Supplier",
+        "tax_id": "TN-62-393328",
+        "country_code": "TN",
+        "address": "Plot 334, Phase 10, Tunisia City Road, Tunisia"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0083",
+        "name": "Warp & Weft Enterprises",
+        "type": "Supplier",
+        "tax_id": "MM-24-127172",
+        "country_code": "MM",
+        "address": "Plot 161, Zone 4, Yangon Lane, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0064",
+        "name": "Warp & Weft Trading",
+        "type": "Supplier",
+        "tax_id": "MM-36-416061",
+        "country_code": "MM",
+        "address": "Plot 113, Sector 1, Myanmar City Industrial Area, Myanmar"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0034",
+        "name": "Harbor Trading",
+        "type": "Supplier",
+        "tax_id": "PE-94-709805",
+        "country_code": "PE",
+        "address": "Plot 208, Block 5, Callao Lane, Peru"
+      },
+      "right": {
+        "id": "SUP-T1-0034-ALT",
+        "name": "HARBOR TRADING",
+        "type": "Supplier",
+        "tax_id": "PE-94-709805",
+        "country_code": "PE",
+        "address": "Plot 209, Block 5, Callao Lane, Peru"
+      },
+      "label": "match"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0031",
+        "name": "Crispfibre Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-82-920652",
+        "country_code": "IN",
+        "address": "Plot 357, Sector 13, India City Avenue, India"
+      },
+      "right": {
+        "id": "SUP-T1-0118",
+        "name": "Pacific Knitwear",
+        "type": "Supplier",
+        "tax_id": "IN-27-928897",
+        "country_code": "IN",
+        "address": "Plot 428, Zone 7, Nhava Sheva Industrial Area, India"
+      },
+      "label": "ambiguous"
+    },
+    {
+      "left": {
+        "id": "SUP-T1-0063",
+        "name": "Cascade Industries",
+        "type": "Supplier",
+        "tax_id": "MM-20-385320",
+        "country_code": "MM",
+        "address": "Plot 387, Sector 11, Yangon Export Processing Zone, Myanmar"
+      },
+      "right": {
+        "id": "SUP-T1-0099",
+        "name": "Puregrain Knitwear",
+        "type": "Supplier",
+        "tax_id": "VN-32-538184",
+        "country_code": "VN",
+        "address": "Plot 379, Sector 15, Ho Chi Minh (Cat Lai) Lane, Vietnam"
+      },
+      "label": "no_match"
+    }
+  ]
+}

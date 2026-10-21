@@ -1,0 +1,88 @@
+[project]
+name = "blast-radius-engine"
+version = "0.1.0"
+description = "Supply Chain Blast Radius Engine (GraphRAG) - Phase 1 scaffold"
+requires-python = ">=3.11,<3.14"
+
+# All versions verified against PyPI on 2026-10-20.
+# Exact pins (==) because several of these packages are still 0.x and allow
+# breaking changes between minors. Loosen only after Phase 6 proves stability.
+dependencies = [
+  # Vector + graph stores
+  "qdrant-client==1.19.1",   # must match Qdrant server 1.19.x in docker-compose
+  "neo4j==6.4.1",            # driver 6.x talks to server 5.26 LTS; API shifted from 5.x driver line
+  "duckdb==1.5.6",
+  # Agents + LLM clients
+  "crewai==1.15.28",         # 1.x line; verify import surface at setup
+  "crewai-tools==1.15.28",   # pinned lockstep with crewai
+  "ollama==0.6.3",
+  # Numeric track
+  "pandas==3.0.6",           # 3.x: Copy-on-Write default, several 2.x APIs removed
+  "pyarrow==26.0.0",
+  # Parsers (Phase 3 — declared now so docker build caches cleanly)
+  "pdfplumber==0.11.10",
+  "camelot-py[cv]==2.0.0",   # second extractor for table disagreement check
+  "unstructured==0.27.30",
+  "python-docx==1.2.0",
+  "openpyxl==3.1.5",
+  # Entity resolution + text
+  "rapidfuzz==3.14.6",
+  "networkx==3.7",
+  # API + CLI (Phase 7)
+  "fastapi==0.151.0",
+  "uvicorn==0.54.0",
+  "typer==0.27.3",
+  "httpx==0.28.1",
+  "pydantic==2.12.5",  # ceiling set by crewai==1.15.28 (requires <2.13); see README
+  # Config
+  "pyyaml==6.0.3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.1.1",
+  "ruff==0.17.1",
+]
+datagen = [
+  # tools/datagen is standalone; it may install its own extras separately.
+  "faker==40.43.0",
+  "reportlab==4.2.5",        # synthetic PDFs
+]
+
+[project.scripts]
+blast = "cli.__main__:app"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "cli*", "tools*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "TID"]
+
+# Enforce the Critical Constraint: tools/datagen must not import from src/.
+# This runs on every lint; CI will catch any accidental coupling.
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"src".msg = "tools/datagen is standalone — no imports from src/ allowed"
+"src.ingest".msg = "tools/datagen is standalone — no imports from src/ allowed"
+"src.extract".msg = "tools/datagen is standalone — no imports from src/ allowed"
+"src.graph".msg = "tools/datagen is standalone — no imports from src/ allowed"
+
+[tool.ruff.lint.per-file-ignores]
+# Only the datagen subtree is subject to the banned-import rule above.
+# Everywhere else, 'src' is a normal package.
+"src/**" = ["TID251"]
+"cli/**" = ["TID251"]
+"tests/**" = ["TID251"]
+"eval/**" = ["TID251"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"

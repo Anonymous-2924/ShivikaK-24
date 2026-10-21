@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExtractionResult",
+  "description": "Strict schema the LLM must produce. Any output that fails validation is rejected and either retried or dropped. Keep in lockstep with config/settings.yaml allowed_node_types / allowed_relations.",
+  "type": "object",
+  "required": ["entities", "relations", "source_ref"],
+  "additionalProperties": false,
+  "properties": {
+    "source_ref": {
+      "type": "object",
+      "required": ["doc_id", "char_start", "char_end"],
+      "properties": {
+        "doc_id": { "type": "string" },
+        "char_start": { "type": "integer", "minimum": 0 },
+        "char_end": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["SKU", "Component", "Supplier", "Plant", "Site",
+                     "Geography", "Route", "Port", "Event", "Document", "DataTable"]
+          },
+          "attributes": { "type": "object" }
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "target_id", "type", "confidence",
+                     "extraction_method", "valid_from"],
+        "additionalProperties": false,
+        "properties": {
+          "source_id": { "type": "string" },
+          "target_id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["contains", "supplied_by", "manufactured_at", "located_in",
+                     "ships_via", "disrupted_by", "substitutes_for",
+                     "evidenced_by", "has_financials"]
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "extraction_method": {
+            "type": "string",
+            "enum": ["structured", "llm_extracted", "inferred", "manual", "vision"]
+          },
+          "valid_from": { "type": "string", "format": "date" },
+          "valid_to":   { "type": ["string", "null"], "format": "date" },
+          "evidence_span": {
+            "type": "object",
+            "properties": {
+              "doc_id": { "type": "string" },
+              "char_start": { "type": "integer" },
+              "char_end": { "type": "integer" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
