@@ -266,6 +266,66 @@ deterministic for that reason)
 
 ---
 
+## Phase 6 — Evaluation harness
+
+`eval/questions.jsonl`: 45 hand-written questions across exposure
+tracing (12), risk quantification (11), tier-2 inference (11), and
+monitoring (11), with ground truth computed from the actual generated
+corpus (BFS over the real ERP exports, real demand/inventory numbers) —
+not guessed. `eval/baseline_vector_rag.py`: the plain vector-RAG
+pipeline (embed → top-k Qdrant → concatenate → one LLM call, no graph,
+no DuckDB, no router) GraphRAG is benchmarked against. `eval/metrics.py`:
+retrieval precision, path correctness (Jaccard), hallucination rate,
+p50/p95 latency, cost per query. `eval/run.py` (`make eval`): runs both
+systems over every question, writes `eval/results.md` +
+`eval/results_detail.jsonl`.
+
+See "Reported measurements" below for the real numbers from a clean
+local run, including a metric bug this process surfaced (GraphRAG's
+monitoring/tier2 precision understates itself due to a doc_id format
+mismatch — not fixed, documented instead, so the committed numbers stay
+consistent with the code that produced them).
+
+---
+
+## Phase 7 — API layer
+
+Thin on purpose, per the brief: four endpoints, no auth, no
+multi-tenant (see "Scope boundaries" below).
+
+- `GET /health` — liveness.
+- `POST /query` — body `{"question": str, "as_of": "YYYY-MM-DD"?}`.
+  Wraps `src/retrieve/service.py`'s `answer_question()` (the Phase 5
+  router) in a thread-pool with a configurable timeout
+  (`api.max_query_timeout_s`, default 30s) and returns the full answer
+  object (direct answer, confidence, source refs, graph paths,
+  quantitative results, supporting chunks).
+- `GET /ingest/status` — reads `data/processed/audit.sqlite` directly
+  (no new table, reuses Phase 3's existing audit log) and reports
+  counts by track/outcome, total rows, and the last run's timestamp.
+- `GET /graph/stats` — node counts by label and edge counts by relation
+  type, straight from Neo4j.
+- `GET /entity/{entity_id}` — a single node's labels and properties by
+  id; 404 if not found, 503 if Neo4j itself is unreachable (a real
+  distinction — don't conflate "the entity doesn't exist" with
+  "couldn't check").
+
+Every endpoint degrades the same way the ingest pipeline and retrieval
+service already do: an unreachable backend is reported as what it is
+(`"reachable": false`, a 503, or an empty-but-labelled result), never
+silently returned as a misleading success.
+
+`python -m cli api [--port 8000]` / `make api`. Config lives under
+`api:` in `config/settings.yaml` (`port`, `cors_origins` — defaults to
+the Phase 8 Vite dev server origin, `max_query_timeout_s`).
+
+Smoke-tested live against a running server in this environment (all
+four endpoints), plus 11 unit tests against fake Neo4j
+drivers/SQLite — not a substitute for testing against your own live
+Neo4j/Qdrant, which I'd encourage before trusting `/query` end-to-end.
+
+---
+
 ## Architecture at a glance
 
 **Dual-track ingestion.** Narrative text (contracts, news, audit PDFs,
@@ -396,8 +456,8 @@ their phases land.
 3. Dual-track ingestion + parsers + confidence routing.
 4. Extraction → entity resolution → graph build → Qdrant index.
 5. Hybrid retrieval router + CrewAI tier-2 crew.
-6. **Evaluation harness + baseline comparison.** ← we are here
-7. API layer (FastAPI)
+6. Evaluation harness + baseline comparison.
+7. **API layer (FastAPI).** ← we are here
 8. 3D UI (React Three Fiber)
 
 Each phase ends with a confirmation checkpoint before the next starts.
@@ -412,6 +472,14 @@ Each phase ends with a confirmation checkpoint before the next starts.
 - No multi-tenant auth
 - No SLA guarantees — it's a research/analysis engine, not a production
   monitoring tool
+- **No auth, no multi-tenancy in the API (Phase 7).** `src/api/app.py`'s
+  four endpoints (`/health`, `/query`, `/ingest/status`, `/graph/stats`,
+  `/entity/{id}`) are unauthenticated and assume a single trusted caller
+  (the Phase 8 UI, or you, locally). CORS is origin-restricted via
+  `api.cors_origins` in `config/settings.yaml`, but that is not access
+  control — anyone who can reach the port can call every endpoint. Do
+  not expose this past localhost/a trusted network without adding real
+  auth first; that is explicitly out of scope for this project.
 
 ---
 

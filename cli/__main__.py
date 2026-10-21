@@ -208,6 +208,22 @@ def build_graph(
 
 
 @app.command()
+def api(
+    port: int = typer.Option(None, help="Override config/settings.yaml's api.port."),
+) -> None:
+    """Run the Phase 7 FastAPI server (query / ingest status / graph stats /
+    entity lookup). Thin, no auth, no multi-tenant — see README."""
+    import uvicorn
+
+    from src.api.app import ApiConfig, create_app
+
+    cfg = ApiConfig.load()
+    if port is not None:
+        cfg.port = port
+    uvicorn.run(create_app(cfg), host="0.0.0.0", port=cfg.port)
+
+
+@app.command()
 def query(
     question: str,
     as_of: str | None = typer.Option(

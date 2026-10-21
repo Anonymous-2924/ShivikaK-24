@@ -64,3 +64,10 @@ retrieval:
 eval:
   baseline: vector_rag_only
   metrics: [retrieval_precision, path_correctness, hallucination_rate, latency_ms, cost_usd]
+
+api:
+  # Phase 7. Thin by design: query, ingest status, graph stats, entity
+  # lookup. No auth, no multi-tenant — see README scope boundaries.
+  port: 8000
+  cors_origins: ["http://localhost:5173"]   # Phase 8 UI dev server (Vite default)
+  max_query_timeout_s: 30

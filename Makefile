@@ -8,7 +8,7 @@ PYTHON := $(VENV)/bin/python
 
 .PHONY: help setup services services-down services-logs \
         generate-data ingest extract resolve review-merges unmerge \
-        build-graph query eval dev test lint clean
+        build-graph query eval api dev test lint clean
 
 help:
 	@echo "Targets:"
@@ -25,6 +25,7 @@ help:
 	@echo "  query           Ask the hybrid retrieval router a question  [Phase 5]"
 	@echo "                  usage: make query QUESTION=\"...\" [AS_OF=YYYY-MM-DD]"
 	@echo "  eval            Run eval harness vs vector-RAG baseline     [Phase 6]"
+	@echo "  api             Run the FastAPI server                     [Phase 7]"
 	@echo "  dev             Launch API + UI dev server                  [Phase 7-8]"
 	@echo "  test            Run pytest"
 	@echo "  lint            Run ruff"
@@ -86,8 +87,11 @@ query:
 eval:
 	$(PYTHON) -m eval.run
 
+api:
+	$(PYTHON) -m cli api
+
 dev:
-	@echo "Phase 7-8 target. Not yet implemented."
+	@echo "Phase 8 target. Not yet implemented."
 	@exit 1
 
 test:
