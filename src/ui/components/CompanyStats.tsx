@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import type { GameState, IndustryProfile } from '../../engine/types';
 import { computeScore } from '../../engine/scoring';
+import { performanceMultiplier } from '../../engine/metrics';
 import AnimatedNumber from './AnimatedNumber';
 
 interface Props {
@@ -37,6 +38,7 @@ function Pill({
 export default function CompanyStats({ game, profile, onSettings, onQuit }: Props) {
   const score = computeScore(game);
   const lowCash = game.metrics.cash < profile.startingState.cash * 0.2;
+  const projectedRevenue = Math.round(game.baseRevenue * performanceMultiplier(game));
   return (
     <div className="flex flex-wrap items-center gap-2">
       <div className="mr-auto flex items-center gap-2">
@@ -56,6 +58,13 @@ export default function CompanyStats({ game, profile, onSettings, onQuit }: Prop
           format={(n) => `$${Math.round(n).toLocaleString()}`}
         />
       </Pill>
+      <div title="Projected revenue earned at the end of this quarter">
+        <Pill label="Revenue / Q">
+          <span style={{ color: 'var(--good)' }}>
+            +<AnimatedNumber value={projectedRevenue} format={(n) => `$${Math.round(n).toLocaleString()}`} />
+          </span>
+        </Pill>
+      </div>
       <Pill label="Reputation">
         <AnimatedNumber value={game.metrics.reputation} />
       </Pill>

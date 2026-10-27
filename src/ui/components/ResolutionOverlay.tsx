@@ -3,6 +3,7 @@ import type {
   DepartmentState,
   DeptEffect,
   IndustryProfile,
+  RecurringEffect,
 } from '../../engine/types';
 import DepartmentCard from './DepartmentCard';
 
@@ -11,6 +12,8 @@ interface Props {
   optionLabel: string;
   outcomeText: string;
   cashChange: number;
+  revenueDelta?: number;
+  recurring?: RecurringEffect[];
   companyDelta: { reputation: number; performance: number };
   resultDepartments: DepartmentState[];
   deptDeltas: Record<string, DeptEffect>;
@@ -48,6 +51,8 @@ export default function ResolutionOverlay({
   optionLabel,
   outcomeText,
   cashChange,
+  revenueDelta,
+  recurring,
   companyDelta,
   resultDepartments,
   deptDeltas,
@@ -109,6 +114,33 @@ export default function ResolutionOverlay({
           <CompanyDelta label="Reputation" value={companyDelta.reputation} />
           <CompanyDelta label="Performance" value={companyDelta.performance} />
         </div>
+
+        {(!!revenueDelta || (recurring && recurring.length > 0)) && (
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
+            {!!revenueDelta && (
+              <span
+                className="rounded-lg bg-[var(--surface-2)] px-3 py-1 font-semibold"
+                style={{ color: revenueDelta > 0 ? 'var(--good)' : 'var(--bad)' }}
+              >
+                Quarterly revenue {revenueDelta > 0 ? '+' : '-'}$
+                {Math.abs(revenueDelta).toLocaleString()} (permanent)
+              </span>
+            )}
+            {(recurring ?? []).map((r, i) => {
+              const perQ = (r.cashPerQuarter ?? 0) + (r.revenuePerQuarter ?? 0);
+              return (
+                <span
+                  key={i}
+                  className="rounded-lg bg-[var(--surface-2)] px-3 py-1"
+                  style={{ color: perQ < 0 ? 'var(--bad)' : 'var(--good)' }}
+                >
+                  {r.label}: {perQ > 0 ? '+' : '-'}${Math.abs(perQ).toLocaleString()}/qtr for{' '}
+                  {r.quarters}q
+                </span>
+              );
+            })}
+          </div>
+        )}
 
         <motion.div
           initial={{ opacity: 0 }}

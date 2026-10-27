@@ -195,9 +195,28 @@ canonical shape:
 - `id`, `industry`, `bucket`, `tag`, `tagType`, `title`, `situation`
 - `prerequisites`: `minQuarter`/`maxQuarter`, `requiresFlags`, `excludesFlags`,
   `metricConditions` (`{metric, op, value}`)
-- `options[]`: `label`, `description`, `risk`, `cashChange`, `effects`
+- `options[]`: `label`, `description`, `risk`, `cashChange` (one-time), `effects`
   (`company` + per-`departments`), optional `setsFlags`, `outcomeText`, and
   optional `scoreMultiplierDelta` (used by lifelines to dilute the final score).
+
+**Money model (important for authoring):**
+- `cashChange` — a **one-time** cash change the instant the decision is made.
+- `revenueDelta` *(optional)* — a **permanent** change to the company's baseline
+  quarterly revenue. This compounds: it is earned every quarter from now on.
+  Use it for moves with lasting top-line impact (a built factory's margins:
+  `+6000`; a product line lost to a recall: `-2000`).
+- `recurring` *(optional)* — **time-limited** effects that auto-expire. An array
+  of `{ label, cashPerQuarter?, revenuePerQuarter?, quarters }`. Applied once at
+  each quarter-end for `quarters` quarters, then it stops on its own. Use for a
+  factory's construction cost (`{"label":"Factory construction","cashPerQuarter":-6000,"quarters":1}`),
+  a multi-quarter scandal (`-4000/qtr × 3`), or a loan's repayment schedule.
+
+**Revenue mechanic:** at each quarter-end the company earns
+`baseRevenue × performanceMultiplier` (0.6×–1.4× based on how well it's run),
+plus any active `recurring` effects, credited to cash and shown in the Quarter
+Review. So the company isn't a pure money-drain — good decisions grow revenue
+and it compounds. A heavy `recurring` drain can still push cash negative at a
+quarter boundary, which routes into the normal bankruptcy/lifeline flow.
 
 Rules of thumb: 2–4 options, a range of risk levels, numbers balanced (no
 strictly-dominant option — the balance test flags these), effects cover every

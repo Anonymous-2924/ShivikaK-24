@@ -16,6 +16,9 @@
       "description": "Injects cash now. Adds debt: a recurring drain and a Finance morale hit.",
       "risk": "high",
       "cashChange": 40000,
+      "recurring": [
+        { "label": "Loan repayment", "cashPerQuarter": -5000, "quarters": 4 }
+      ],
       "effects": {
         "company": { "reputation": -4, "performance": -2 },
         "departments": {

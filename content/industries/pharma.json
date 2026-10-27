@@ -7,7 +7,8 @@
   "startingState": {
     "cash": 50000,
     "reputation": 70,
-    "performance": 50
+    "performance": 50,
+    "revenue": 10000
   },
   "departments": [
     { "id": "rnd", "name": "R&D", "icon": "🧪", "startPerformance": 55, "startMorale": 60 },

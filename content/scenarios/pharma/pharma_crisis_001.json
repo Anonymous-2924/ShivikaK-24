@@ -33,6 +33,9 @@
       "description": "Protect revenue, court disaster.",
       "risk": "high",
       "cashChange": 5000,
+      "recurring": [
+        { "label": "Scandal fallout", "cashPerQuarter": -4000, "quarters": 3 }
+      ],
       "effects": {
         "company": { "reputation": -10, "performance": 2 },
         "departments": {

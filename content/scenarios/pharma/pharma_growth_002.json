@@ -14,6 +14,7 @@
       "description": "Momentum play, some exposure.",
       "risk": "medium",
       "cashChange": 15000,
+      "revenueDelta": 4000,
       "effects": {
         "company": { "reputation": 3, "performance": 7 },
         "departments": {

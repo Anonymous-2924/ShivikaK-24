@@ -223,6 +223,8 @@ export default function DecisionScreen() {
             optionLabel={pending.label}
             outcomeText={pending.outcomeText}
             cashChange={pending.cashChange}
+            revenueDelta={pending.revenueDelta}
+            recurring={pending.recurring}
             companyDelta={preview.companyDelta}
             resultDepartments={preview.next.departments}
             deptDeltas={preview.deptDeltas}

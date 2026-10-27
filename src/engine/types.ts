@@ -33,7 +33,13 @@ export interface IndustryProfile {
   icon: string;
   tagline: string;
   theme: { primary: string; accent: string; warn: string };
-  startingState: { cash: number; reputation: number; performance: number };
+  startingState: {
+    cash: number;
+    reputation: number;
+    performance: number;
+    /** Starting quarterly revenue (cash earned at each quarter end). */
+    revenue?: number;
+  };
   departments: DepartmentDef[];
   advisors: AdvisorDef[];
   quartersPerGame: number;
@@ -66,15 +72,44 @@ export interface Prerequisites {
   metricConditions?: MetricCondition[];
 }
 
+/**
+ * A time-limited recurring effect applied once per quarter end, for a fixed
+ * number of quarters, then it automatically stops. Use for things like a
+ * factory's construction cost (a drain while it's being built) or a scandal
+ * that bleeds revenue for a few quarters before the company recovers.
+ */
+export interface RecurringEffect {
+  /** Short label shown in the "Ongoing" list, e.g. "Factory construction". */
+  label: string;
+  /** Cash applied each quarter (negative = a drain, positive = income). */
+  cashPerQuarter?: number;
+  /** Revenue added/removed each quarter while active (temporary bump/dip). */
+  revenuePerQuarter?: number;
+  /** How many quarter-ends it applies for, then it expires. */
+  quarters: number;
+}
+
 export interface ScenarioOption {
   id: string;
   label: string;
   description: string;
   risk: Risk;
+  /** One-time immediate cash change at the moment of the decision. */
   cashChange: number;
   effects: Effects;
   setsFlags?: string[];
   outcomeText: string;
+  /**
+   * Optional. PERMANENT change to the company's baseline quarterly revenue
+   * (e.g. a finished factory raises margins forever: +6000). This compounds —
+   * it is earned every quarter from now on. Negative lowers the baseline.
+   */
+  revenueDelta?: number;
+  /**
+   * Optional. TIME-LIMITED recurring effects that auto-expire (see
+   * RecurringEffect). Distinct from revenueDelta, which is permanent.
+   */
+  recurring?: RecurringEffect[];
   /**
    * Optional. Permanently nudges the final-score multiplier when chosen
    * (e.g. an emergency equity raise dilutes ownership: -0.1). Mostly used by
@@ -120,8 +155,29 @@ export interface DecisionLog {
   optionLabel: string;
   outcomeText: string;
   cashChange: number;
+  revenueDelta: number;
   companyDelta: { reputation: number; performance: number };
   deptDeltas: Record<string, DeptEffect>;
+}
+
+/** A recurring effect currently in force, counting down to expiry. */
+export interface ActiveModifier {
+  label: string;
+  cashPerQuarter: number;
+  revenuePerQuarter: number;
+  quartersRemaining: number;
+}
+
+/** Breakdown of a quarter-end revenue settlement, for the review screen. */
+export interface QuarterSettlement {
+  baseRevenue: number;
+  performanceMultiplier: number;
+  grossRevenue: number;
+  modifierCash: number;
+  modifierRevenue: number;
+  /** Net cash credited to the company this quarter (can be negative). */
+  netCash: number;
+  expired: string[];
 }
 
 export type Phase =
@@ -144,6 +200,12 @@ export interface GameState {
   bankruptcyCount: number;
   /** Final-score multiplier, reduced by certain lifelines (e.g. equity raise). */
   scoreMultiplier: number;
+  /** Permanent baseline quarterly revenue; decisions shift it via revenueDelta. */
+  baseRevenue: number;
+  /** Time-limited recurring effects currently in force. */
+  activeModifiers: ActiveModifier[];
+  /** The most recent quarter-end settlement, for the review screen. */
+  lastSettlement: QuarterSettlement | null;
   history: DecisionLog[];
   /** Deltas accumulated during the current quarter, for the review screen. */
   quarterStartMetrics: CompanyMetrics;

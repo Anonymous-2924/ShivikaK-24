@@ -55,6 +55,67 @@ export default function QuarterReview() {
         <Delta label="Performance" value={perfDelta} />
       </div>
 
+      {game.lastSettlement && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="panel mt-4 rounded-2xl p-4"
+        >
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-sm font-semibold">💰 Revenue this quarter</h3>
+            <span
+              className="font-display text-xl font-bold"
+              style={{ color: game.lastSettlement.netCash >= 0 ? 'var(--good)' : 'var(--bad)' }}
+            >
+              {game.lastSettlement.netCash >= 0 ? '+' : '-'}$
+              {Math.abs(game.lastSettlement.netCash).toLocaleString()}
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-[var(--text-soft)]">
+            Base ${game.lastSettlement.baseRevenue.toLocaleString()} × performance{' '}
+            {game.lastSettlement.performanceMultiplier.toFixed(2)} = $
+            {game.lastSettlement.grossRevenue.toLocaleString()}
+            {game.lastSettlement.modifierCash + game.lastSettlement.modifierRevenue !== 0 && (
+              <>
+                {' '}· ongoing effects{' '}
+                {game.lastSettlement.modifierCash + game.lastSettlement.modifierRevenue >= 0 ? '+' : '-'}$
+                {Math.abs(
+                  game.lastSettlement.modifierCash + game.lastSettlement.modifierRevenue,
+                ).toLocaleString()}
+              </>
+            )}
+          </p>
+          {game.lastSettlement.expired.length > 0 && (
+            <p className="mt-1 text-xs text-[var(--accent)]">
+              Ended this quarter: {game.lastSettlement.expired.join(', ')}.
+            </p>
+          )}
+        </motion.div>
+      )}
+
+      {game.activeModifiers.length > 0 && (
+        <div className="mt-3">
+          <h3 className="mb-1 font-display text-xs font-semibold uppercase tracking-wide text-[var(--text-soft)]">
+            Ongoing effects
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {game.activeModifiers.map((m, i) => {
+              const perQ = m.cashPerQuarter + m.revenuePerQuarter;
+              return (
+                <span
+                  key={i}
+                  className="panel rounded-lg px-2.5 py-1 text-xs"
+                  style={{ color: perQ < 0 ? 'var(--bad)' : 'var(--good)' }}
+                >
+                  {m.label}: {perQ >= 0 ? '+' : '-'}${Math.abs(perQ).toLocaleString()}/qtr ·{' '}
+                  {m.quartersRemaining}q left
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="mt-6">
         <h3 className="mb-2 font-display text-sm font-semibold uppercase tracking-wide text-[var(--text-soft)]">
           Department standing

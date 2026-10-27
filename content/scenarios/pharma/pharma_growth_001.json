@@ -14,6 +14,10 @@
       "description": "Big capex, long-term margin win.",
       "risk": "high",
       "cashChange": -40000,
+      "revenueDelta": 6000,
+      "recurring": [
+        { "label": "Factory construction", "cashPerQuarter": -6000, "quarters": 1 }
+      ],
       "effects": {
         "company": { "reputation": 5, "performance": 9 },
         "departments": {
@@ -33,6 +37,7 @@
       "description": "Flexible, thinner margins.",
       "risk": "medium",
       "cashChange": -10000,
+      "revenueDelta": 2500,
       "effects": {
         "company": { "reputation": 2, "performance": 4 },
         "departments": {

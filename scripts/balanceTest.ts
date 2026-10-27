@@ -15,7 +15,7 @@ import type {
   Scenario,
   ScenarioOption,
 } from '../src/engine/types';
-import { initGameState, applyOption } from '../src/engine/metrics';
+import { initGameState, applyOption, settleQuarter } from '../src/engine/metrics';
 import {
   pickScenario,
   availableLifelines,
@@ -62,6 +62,26 @@ function simulate(profile: IndustryProfile, pool: Scenario[]): RunResult {
   const seen = new Set<string>();
   let fired = false;
 
+  // Resolve insolvency with a random available lifeline (mirrors the store).
+  // Returns true if the run should end in a firing.
+  const tryRescue = (): boolean => {
+    state.bankruptcyCount += 1;
+    if (state.bankruptcyCount >= 2) return true;
+    const lifelines = availableLifelines(state, pool);
+    if (lifelines.length === 0) return true;
+    const ll = lifelines[Math.floor(Math.random() * lifelines.length)];
+    seen.add(ll.id);
+    const lopt = ll.options[0];
+    const { next: afterLL } = applyOption(state, lopt);
+    afterLL.usedScenarioIds = [...afterLL.usedScenarioIds, ll.id];
+    afterLL.flags = [...afterLL.flags, 'used_second_chance'];
+    if (lopt.scoreMultiplierDelta) {
+      afterLL.scoreMultiplier = Math.max(0.1, afterLL.scoreMultiplier + lopt.scoreMultiplierDelta);
+    }
+    state = afterLL;
+    return false;
+  };
+
   const maxDecisions = profile.quartersPerGame * profile.decisionsPerQuarter + 5;
 
   for (let step = 0; step < maxDecisions; step++) {
@@ -78,32 +98,20 @@ function simulate(profile: IndustryProfile, pool: Scenario[]): RunResult {
     }
     state = next;
 
-    // Bankruptcy handling (mirrors the store).
-    if (state.metrics.cash < 0) {
-      state.bankruptcyCount += 1;
-      if (state.bankruptcyCount >= 2) {
-        fired = true;
-        break;
-      }
-      const lifelines = availableLifelines(state, pool);
-      if (lifelines.length === 0) {
-        fired = true;
-        break;
-      }
-      const ll = lifelines[Math.floor(Math.random() * lifelines.length)];
-      seen.add(ll.id);
-      const lopt = ll.options[0];
-      const { next: afterLL } = applyOption(state, lopt);
-      afterLL.usedScenarioIds = [...afterLL.usedScenarioIds, ll.id];
-      afterLL.flags = [...afterLL.flags, 'used_second_chance'];
-      if (lopt.scoreMultiplierDelta) {
-        afterLL.scoreMultiplier = Math.max(0.1, afterLL.scoreMultiplier + lopt.scoreMultiplierDelta);
-      }
-      state = afterLL;
+    // Immediate (decision-driven) insolvency check.
+    if (state.metrics.cash < 0 && tryRescue()) {
+      fired = true;
+      break;
     }
 
-    // Advance quarter / decision.
+    // Advance quarter / decision, settling revenue at a quarter boundary.
     if (state.decisionInQuarter + 1 >= profile.decisionsPerQuarter) {
+      const { next: settled } = settleQuarter(state);
+      state = settled;
+      if (state.metrics.cash < 0 && tryRescue()) {
+        fired = true;
+        break;
+      }
       if (state.quarter >= profile.quartersPerGame) break;
       state.quarter += 1;
       state.decisionInQuarter = 0;
@@ -130,11 +138,17 @@ function optionValue(o: ScenarioOption) {
     (s, e) => s + e.performance + e.morale,
     0,
   );
+  // Net recurring over its whole life + the permanent revenue change.
+  const recurring = (o.recurring ?? []).reduce(
+    (s, r) => s + ((r.cashPerQuarter ?? 0) + (r.revenuePerQuarter ?? 0)) * r.quarters,
+    0,
+  );
   return {
     cash: o.cashChange,
     rep: o.effects.company.reputation,
     perf: o.effects.company.performance,
     dept,
+    revenue: (o.revenueDelta ?? 0) * 3 + recurring,
   };
 }
 
@@ -148,9 +162,9 @@ function findDominant(scenario: Scenario): string[] {
       const a = vals[i];
       const b = vals[j];
       const geAll =
-        a.cash >= b.cash && a.rep >= b.rep && a.perf >= b.perf && a.dept >= b.dept;
+        a.cash >= b.cash && a.rep >= b.rep && a.perf >= b.perf && a.dept >= b.dept && a.revenue >= b.revenue;
       const gtOne =
-        a.cash > b.cash || a.rep > b.rep || a.perf > b.perf || a.dept > b.dept;
+        a.cash > b.cash || a.rep > b.rep || a.perf > b.perf || a.dept > b.dept || a.revenue > b.revenue;
       if (geAll && gtOne) dominates = true;
       else {
         dominates = false;

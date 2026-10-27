@@ -20,6 +20,7 @@
       "description": "Safe, immediate cash. Lower ceiling.",
       "risk": "low",
       "cashChange": 20000,
+      "revenueDelta": 3000,
       "effects": {
         "company": { "reputation": 2, "performance": 3 },
         "departments": {

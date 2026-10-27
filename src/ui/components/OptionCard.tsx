@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
 import type { DepartmentDef, ScenarioOption } from '../../engine/types';
-import { cashDir, DIR_ARROW, dirColor, toDir } from './hints';
+import { DIR_ARROW, dirColor, toDir } from './hints';
+
+const money = (n: number) =>
+  `${n < 0 ? '-' : '+'}$${Math.abs(n).toLocaleString()}`;
 
 interface Props {
   option: ScenarioOption;
@@ -32,9 +35,13 @@ export default function OptionCard({
   onHover,
   onChoose,
 }: Props) {
-  const cd = cashDir(option.cashChange);
   const repDir = toDir(option.effects.company.reputation);
   const perfDir = toDir(option.effects.company.performance);
+  const recurringCost = (option.recurring ?? []).map((r) => ({
+    label: r.label,
+    perQ: (r.cashPerQuarter ?? 0) + (r.revenuePerQuarter ?? 0),
+    quarters: r.quarters,
+  }));
 
   return (
     <motion.button
@@ -65,10 +72,50 @@ export default function OptionCard({
       </div>
       <p className="mt-1 text-sm text-[var(--text-soft)]">{option.description}</p>
 
+      {/* Money is shown EXACTLY (a CEO sees the price). Everything else stays
+          directional until the decision is confirmed. */}
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-[12px]">
+        <span
+          className="rounded-lg px-2 py-0.5 font-semibold tabular-nums"
+          style={{
+            background: 'var(--surface-2)',
+            color:
+              option.cashChange === 0
+                ? 'var(--text-soft)'
+                : option.cashChange > 0
+                  ? 'var(--good)'
+                  : 'var(--bad)',
+          }}
+        >
+          {option.cashChange === 0 ? 'No upfront cost' : `${money(option.cashChange)} now`}
+        </span>
+        {!!option.revenueDelta && (
+          <span
+            className="rounded-lg px-2 py-0.5 font-semibold tabular-nums"
+            style={{
+              background: 'var(--surface-2)',
+              color: option.revenueDelta > 0 ? 'var(--good)' : 'var(--bad)',
+            }}
+            title="Permanent change to quarterly revenue"
+          >
+            {money(option.revenueDelta)}/qtr revenue
+          </span>
+        )}
+        {recurringCost.map((r, i) => (
+          <span
+            key={i}
+            className="rounded-lg px-2 py-0.5 tabular-nums"
+            style={{ background: 'var(--surface-2)', color: r.perQ < 0 ? 'var(--bad)' : 'var(--good)' }}
+            title={`${r.label}, for ${r.quarters} quarter(s)`}
+          >
+            {money(r.perQ)}/qtr × {r.quarters}q
+          </span>
+        ))}
+      </div>
+
       {/* Impact preview — directional only, revealed on hover/focus. */}
       <div className="mt-3 max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-40 group-hover:opacity-100 group-focus:max-h-40 group-focus:opacity-100">
         <div className="mb-2 flex flex-wrap gap-2 text-[11px]">
-          <Hint label="Cash" dir={cd} />
           <Hint label="Reputation" dir={repDir} />
           <Hint label="Performance" dir={perfDir} />
         </div>

@@ -14,6 +14,10 @@
       "description": "Full push into the new market.",
       "risk": "high",
       "cashChange": -28000,
+      "revenueDelta": 5000,
+      "recurring": [
+        { "label": "Market entry costs", "cashPerQuarter": -4000, "quarters": 2 }
+      ],
       "effects": {
         "company": { "reputation": 6, "performance": 8 },
         "departments": {
