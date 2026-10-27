@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Industry theme tokens — overwritten at runtime by the active industry.
+     Defaults are the "Boardroom" brand palette (energetic purple/teal/amber). */
+  --primary: #7c3aed;
+  --accent: #06b6d4;
+  --warn: #f59e0b;
+
+  /* Surface tokens, redefined per theme below. */
+  --bg: #0b0b18;
+  --bg-soft: #15152b;
+  --surface: #1c1c38;
+  --surface-2: #26264a;
+  --text: #f3f1ff;
+  --text-soft: #b9b6d6;
+  --border: #35345f;
+  --good: #22c55e;
+  --bad: #ef4444;
+}
+
+/* Light mode — still colorful, not sterile. */
+:root:not(.dark) {
+  --bg: #f6f3ff;
+  --bg-soft: #ece7ff;
+  --surface: #ffffff;
+  --surface-2: #f3effe;
+  --text: #1c1636;
+  --text-soft: #5b5480;
+  --border: #e0d8ff;
+  --good: #16a34a;
+  --bad: #dc2626;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--primary) 22%, transparent), transparent),
+    radial-gradient(1000px 500px at 110% 10%, color-mix(in srgb, var(--accent) 20%, transparent), transparent),
+    var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* Reusable surface panel. */
+.panel {
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.gradient-text {
+  background: linear-gradient(100deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Scrollbar niceties */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

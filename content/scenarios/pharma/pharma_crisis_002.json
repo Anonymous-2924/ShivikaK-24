@@ -1,0 +1,67 @@
+{
+  "id": "pharma_crisis_002",
+  "industry": "pharma",
+  "bucket": "crisis",
+  "tag": "Patent Cliff",
+  "tagType": "threat",
+  "title": "Generics at the Gate",
+  "situation": "Your best-seller's patent is expiring and generics are poised to flood in. You can litigate to delay them, pivot R&D to a next-gen formulation, or slash prices to defend share.",
+  "prerequisites": { "minQuarter": 3, "maxQuarter": 5 },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Litigate to delay generics",
+      "description": "Expensive, buys time, bad optics.",
+      "risk": "high",
+      "cashChange": -20000,
+      "effects": {
+        "company": { "reputation": -5, "performance": 3 },
+        "departments": {
+          "rnd": { "performance": -1, "morale": -2 },
+          "regulatory": { "performance": 2, "morale": 1 },
+          "sales": { "performance": 4, "morale": 3 },
+          "marketing": { "performance": -2, "morale": -2 },
+          "finance": { "performance": -3, "morale": -3 }
+        }
+      },
+      "outcomeText": "The lawyers earn their fees. Advocacy groups are furious."
+    },
+    {
+      "id": "opt2",
+      "label": "Pivot R&D to next-gen",
+      "description": "Invest in the future, slow payoff.",
+      "risk": "medium",
+      "cashChange": -15000,
+      "effects": {
+        "company": { "reputation": 5, "performance": 6 },
+        "departments": {
+          "rnd": { "performance": 8, "morale": 8 },
+          "regulatory": { "performance": 1, "morale": 1 },
+          "sales": { "performance": -3, "morale": -2 },
+          "marketing": { "performance": 2, "morale": 2 },
+          "finance": { "performance": -4, "morale": -4 }
+        }
+      },
+      "setsFlags": ["nextgen_pivot"],
+      "outcomeText": "The labs light up with a fresh mission. Revenue will dip before it climbs."
+    },
+    {
+      "id": "opt3",
+      "label": "Slash prices to defend share",
+      "description": "Protect volume, crush margin.",
+      "risk": "medium",
+      "cashChange": -6000,
+      "effects": {
+        "company": { "reputation": 2, "performance": 1 },
+        "departments": {
+          "rnd": { "performance": -1, "morale": -1 },
+          "regulatory": { "performance": 0, "morale": 0 },
+          "sales": { "performance": 6, "morale": 5 },
+          "marketing": { "performance": 3, "morale": 3 },
+          "finance": { "performance": -5, "morale": -4 }
+        }
+      },
+      "outcomeText": "You keep the shelf space — at a brutal price per unit."
+    }
+  ]
+}

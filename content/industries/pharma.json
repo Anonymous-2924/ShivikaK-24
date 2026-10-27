@@ -1,0 +1,54 @@
+{
+  "id": "pharma",
+  "name": "Pharmaceuticals",
+  "icon": "💊",
+  "tagline": "High stakes, high regulation, high reward.",
+  "theme": { "primary": "#7C3AED", "accent": "#06B6D4", "warn": "#F59E0B" },
+  "startingState": {
+    "cash": 50000,
+    "reputation": 70,
+    "performance": 50,
+    "revenue": 10000
+  },
+  "departments": [
+    { "id": "rnd", "name": "R&D", "icon": "🧪", "startPerformance": 55, "startMorale": 60 },
+    { "id": "regulatory", "name": "Regulatory", "icon": "⚖️", "startPerformance": 50, "startMorale": 55 },
+    { "id": "sales", "name": "Sales", "icon": "📈", "startPerformance": 45, "startMorale": 55 },
+    { "id": "marketing", "name": "Marketing", "icon": "📣", "startPerformance": 40, "startMorale": 58 },
+    { "id": "finance", "name": "Finance", "icon": "💰", "startPerformance": 50, "startMorale": 54 }
+  ],
+  "advisors": [
+    {
+      "department": "rnd",
+      "name": "Dr. Lena Okafor",
+      "persona": "Brilliant, cautious, quality-obsessed. Hates cutting corners on safety.",
+      "portraitPrompt": "confident female scientist in lab coat, warm friendly style, vibrant illustration"
+    },
+    {
+      "department": "regulatory",
+      "name": "Marcus Reyes",
+      "persona": "Meticulous, risk-averse, by-the-book. Lives and dies by compliance.",
+      "portraitPrompt": "serious male compliance officer with glasses, tidy suit, vibrant illustration"
+    },
+    {
+      "department": "sales",
+      "name": "Priya Anand",
+      "persona": "Hungry, competitive, numbers-driven. Always chasing the next big account.",
+      "portraitPrompt": "energetic female sales lead, sharp blazer, confident smile, vibrant illustration"
+    },
+    {
+      "department": "marketing",
+      "name": "Tomás Vega",
+      "persona": "Creative, bold, brand-obsessed. Believes perception is everything.",
+      "portraitPrompt": "stylish male marketing director, trendy outfit, expressive, vibrant illustration"
+    },
+    {
+      "department": "finance",
+      "name": "Agnes Whitlock",
+      "persona": "Shrewd, blunt, fiercely protective of the balance sheet. Hates surprises.",
+      "portraitPrompt": "stern older female CFO, elegant, arms crossed, vibrant illustration"
+    }
+  ],
+  "quartersPerGame": 5,
+  "decisionsPerQuarter": 2
+}

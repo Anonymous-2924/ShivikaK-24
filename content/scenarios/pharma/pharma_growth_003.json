@@ -1,0 +1,72 @@
+{
+  "id": "pharma_growth_003",
+  "industry": "pharma",
+  "bucket": "growth",
+  "tag": "Market Expansion",
+  "tagType": "opportunity",
+  "title": "Go Global?",
+  "situation": "A fast-growing overseas market is open to your therapy, but entry means navigating a labyrinth of foreign regulators and standing up a new sales force from scratch.",
+  "prerequisites": { "minQuarter": 2, "maxQuarter": 5, "excludesFlags": ["went_global"] },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Enter aggressively",
+      "description": "Full push into the new market.",
+      "risk": "high",
+      "cashChange": -28000,
+      "revenueDelta": 5000,
+      "recurring": [
+        { "label": "Market entry costs", "cashPerQuarter": -4000, "quarters": 2 }
+      ],
+      "effects": {
+        "company": { "reputation": 6, "performance": 8 },
+        "departments": {
+          "rnd": { "performance": 1, "morale": 1 },
+          "regulatory": { "performance": -4, "morale": -5 },
+          "sales": { "performance": 8, "morale": 7 },
+          "marketing": { "performance": 6, "morale": 6 },
+          "finance": { "performance": -4, "morale": -5 }
+        }
+      },
+      "setsFlags": ["went_global"],
+      "outcomeText": "Flags planted on a new continent. Regulatory is drowning in paperwork."
+    },
+    {
+      "id": "opt2",
+      "label": "License to a local distributor",
+      "description": "Low effort, shared upside.",
+      "risk": "medium",
+      "cashChange": 9000,
+      "effects": {
+        "company": { "reputation": 3, "performance": 4 },
+        "departments": {
+          "rnd": { "performance": 0, "morale": 0 },
+          "regulatory": { "performance": 2, "morale": 2 },
+          "sales": { "performance": 2, "morale": 1 },
+          "marketing": { "performance": 2, "morale": 2 },
+          "finance": { "performance": 4, "morale": 4 }
+        }
+      },
+      "setsFlags": ["went_global"],
+      "outcomeText": "Someone else does the heavy lifting; you clip a smaller coupon."
+    },
+    {
+      "id": "opt3",
+      "label": "Stay domestic for now",
+      "description": "Focus at home, no spend.",
+      "risk": "low",
+      "cashChange": 0,
+      "effects": {
+        "company": { "reputation": -1, "performance": 0 },
+        "departments": {
+          "rnd": { "performance": 1, "morale": 1 },
+          "regulatory": { "performance": 2, "morale": 2 },
+          "sales": { "performance": -2, "morale": -3 },
+          "marketing": { "performance": -1, "morale": -1 },
+          "finance": { "performance": 2, "morale": 2 }
+        }
+      },
+      "outcomeText": "You double down on home turf. Sales eyes the map wistfully."
+    }
+  ]
+}

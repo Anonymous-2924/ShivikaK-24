@@ -1,0 +1,76 @@
+{
+  "id": "pharma_early_001",
+  "industry": "pharma",
+  "bucket": "early",
+  "tag": "R&D Crossroads",
+  "tagType": "opportunity",
+  "title": "The Promising Molecule",
+  "situation": "Your lead compound just cleared early trials ahead of schedule. A larger rival offers to license it for steady cash now — or you can keep it and fund expensive Phase III trials yourself, betting on a much bigger payoff.",
+  "prerequisites": {
+    "minQuarter": 1,
+    "maxQuarter": 3,
+    "requiresFlags": [],
+    "excludesFlags": ["licensed_molecule"],
+    "metricConditions": []
+  },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "License it to the rival",
+      "description": "Safe, immediate cash. Lower ceiling.",
+      "risk": "low",
+      "cashChange": 20000,
+      "revenueDelta": 3000,
+      "effects": {
+        "company": { "reputation": 2, "performance": 3 },
+        "departments": {
+          "rnd": { "performance": -3, "morale": -5 },
+          "regulatory": { "performance": 2, "morale": 1 },
+          "sales": { "performance": 1, "morale": 0 },
+          "marketing": { "performance": 0, "morale": 1 },
+          "finance": { "performance": 5, "morale": 6 }
+        }
+      },
+      "setsFlags": ["licensed_molecule"],
+      "outcomeText": "Finance breathes easy, but your scientists feel you sold the future short."
+    },
+    {
+      "id": "opt2",
+      "label": "Fund Phase III yourself",
+      "description": "Expensive and risky, but huge upside.",
+      "risk": "high",
+      "cashChange": -35000,
+      "effects": {
+        "company": { "reputation": 6, "performance": 8 },
+        "departments": {
+          "rnd": { "performance": 8, "morale": 10 },
+          "regulatory": { "performance": -2, "morale": -3 },
+          "sales": { "performance": 2, "morale": 3 },
+          "marketing": { "performance": 3, "morale": 4 },
+          "finance": { "performance": -4, "morale": -6 }
+        }
+      },
+      "setsFlags": ["self_funded_trial"],
+      "outcomeText": "The labs are electric with ambition — and Finance is sweating the burn rate."
+    },
+    {
+      "id": "opt3",
+      "label": "Seek a co-development partner",
+      "description": "Share cost and reward. Balanced.",
+      "risk": "medium",
+      "cashChange": -12000,
+      "effects": {
+        "company": { "reputation": 4, "performance": 5 },
+        "departments": {
+          "rnd": { "performance": 4, "morale": 5 },
+          "regulatory": { "performance": 1, "morale": 1 },
+          "sales": { "performance": 2, "morale": 2 },
+          "marketing": { "performance": 2, "morale": 2 },
+          "finance": { "performance": 1, "morale": 2 }
+        }
+      },
+      "setsFlags": ["has_partner"],
+      "outcomeText": "A pragmatic middle path — nobody thrilled, nobody panicking."
+    }
+  ]
+}

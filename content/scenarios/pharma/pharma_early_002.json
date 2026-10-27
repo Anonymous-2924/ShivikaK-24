@@ -1,0 +1,67 @@
+{
+  "id": "pharma_early_002",
+  "industry": "pharma",
+  "bucket": "early",
+  "tag": "Talent War",
+  "tagType": "opportunity",
+  "title": "The Star Researcher",
+  "situation": "A celebrated immunologist is on the market after her old lab folded. She would supercharge your pipeline — but her salary demands are eye-watering and she comes with a demanding ego.",
+  "prerequisites": { "minQuarter": 1, "maxQuarter": 3, "excludesFlags": ["hired_star"] },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Pay whatever it takes",
+      "description": "Land the star. Big cash and morale cost elsewhere.",
+      "risk": "high",
+      "cashChange": -18000,
+      "effects": {
+        "company": { "reputation": 5, "performance": 6 },
+        "departments": {
+          "rnd": { "performance": 10, "morale": 6 },
+          "regulatory": { "performance": 1, "morale": -1 },
+          "sales": { "performance": 1, "morale": -2 },
+          "marketing": { "performance": 3, "morale": 2 },
+          "finance": { "performance": -3, "morale": -5 }
+        }
+      },
+      "setsFlags": ["hired_star"],
+      "outcomeText": "She signs. The lab buzzes — payroll winces."
+    },
+    {
+      "id": "opt2",
+      "label": "Make a modest offer",
+      "description": "Try to land her cheaply. Might walk.",
+      "risk": "medium",
+      "cashChange": -6000,
+      "effects": {
+        "company": { "reputation": 1, "performance": 2 },
+        "departments": {
+          "rnd": { "performance": 3, "morale": 1 },
+          "regulatory": { "performance": 0, "morale": 0 },
+          "sales": { "performance": 0, "morale": 0 },
+          "marketing": { "performance": 1, "morale": 0 },
+          "finance": { "performance": 1, "morale": 1 }
+        }
+      },
+      "outcomeText": "She takes a smaller role, unconvinced but intrigued."
+    },
+    {
+      "id": "opt3",
+      "label": "Pass and promote from within",
+      "description": "Reward loyal staff instead.",
+      "risk": "low",
+      "cashChange": 0,
+      "effects": {
+        "company": { "reputation": 0, "performance": 1 },
+        "departments": {
+          "rnd": { "performance": 2, "morale": 5 },
+          "regulatory": { "performance": 1, "morale": 2 },
+          "sales": { "performance": 0, "morale": 1 },
+          "marketing": { "performance": 0, "morale": 1 },
+          "finance": { "performance": 1, "morale": 3 }
+        }
+      },
+      "outcomeText": "Your veterans stand a little taller today."
+    }
+  ]
+}
