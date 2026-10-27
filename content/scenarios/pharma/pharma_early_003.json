@@ -1,0 +1,66 @@
+{
+  "id": "pharma_early_003",
+  "industry": "pharma",
+  "bucket": "early",
+  "tag": "Brand Launch",
+  "tagType": "routine",
+  "title": "Naming the Drug",
+  "situation": "Marketing wants a splashy, memorable consumer brand for your flagship therapy. Regulatory warns a flashy name invites scrutiny and could mislead patients. How bold do you go?",
+  "prerequisites": { "minQuarter": 1, "maxQuarter": 3 },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Go bold and consumer-friendly",
+      "description": "Maximum buzz, regulatory risk.",
+      "risk": "medium",
+      "cashChange": -4000,
+      "effects": {
+        "company": { "reputation": 3, "performance": 4 },
+        "departments": {
+          "rnd": { "performance": 0, "morale": 1 },
+          "regulatory": { "performance": -3, "morale": -4 },
+          "sales": { "performance": 5, "morale": 4 },
+          "marketing": { "performance": 7, "morale": 8 },
+          "finance": { "performance": 2, "morale": 1 }
+        }
+      },
+      "outcomeText": "Marketing is thrilled; Regulatory is drafting a very long memo."
+    },
+    {
+      "id": "opt2",
+      "label": "Play it safe and clinical",
+      "description": "Low risk, low excitement.",
+      "risk": "low",
+      "cashChange": -1500,
+      "effects": {
+        "company": { "reputation": 2, "performance": 1 },
+        "departments": {
+          "rnd": { "performance": 1, "morale": 1 },
+          "regulatory": { "performance": 4, "morale": 5 },
+          "sales": { "performance": -1, "morale": -2 },
+          "marketing": { "performance": -2, "morale": -4 },
+          "finance": { "performance": 1, "morale": 1 }
+        }
+      },
+      "outcomeText": "Regulatory sleeps soundly; Marketing mourns a missed opportunity."
+    },
+    {
+      "id": "opt3",
+      "label": "Split-test two names",
+      "description": "Data-driven compromise, extra spend.",
+      "risk": "medium",
+      "cashChange": -7000,
+      "effects": {
+        "company": { "reputation": 2, "performance": 3 },
+        "departments": {
+          "rnd": { "performance": 0, "morale": 0 },
+          "regulatory": { "performance": 0, "morale": 0 },
+          "sales": { "performance": 3, "morale": 2 },
+          "marketing": { "performance": 4, "morale": 3 },
+          "finance": { "performance": -1, "morale": -1 }
+        }
+      },
+      "outcomeText": "The data picks a winner nobody hates."
+    }
+  ]
+}

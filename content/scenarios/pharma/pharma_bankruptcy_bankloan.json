@@ -1,0 +1,33 @@
+{
+  "id": "pharma_bankruptcy_bankloan",
+  "industry": "pharma",
+  "bucket": "bankruptcy",
+  "tag": "Lifeline",
+  "tagType": "crisis",
+  "title": "The Bank Loan",
+  "situation": "Your bankers will extend emergency credit — but only because your reputation still means something. The cash buys you time; the debt will bleed you for quarters to come and Finance will never let you forget it.",
+  "prerequisites": {
+    "metricConditions": [{ "metric": "reputation", "op": ">=", "value": 55 }]
+  },
+  "options": [
+    {
+      "id": "take_loan",
+      "label": "Take the emergency loan",
+      "description": "Injects cash now. Adds debt: a recurring drain and a Finance morale hit.",
+      "risk": "high",
+      "cashChange": 40000,
+      "effects": {
+        "company": { "reputation": -4, "performance": -2 },
+        "departments": {
+          "rnd": { "performance": -2, "morale": -3 },
+          "regulatory": { "performance": 0, "morale": -1 },
+          "sales": { "performance": -1, "morale": -2 },
+          "marketing": { "performance": -1, "morale": -2 },
+          "finance": { "performance": -5, "morale": -10 }
+        }
+      },
+      "setsFlags": ["took_bank_loan"],
+      "outcomeText": "The wire hits your account. So does the weight of the repayment schedule."
+    }
+  ]
+}

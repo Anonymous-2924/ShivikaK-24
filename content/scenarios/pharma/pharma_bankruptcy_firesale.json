@@ -1,0 +1,31 @@
+{
+  "id": "pharma_bankruptcy_firesale",
+  "industry": "pharma",
+  "bucket": "bankruptcy",
+  "tag": "Lifeline",
+  "tagType": "crisis",
+  "title": "Fire-Sale of Assets",
+  "situation": "You can liquidate labs, equipment, and early pipeline assets for immediate cash. It's always an option when you're desperate — but you're selling the company's future to survive its present.",
+  "prerequisites": {},
+  "options": [
+    {
+      "id": "fire_sale",
+      "label": "Liquidate assets for cash",
+      "description": "Immediate cash. Heavy Performance hit across most departments and a morale drop.",
+      "risk": "high",
+      "cashChange": 30000,
+      "effects": {
+        "company": { "reputation": -3, "performance": -9 },
+        "departments": {
+          "rnd": { "performance": -10, "morale": -8 },
+          "regulatory": { "performance": -2, "morale": -3 },
+          "sales": { "performance": -6, "morale": -6 },
+          "marketing": { "performance": -5, "morale": -5 },
+          "finance": { "performance": -2, "morale": -4 }
+        }
+      },
+      "setsFlags": ["fire_sold"],
+      "outcomeText": "Trucks haul away your equipment. The survivors wonder what's left to build on."
+    }
+  ]
+}

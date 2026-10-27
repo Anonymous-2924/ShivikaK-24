@@ -1,0 +1,67 @@
+{
+  "id": "pharma_endgame_002",
+  "industry": "pharma",
+  "bucket": "endgame",
+  "tag": "Final Bet",
+  "tagType": "opportunity",
+  "title": "The Moonshot Trial",
+  "situation": "Your scientists believe a bold combination therapy could redefine the field. It would consume most of your remaining war chest on one roll of the dice. Glory or ruin.",
+  "prerequisites": { "minQuarter": 3, "maxQuarter": 5 },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Bet the war chest",
+      "description": "All-in on the moonshot.",
+      "risk": "high",
+      "cashChange": -32000,
+      "effects": {
+        "company": { "reputation": 9, "performance": 10 },
+        "departments": {
+          "rnd": { "performance": 10, "morale": 10 },
+          "regulatory": { "performance": -1, "morale": 0 },
+          "sales": { "performance": 3, "morale": 4 },
+          "marketing": { "performance": 5, "morale": 6 },
+          "finance": { "performance": -6, "morale": -8 }
+        }
+      },
+      "setsFlags": ["moonshot"],
+      "outcomeText": "The whole company holds its breath. Finance has stopped breathing."
+    },
+    {
+      "id": "opt2",
+      "label": "Fund a scaled-down version",
+      "description": "Smaller bet, smaller glory.",
+      "risk": "medium",
+      "cashChange": -14000,
+      "effects": {
+        "company": { "reputation": 4, "performance": 5 },
+        "departments": {
+          "rnd": { "performance": 5, "morale": 4 },
+          "regulatory": { "performance": 0, "morale": 0 },
+          "sales": { "performance": 2, "morale": 2 },
+          "marketing": { "performance": 2, "morale": 2 },
+          "finance": { "performance": -2, "morale": -2 }
+        }
+      },
+      "outcomeText": "A sensible slice of the dream, hedged against disaster."
+    },
+    {
+      "id": "opt3",
+      "label": "Bank the cash, coast to the finish",
+      "description": "Protect the balance sheet.",
+      "risk": "low",
+      "cashChange": 4000,
+      "effects": {
+        "company": { "reputation": -2, "performance": -2 },
+        "departments": {
+          "rnd": { "performance": -4, "morale": -7 },
+          "regulatory": { "performance": 1, "morale": 1 },
+          "sales": { "performance": 0, "morale": -1 },
+          "marketing": { "performance": -1, "morale": -1 },
+          "finance": { "performance": 6, "morale": 6 }
+        }
+      },
+      "outcomeText": "The books look pristine. Your researchers feel the dream slipping away."
+    }
+  ]
+}

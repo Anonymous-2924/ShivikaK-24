@@ -1,0 +1,34 @@
+{
+  "id": "pharma_bankruptcy_equity",
+  "industry": "pharma",
+  "bucket": "bankruptcy",
+  "tag": "Lifeline",
+  "tagType": "crisis",
+  "title": "Emergency Equity Raise",
+  "situation": "Investors will pour in cash — but only because the company is performing well enough to be worth saving. The price is ownership: you dilute your stake, bruise your reputation, and shrink any final payout.",
+  "prerequisites": {
+    "metricConditions": [{ "metric": "performance", "op": ">=", "value": 50 }]
+  },
+  "options": [
+    {
+      "id": "raise_equity",
+      "label": "Raise emergency equity",
+      "description": "Large cash injection. Dilutes ownership: reputation hit and a reduced final-score multiplier.",
+      "risk": "medium",
+      "cashChange": 50000,
+      "scoreMultiplierDelta": -0.15,
+      "effects": {
+        "company": { "reputation": -8, "performance": 1 },
+        "departments": {
+          "rnd": { "performance": 1, "morale": -2 },
+          "regulatory": { "performance": 0, "morale": -1 },
+          "sales": { "performance": 1, "morale": -1 },
+          "marketing": { "performance": 0, "morale": -2 },
+          "finance": { "performance": 3, "morale": -4 }
+        }
+      },
+      "setsFlags": ["diluted_equity"],
+      "outcomeText": "Fresh capital floods in — and so do new owners with opinions about your future."
+    }
+  ]
+}

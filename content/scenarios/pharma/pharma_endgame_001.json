@@ -1,0 +1,67 @@
+{
+  "id": "pharma_endgame_001",
+  "industry": "pharma",
+  "bucket": "endgame",
+  "tag": "Legacy Play",
+  "tagType": "opportunity",
+  "title": "The Acquisition Offer",
+  "situation": "A global pharma giant wants to buy you outright. It's a career-defining payday and a safe exit — or you can stay independent and chase the bigger dream you started with.",
+  "prerequisites": { "minQuarter": 3, "maxQuarter": 5 },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Sell the company",
+      "description": "Huge cash, end of the dream.",
+      "risk": "low",
+      "cashChange": 60000,
+      "effects": {
+        "company": { "reputation": 3, "performance": 2 },
+        "departments": {
+          "rnd": { "performance": -2, "morale": -4 },
+          "regulatory": { "performance": 1, "morale": 0 },
+          "sales": { "performance": 1, "morale": -1 },
+          "marketing": { "performance": 0, "morale": -2 },
+          "finance": { "performance": 8, "morale": 9 }
+        }
+      },
+      "setsFlags": ["sold_company"],
+      "outcomeText": "The cheque clears. Some of your people already miss the mission."
+    },
+    {
+      "id": "opt2",
+      "label": "Stay independent",
+      "description": "Bet on yourselves to the end.",
+      "risk": "high",
+      "cashChange": -5000,
+      "effects": {
+        "company": { "reputation": 6, "performance": 7 },
+        "departments": {
+          "rnd": { "performance": 6, "morale": 8 },
+          "regulatory": { "performance": 2, "morale": 2 },
+          "sales": { "performance": 4, "morale": 5 },
+          "marketing": { "performance": 4, "morale": 5 },
+          "finance": { "performance": -3, "morale": -3 }
+        }
+      },
+      "outcomeText": "You wave off the giant. The team would follow you anywhere."
+    },
+    {
+      "id": "opt3",
+      "label": "Negotiate a partial stake sale",
+      "description": "Cash in some chips, keep the wheel.",
+      "risk": "medium",
+      "cashChange": 25000,
+      "effects": {
+        "company": { "reputation": 4, "performance": 4 },
+        "departments": {
+          "rnd": { "performance": 2, "morale": 2 },
+          "regulatory": { "performance": 1, "morale": 1 },
+          "sales": { "performance": 2, "morale": 2 },
+          "marketing": { "performance": 2, "morale": 2 },
+          "finance": { "performance": 5, "morale": 5 }
+        }
+      },
+      "outcomeText": "A tidy sum, and you still steer the ship. Pragmatic to the last."
+    }
+  ]
+}

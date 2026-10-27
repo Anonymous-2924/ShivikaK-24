@@ -1,0 +1,67 @@
+{
+  "id": "pharma_growth_001",
+  "industry": "pharma",
+  "bucket": "growth",
+  "tag": "Scale Up",
+  "tagType": "opportunity",
+  "title": "Build the Factory",
+  "situation": "Demand is outstripping your contract manufacturers. You can build your own plant — huge capex now, fat margins later — or keep outsourcing and stay nimble but exposed.",
+  "prerequisites": { "minQuarter": 2, "maxQuarter": 5, "excludesFlags": ["built_factory"] },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Build the plant",
+      "description": "Big capex, long-term margin win.",
+      "risk": "high",
+      "cashChange": -40000,
+      "effects": {
+        "company": { "reputation": 5, "performance": 9 },
+        "departments": {
+          "rnd": { "performance": 3, "morale": 3 },
+          "regulatory": { "performance": -3, "morale": -2 },
+          "sales": { "performance": 4, "morale": 5 },
+          "marketing": { "performance": 2, "morale": 2 },
+          "finance": { "performance": -5, "morale": -7 }
+        }
+      },
+      "setsFlags": ["built_factory"],
+      "outcomeText": "Ground breaks on your first owned facility. Finance needs a stiff drink."
+    },
+    {
+      "id": "opt2",
+      "label": "Expand outsourcing deals",
+      "description": "Flexible, thinner margins.",
+      "risk": "medium",
+      "cashChange": -10000,
+      "effects": {
+        "company": { "reputation": 2, "performance": 4 },
+        "departments": {
+          "rnd": { "performance": 1, "morale": 1 },
+          "regulatory": { "performance": 1, "morale": 1 },
+          "sales": { "performance": 3, "morale": 3 },
+          "marketing": { "performance": 1, "morale": 1 },
+          "finance": { "performance": 2, "morale": 2 }
+        }
+      },
+      "outcomeText": "You stay light on your feet — and dependent on partners."
+    },
+    {
+      "id": "opt3",
+      "label": "Hold capacity steady",
+      "description": "No spend, risk stockouts.",
+      "risk": "low",
+      "cashChange": 0,
+      "effects": {
+        "company": { "reputation": -2, "performance": -3 },
+        "departments": {
+          "rnd": { "performance": 0, "morale": -1 },
+          "regulatory": { "performance": 1, "morale": 1 },
+          "sales": { "performance": -4, "morale": -5 },
+          "marketing": { "performance": -2, "morale": -2 },
+          "finance": { "performance": 3, "morale": 2 }
+        }
+      },
+      "outcomeText": "Pharmacies start calling about back-orders."
+    }
+  ]
+}

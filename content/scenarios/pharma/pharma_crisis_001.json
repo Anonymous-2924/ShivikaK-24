@@ -1,0 +1,68 @@
+{
+  "id": "pharma_crisis_001",
+  "industry": "pharma",
+  "bucket": "crisis",
+  "tag": "Safety Scare",
+  "tagType": "crisis",
+  "title": "Adverse Event Report",
+  "situation": "Reports are trickling in of a serious side effect in a handful of patients. The media is sniffing around. You can issue a voluntary recall, downplay it, or fund a rapid independent safety review.",
+  "prerequisites": { "minQuarter": 1, "maxQuarter": 5 },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Voluntary recall, full transparency",
+      "description": "Painful now, trust preserved.",
+      "risk": "medium",
+      "cashChange": -22000,
+      "effects": {
+        "company": { "reputation": 7, "performance": -4 },
+        "departments": {
+          "rnd": { "performance": 2, "morale": 3 },
+          "regulatory": { "performance": 6, "morale": 7 },
+          "sales": { "performance": -6, "morale": -5 },
+          "marketing": { "performance": -3, "morale": -2 },
+          "finance": { "performance": -6, "morale": -5 }
+        }
+      },
+      "setsFlags": ["handled_safety_well"],
+      "outcomeText": "A costly, honest move. Regulators and patients remember who did the right thing."
+    },
+    {
+      "id": "opt2",
+      "label": "Downplay and keep selling",
+      "description": "Protect revenue, court disaster.",
+      "risk": "high",
+      "cashChange": 5000,
+      "effects": {
+        "company": { "reputation": -10, "performance": 2 },
+        "departments": {
+          "rnd": { "performance": -2, "morale": -6 },
+          "regulatory": { "performance": -7, "morale": -9 },
+          "sales": { "performance": 3, "morale": -3 },
+          "marketing": { "performance": -2, "morale": -4 },
+          "finance": { "performance": 4, "morale": 1 }
+        }
+      },
+      "setsFlags": ["downplayed_safety"],
+      "outcomeText": "The numbers hold this quarter. Something uglier is brewing."
+    },
+    {
+      "id": "opt3",
+      "label": "Fund a rapid independent review",
+      "description": "Buy credibility, moderate cost.",
+      "risk": "medium",
+      "cashChange": -12000,
+      "effects": {
+        "company": { "reputation": 4, "performance": 1 },
+        "departments": {
+          "rnd": { "performance": 4, "morale": 4 },
+          "regulatory": { "performance": 5, "morale": 5 },
+          "sales": { "performance": -2, "morale": -1 },
+          "marketing": { "performance": 1, "morale": 1 },
+          "finance": { "performance": -3, "morale": -2 }
+        }
+      },
+      "outcomeText": "An outside panel takes the heat off while the facts come in."
+    }
+  ]
+}

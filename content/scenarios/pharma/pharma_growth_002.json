@@ -1,0 +1,68 @@
+{
+  "id": "pharma_growth_002",
+  "industry": "pharma",
+  "bucket": "growth",
+  "tag": "Trial Results",
+  "tagType": "opportunity",
+  "title": "Phase III Readout",
+  "situation": "The Phase III trial you funded is reading out. Early signals are strong but one secondary endpoint looks shaky. Do you rush to publish the headline, dig deeper, or quietly bury the weak data?",
+  "prerequisites": { "minQuarter": 2, "maxQuarter": 5, "requiresFlags": ["self_funded_trial"] },
+  "options": [
+    {
+      "id": "opt1",
+      "label": "Publish the strong headline now",
+      "description": "Momentum play, some exposure.",
+      "risk": "medium",
+      "cashChange": 15000,
+      "effects": {
+        "company": { "reputation": 3, "performance": 7 },
+        "departments": {
+          "rnd": { "performance": 5, "morale": 6 },
+          "regulatory": { "performance": -2, "morale": -3 },
+          "sales": { "performance": 6, "morale": 7 },
+          "marketing": { "performance": 6, "morale": 6 },
+          "finance": { "performance": 5, "morale": 5 }
+        }
+      },
+      "setsFlags": ["published_early"],
+      "outcomeText": "The market cheers. A few reviewers raise an eyebrow at the fine print."
+    },
+    {
+      "id": "opt2",
+      "label": "Run a confirmatory analysis first",
+      "description": "Slower, bulletproof, costly.",
+      "risk": "low",
+      "cashChange": -9000,
+      "effects": {
+        "company": { "reputation": 5, "performance": 3 },
+        "departments": {
+          "rnd": { "performance": 7, "morale": 5 },
+          "regulatory": { "performance": 6, "morale": 6 },
+          "sales": { "performance": -1, "morale": -2 },
+          "marketing": { "performance": -1, "morale": -1 },
+          "finance": { "performance": -2, "morale": -2 }
+        }
+      },
+      "outcomeText": "The data holds up. Sales grumbles about the delay."
+    },
+    {
+      "id": "opt3",
+      "label": "Bury the weak endpoint",
+      "description": "Looks clean now — a ticking bomb.",
+      "risk": "high",
+      "cashChange": 18000,
+      "effects": {
+        "company": { "reputation": 3, "performance": 5 },
+        "departments": {
+          "rnd": { "performance": 2, "morale": -4 },
+          "regulatory": { "performance": -5, "morale": -6 },
+          "sales": { "performance": 4, "morale": 3 },
+          "marketing": { "performance": 4, "morale": 2 },
+          "finance": { "performance": 3, "morale": 2 }
+        }
+      },
+      "setsFlags": ["hid_data"],
+      "outcomeText": "It looks spotless today. Your scientists exchange uneasy glances."
+    }
+  ]
+}
